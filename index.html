@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<meta name="theme-color" content="#1A8754">
+<meta name="theme-color" content="#009369">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="سند">
@@ -16,7 +16,10 @@
    TOKENS
 ═══════════════════════════════════ */
 :root{
-  --g:#1A8754;--g-d:#0F5C39;--g-l:#E8F5EE;
+  --g:#009369;--g-d:#007050;--g-l:rgba(73,195,0,.1);
+  --g2:#49C300;
+  --grad:linear-gradient(135deg,#49C300,#009369);
+  --grad-h:linear-gradient(90deg,#49C300,#009369);
   --n1:#1C1C1E;--n2:#48484A;--n3:#8E8E93;--n4:#C7C7CC;
   --bg:#F5F5F7;--bg2:#EBEBED;--bd:#E5E5E7;--wh:#fff;
   --ro:#C0392B;--ro-l:#FEF0EE;
@@ -24,6 +27,7 @@
   --sh1:0 1px 4px rgba(0,0,0,.07);
   --sh2:0 4px 16px rgba(0,0,0,.09);
   --sh3:0 12px 40px rgba(0,0,0,.14);
+  --sh-g:0 4px 14px rgba(0,147,105,.35);
   --r:14px;--rb:20px;--rx:28px;
 }
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
@@ -125,7 +129,7 @@ body{
 .bn-line{
   position:absolute;top:-1px;left:20%;right:20%;
   height:2.5px;border-radius:0 0 3px 3px;
-  background:var(--g);opacity:0;transition:.2s;
+  background:var(--grad-h);opacity:0;transition:.2s;
 }
 .bn-item.on .bn-line{opacity:1;}
 .bn-label{font-size:10px;font-weight:500;color:var(--n1);transition:.2s;}
@@ -136,7 +140,7 @@ body{
 /* ═══ LOGO — Two Dots + Bridge ═══ */
 .logo-mark{
   width:42px;height:42px;border-radius:13px;
-  background:linear-gradient(135deg,#1A8754,#0F5C39);
+  background:var(--grad);
   display:flex;align-items:center;justify-content:center;
   flex-shrink:0;
   box-shadow:0 4px 14px rgba(26,135,84,.35);
@@ -154,13 +158,13 @@ body{
 }
 .btn-dark{background:var(--n1);color:var(--wh);}
 .btn-dark:active{opacity:.88;}
-.btn-green{background:var(--g);color:var(--wh);box-shadow:0 4px 14px rgba(26,135,84,.3);}
+.btn-green{background:var(--grad);color:var(--wh);box-shadow:var(--sh-g);}
 .btn-green:active{opacity:.88;}
 .btn-gray{background:var(--bg2);color:var(--n2);}
 .btn-outline{background:transparent;border:1.5px solid var(--bd);color:var(--n1);}
 .btn-sm{padding:10px 16px;font-size:13px;border-radius:10px;width:auto;}
 .btn-xs{padding:7px 12px;font-size:12px;border-radius:8px;width:auto;}
-.btn-green-sm{background:var(--g);color:var(--wh);}
+.btn-green-sm{background:var(--grad);color:var(--wh);}
 .btn-gray-sm{background:var(--bg2);color:var(--n3);}
 .btn-red-sm{background:var(--ro-l);color:var(--ro);}
 
@@ -174,7 +178,7 @@ body{
   font-size:15px;color:var(--n1);outline:none;transition:.18s;
   appearance:none;
 }
-.form-input:focus{border-color:var(--g);background:var(--wh);box-shadow:0 0 0 3px rgba(26,135,84,.1);}
+.form-input:focus{border-color:var(--g);background:var(--wh);box-shadow:0 0 0 3px rgba(0,147,105,.12);}
 .form-input::placeholder{color:var(--n4);}
 
 /* ═══ CARD ═══ */
@@ -189,14 +193,14 @@ body{
   display:inline-flex;align-items:center;gap:4px;
   padding:4px 10px;border-radius:99px;font-size:11px;font-weight:700;
 }
-.chip-green{background:var(--g-l);color:var(--g);}
+.chip-green{background:rgba(0,147,105,.12);color:var(--g);}
 .chip-gray{background:var(--bg2);color:var(--n3);}
 .chip-red{background:var(--ro-l);color:var(--ro);}
 .chip-gold{background:var(--go-l);color:var(--go);}
 
 /* ═══ PROGRESS ═══ */
 .prog-track{height:5px;background:var(--bg2);border-radius:99px;overflow:hidden;}
-.prog-fill{height:100%;border-radius:99px;background:var(--g);transition:width .4s;}
+.prog-fill{height:100%;border-radius:99px;background:var(--grad-h);transition:width .4s;}
 .prog-fill-red{background:var(--ro);}
 
 /* ═══ DIVIDER ═══ */
@@ -211,7 +215,7 @@ body{
 .av-sm{width:34px;height:34px;font-size:13px;}
 .av-md{width:40px;height:40px;font-size:15px;}
 .av-lg{width:48px;height:48px;font-size:18px;}
-.av-green{background:var(--g);}
+.av-green{background:var(--grad);}
 .av-gray{background:var(--n4);}
 .av-dark{background:var(--n1);}
 
@@ -267,7 +271,7 @@ body{
 /* ═══ SPINNER ═══ */
 .spinner{
   width:24px;height:24px;border-radius:50%;
-  border:3px solid var(--g-l);border-top-color:var(--g);
+  border:3px solid rgba(0,147,105,.15);border-top-color:var(--g);
   animation:spin .8s linear infinite;
 }
 @keyframes spin{to{transform:rotate(360deg)}}
@@ -386,17 +390,31 @@ body{
 ═══════════════════════════ -->
 <div class="screen active" id="sc-home">
   <!-- Green hero -->
-  <div style="background:var(--g);flex-shrink:0;padding:env(safe-area-inset-top,44px) 0 0;">
+  <div style="background:var(--grad-h);flex-shrink:0;padding:env(safe-area-inset-top,44px) 0 0;">
     <div style="padding:36px 28px 48px;text-align:center;">
       <div style="display:inline-flex;align-items:center;justify-content:center;margin-bottom:20px;">
-        <svg width="56" height="48" viewBox="0 0 80 68" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <circle cx="22" cy="20" r="16" fill="white"/>
-          <circle cx="58" cy="20" r="16" fill="rgba(255,255,255,0.38)"/>
-          <path d="M6 38 Q40 62 74 38" stroke="white" stroke-width="5.5" stroke-linecap="round" fill="none"/>
-        </svg>
+        <svg viewBox="0 0 120 38" xmlns="http://www.w3.org/2000/svg" width="180" height="57">
+  <defs>
+    <linearGradient id="hg1" gradientUnits="userSpaceOnUse" x1="0" y1="19" x2="120" y2="19">
+      <stop offset="0" stop-color="#49C300"/>
+      <stop offset="1" stop-color="#009369"/>
+    </linearGradient>
+  </defs>
+  <rect fill="url(#hg1)" width="120" height="38" rx="8"/>
+  <circle fill="white" cx="36.47" cy="19.3" r="5.75"/>
+  <circle fill="white" fill-opacity="0.5" cx="52.52" cy="18.92" r="5.75"/>
+  <path fill="white" d="M44.25,27.66c-4.11,0-8-1.31-11.27-3.79c-0.79-0.6-0.95-1.73-0.34-2.52c0.6-0.79,1.73-0.95,2.52-0.34c2.63,2,5.77,3.06,9.09,3.06c3.62,0,7.12-1.31,9.85-3.68c0.75-0.65,1.89-0.57,2.54,0.18c0.65,0.75,0.57,1.89-0.18,2.54C53.07,26.04,48.74,27.66,44.25,27.66z"/>
+  <path fill="white" d="M69.02,19.21c-0.56,0-1-0.14-1.29-0.42s-0.45-0.73-0.45-1.35v-0.81h1.39v0.77h1.66c0.27,0,0.46-0.04,0.59-0.12c0.12-0.08,0.19-0.21,0.19-0.4c0-0.09-0.02-0.19-0.05-0.31s-0.07-0.24-0.11-0.36l-1.06-3.06l1.55-0.54l1.22,3.49c0.09,0.27,0.18,0.48,0.27,0.65c0.09,0.17,0.18,0.3,0.28,0.4c0.1,0.1,0.21,0.16,0.33,0.2s0.26,0.05,0.42,0.05h0.36v1.45l-0.36,0.36c-0.34,0-0.63-0.02-0.88-0.07c-0.25-0.05-0.47-0.14-0.67-0.27c-0.2-0.13-0.38-0.3-0.53-0.51c-0.16-0.21-0.31-0.48-0.45-0.81l-0.05,0.02c-0.05,0.29-0.12,0.54-0.2,0.75c-0.08,0.21-0.19,0.38-0.32,0.51c-0.13,0.13-0.29,0.22-0.47,0.28c-0.19,0.06-0.41,0.09-0.66,0.09H69.02z"/>
+  <path fill="white" d="M73.93,17.76l0.36-0.36h1.29v1.45l-0.36,0.36h-1.29V17.76z"/>
+  <path fill="white" d="M75.22,17.76l0.36-0.36h0.36c0.64,0,0.97-0.28,0.97-0.85v-1.73h1.33v1.73c0,0.56,0.28,0.85,0.85,0.85h0.48v1.45l-0.36,0.36c-0.64,0-1.13-0.13-1.47-0.39c-0.33-0.26-0.56-0.67-0.67-1.24H77c-0.11,0.56-0.31,0.98-0.58,1.24c-0.27,0.26-0.67,0.39-1.2,0.39V17.76z M77.46,13.86c-0.21,0-0.38-0.06-0.51-0.19c-0.13-0.13-0.2-0.33-0.2-0.62s0.07-0.49,0.2-0.62c0.13-0.13,0.3-0.19,0.51-0.19h0.24c0.21,0,0.38,0.06,0.51,0.19s0.2,0.33,0.2,0.62s-0.07,0.49-0.2,0.62s-0.3,0.19-0.51,0.19H77.46z"/>
+  <path fill="white" d="M79.21,17.76l0.36-0.36h0.01c0.39,0,0.67-0.05,0.86-0.14c0.19-0.09,0.34-0.25,0.45-0.49l0.47-0.98l1.2,0.58l-0.42,0.88c0.19,0.09,0.39,0.16,0.59,0.22c0.2,0.06,0.41,0.09,0.62,0.09c0.35,0,0.6-0.07,0.75-0.22c0.15-0.15,0.23-0.41,0.23-0.79v-0.76h1.33v0.76c0,0.34,0.06,0.58,0.18,0.74c0.12,0.15,0.28,0.23,0.48,0.23h0.12c0.17,0,0.31-0.06,0.41-0.19c0.1-0.12,0.16-0.32,0.16-0.6c0-0.11-0.01-0.26-0.04-0.43c-0.02-0.17-0.06-0.38-0.1-0.63l-0.11-0.62l1.32-0.22l0.1,0.62c0.04,0.23,0.07,0.45,0.08,0.66c0.02,0.21,0.02,0.41,0.02,0.62c0,0.9-0.16,1.57-0.47,1.99s-0.79,0.63-1.44,0.63c-0.57,0-1-0.14-1.29-0.41c-0.29-0.27-0.49-0.7-0.59-1.27h-0.07c-0.06,0.58-0.21,1.01-0.43,1.28s-0.51,0.41-0.88,0.41c-0.23,0-0.47-0.04-0.69-0.13c-0.23-0.08-0.53-0.24-0.9-0.45l-0.25-0.14c-0.25,0.24-0.53,0.4-0.85,0.47c-0.32,0.07-0.72,0.11-1.2,0.11V17.76z"/>
+  <path fill="white" d="M67.64,25.55c0.04,0.44,0.44,0.58,0.85,0.58c0.38,0,0.7-0.15,0.7-0.47c0-0.24-0.16-0.36-0.58-0.43l-0.68-0.12c-0.6-0.11-1.07-0.41-1.07-1.09c0-0.73,0.66-1.21,1.54-1.21c0.99,0,1.56,0.44,1.64,1.18h-0.88c-0.03-0.33-0.32-0.51-0.75-0.51c-0.38,0-0.64,0.19-0.64,0.46c0,0.27,0.19,0.34,0.56,0.41l0.73,0.14c0.67,0.12,1.04,0.46,1.04,1.1c0,0.75-0.69,1.2-1.58,1.2c-0.99,0-1.7-0.4-1.78-1.25H67.64z"/>
+  <path fill="white" d="M73.71,25.91h-1.63l-0.32,0.83h-0.91l1.53-3.86h1.05l1.54,3.86h-0.96L73.71,25.91z M72.35,25.2h1.1l-0.53-1.43H72.9L72.35,25.2z"/>
+  <path fill="white" d="M78.6,25.31h0.01v-2.43h0.89v3.86h-0.87l-1.79-2.72h-0.01v2.72h-0.89v-3.86H77L78.6,25.31z"/>
+  <path fill="white" d="M83.32,25.91h-1.63l-0.32,0.83h-0.91L82,22.88h1.05l1.54,3.86h-0.96L83.32,25.91z M81.96,25.2h1.1l-0.53-1.43h-0.02L81.96,25.2z"/>
+  <path fill="white" d="M89.1,24.8c0,1.16-0.77,1.93-1.97,1.93h-1.58v-3.86h1.58C88.33,22.88,89.1,23.65,89.1,24.8z M86.46,23.6v2.42h0.67c0.66,0,1.02-0.42,1.02-1.21c0-0.79-0.36-1.21-1.02-1.21H86.46z"/>
+</svg>
       </div>
-      <div style="font-size:38px;font-weight:700;color:#fff;letter-spacing:-2px;line-height:1;margin-bottom:8px;">سند</div>
-      <div style="font-size:13px;color:rgba(255,255,255,.5);letter-spacing:2px;">SANAD PLATFORM</div>
     </div>
   </div>
 
@@ -438,11 +456,11 @@ body{
       <svg width="20" height="20"><use href="#ic-back"/></svg>
     </button>
     <div style="display:flex;align-items:center;gap:8px;">
-      <svg width="28" height="24" viewBox="0 0 80 68" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="22" cy="20" r="16" fill="#1A8754"/>
-        <circle cx="58" cy="20" r="16" fill="rgba(28,28,30,0.35)"/>
-        <path d="M6 38 Q40 62 74 38" stroke="#1A8754" stroke-width="5.5" stroke-linecap="round" fill="none"/>
-      </svg>
+<svg width="28" height="28" viewBox="200 700 1650 800" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="638.94" cy="970.37" r="275.75" fill="#009369"/>
+  <circle cx="1409.06" cy="952.3" r="275.75" fill="#009369" fill-opacity="0.35"/>
+  <path d="M1012,1371.45c-197,0-383.92-62.87-540.43-181.8a86.41,86.41,0,0,1,104.56-137.59C702.3,1148,853,1198.64,1012,1198.64a720.71,720.71,0,0,0,472.55-176.39,86.4,86.4,0,1,1,113.3,130.47A893.5,893.5,0,0,1,1012,1371.45Z" fill="#009369"/>
+</svg>
       <span style="font-size:16px;font-weight:700;">سند</span>
     </div>
     <div style="width:36px;"></div>
@@ -453,7 +471,7 @@ body{
 
     <div style="display:flex;flex-direction:column;gap:12px;">
       <div onclick="go('sc-login-ben')" style="background:var(--wh);border-radius:var(--rb);padding:20px;border:2px solid var(--bd);cursor:pointer;display:flex;align-items:center;gap:14px;transition:.18s;" onmousedown="this.style.borderColor='var(--g)'">
-        <div style="width:48px;height:48px;border-radius:14px;background:var(--g-l);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+        <div style="width:48px;height:48px;border-radius:14px;background:rgba(0,147,105,.1);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
           <svg width="24" height="24" style="color:var(--g)"><use href="#ic-user"/></svg>
         </div>
         <div style="flex:1;">
@@ -600,15 +618,23 @@ body{
 <div class="screen" id="sc-ben">
 
   <!-- ── هيدر أخضر ثابت ── -->
-  <div id="ben-topbar" style="background:var(--g);flex-shrink:0;padding:env(safe-area-inset-top,44px) 20px 0;display:flex;align-items:flex-end;justify-content:space-between;padding-bottom:12px;">
-    <!-- شعار سند — SVG عالي الجودة -->
-    <div style="display:flex;align-items:center;gap:8px;flex:1;">
-      <svg width="38" height="32" viewBox="0 0 80 68" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="22" cy="20" r="16" fill="white"/>
-        <circle cx="58" cy="20" r="16" fill="rgba(255,255,255,0.38)"/>
-        <path d="M6 38 Q40 62 74 38" stroke="white" stroke-width="5.5" stroke-linecap="round" fill="none"/>
-      </svg>
-      <span style="font-size:17px;font-weight:700;color:#fff;letter-spacing:-.2px;">سند</span>
+  <div id="ben-topbar" style="background:var(--grad-h);flex-shrink:0;padding:env(safe-area-inset-top,44px) 20px 0;display:flex;align-items:flex-end;justify-content:space-between;padding-bottom:12px;">
+    <!-- شعار سند — SVG الرسمي الجديد -->
+    <div style="display:flex;align-items:center;flex:1;">
+      <svg viewBox="0 0 120 38" xmlns="http://www.w3.org/2000/svg" style="height:36px;width:auto;display:block;">
+  <circle fill="white" cx="17.24" cy="16.95" r="10.45"/>
+  <circle fill="white" fill-opacity="0.5" cx="46.41" cy="16.27" r="10.45"/>
+  <path fill="white" d="M31.37,32.15c-7.46,0-14.54-2.38-20.47-6.89c-1.44-1.09-1.72-3.15-0.63-4.59c1.09-1.44,3.15-1.72,4.59-0.63c4.78,3.63,10.49,5.55,16.51,5.55c6.58,0,12.94-2.37,17.9-6.68c1.37-1.19,3.43-1.04,4.62,0.33c1.19,1.36,1.04,3.43-0.33,4.62C47.41,29.2,39.53,32.15,31.37,32.15z"/>
+  <path fill="white" d="M76.4,16.8c-1.02,0-1.81-0.26-2.35-0.77c-0.54-0.51-0.81-1.33-0.81-2.46V12.1h2.53v1.41h3.01c0.48,0,0.84-0.07,1.06-0.22s0.34-0.39,0.34-0.72c0-0.16-0.03-0.35-0.1-0.57s-0.14-0.44-0.21-0.66l-1.93-5.56l2.81-0.99l2.22,6.35c0.16,0.48,0.32,0.88,0.48,1.19c0.16,0.31,0.33,0.55,0.52,0.72s0.38,0.3,0.59,0.36c0.21,0.07,0.46,0.1,0.76,0.1h0.66v2.63l-0.66,0.66c-0.61,0-1.15-0.04-1.6-0.13c-0.45-0.09-0.86-0.25-1.22-0.48c-0.36-0.23-0.68-0.54-0.97-0.92s-0.56-0.87-0.82-1.47l-0.09,0.04c-0.09,0.53-0.21,0.98-0.36,1.36c-0.15,0.38-0.35,0.69-0.58,0.92c-0.23,0.23-0.52,0.41-0.86,0.52c-0.34,0.11-0.74,0.17-1.21,0.17H76.4z"/>
+  <path fill="white" d="M85.31,14.16l0.66-0.66h2.35v2.63l-0.66,0.66h-2.35V14.16z"/>
+  <path fill="white" d="M87.66,14.16l0.66-0.66h0.66c1.17,0,1.76-0.51,1.76-1.54V8.83h2.42v3.14c0,1.02,0.51,1.54,1.54,1.54h0.88v2.63l-0.66,0.66c-1.17,0-2.06-0.24-2.67-0.71c-0.61-0.48-1.01-1.23-1.22-2.25h-0.13c-0.21,1.03-0.56,1.78-1.05,2.25c-0.5,0.48-1.22,0.71-2.17,0.71V14.16z M91.72,7.07c-0.38,0-0.69-0.12-0.93-0.35c-0.24-0.23-0.36-0.61-0.36-1.12c0-0.51,0.12-0.89,0.36-1.12c0.24-0.23,0.55-0.35,0.93-0.35h0.44c0.38,0,0.69,0.12,0.93,0.35s0.36,0.61,0.36,1.12c0,0.51-0.12,0.89-0.36,1.12c-0.24,0.23-0.55,0.35-0.93,0.35H91.72z"/>
+  <path fill="white" d="M94.91,14.16l0.66-0.66h0.02c0.7,0,1.23-0.08,1.57-0.25c0.34-0.17,0.62-0.46,0.82-0.89l0.86-1.78l2.17,1.05l-0.77,1.6c0.35,0.16,0.71,0.3,1.08,0.41c0.37,0.11,0.74,0.17,1.12,0.17c0.63,0,1.08-0.14,1.36-0.41c0.28-0.27,0.42-0.75,0.42-1.44v-1.38h2.42v1.38c0,0.61,0.11,1.06,0.32,1.34c0.21,0.28,0.5,0.42,0.87,0.42h0.22c0.31,0,0.56-0.11,0.75-0.34c0.19-0.23,0.29-0.59,0.29-1.09c0-0.21-0.02-0.46-0.07-0.78s-0.1-0.7-0.18-1.15l-0.2-1.12l2.39-0.39l0.18,1.12c0.07,0.42,0.12,0.82,0.15,1.2c0.03,0.37,0.04,0.75,0.04,1.13c0,1.64-0.28,2.84-0.85,3.61c-0.56,0.77-1.44,1.15-2.62,1.15c-1.04,0-1.82-0.25-2.35-0.75c-0.53-0.5-0.89-1.27-1.08-2.31h-0.13c-0.12,1.05-0.38,1.83-0.78,2.32c-0.4,0.49-0.93,0.74-1.59,0.74c-0.42,0-0.85-0.08-1.26-0.23c-0.42-0.15-0.96-0.43-1.64-0.82l-0.46-0.26c-0.45,0.44-0.97,0.72-1.55,0.86c-0.58,0.13-1.31,0.2-2.19,0.2V14.16z"/>
+  <path fill="white" d="M73.89,28.32c0.08,0.8,0.8,1.06,1.54,1.06c0.69,0,1.27-0.28,1.27-0.85c0-0.44-0.28-0.65-1.05-0.78l-1.24-0.23c-1.1-0.2-1.94-0.74-1.94-1.98c0-1.32,1.2-2.19,2.8-2.19c1.81,0,2.84,0.79,2.97,2.15h-1.6c-0.06-0.61-0.59-0.93-1.35-0.93c-0.7,0-1.16,0.34-1.16,0.84c0,0.49,0.34,0.62,1.01,0.75l1.33,0.26c1.22,0.22,1.89,0.84,1.89,1.99c0,1.35-1.26,2.19-2.88,2.19c-1.8,0-3.09-0.74-3.24-2.28H73.89z"/>
+  <path fill="white" d="M84.92,28.97h-2.96l-0.58,1.5h-1.66l2.79-7h1.91l2.8,7h-1.74L84.92,28.97z M82.45,27.68h1.99l-0.97-2.59h-0.03L82.45,27.68z"/>
+  <path fill="white" d="M93.79,27.88h0.02v-4.42h1.62v7h-1.58l-3.26-4.95h-0.02v4.95h-1.62v-7h1.94L93.79,27.88z"/>
+  <path fill="white" d="M102.38,28.97h-2.96l-0.58,1.5h-1.66l2.79-7h1.91l2.8,7h-1.74L102.38,28.97z M99.91,27.68h1.99l-0.97-2.59h-0.03L99.91,27.68z"/>
+  <path fill="white" d="M112.88,26.96c0,2.11-1.39,3.51-3.58,3.51h-2.87v-7h2.87C111.49,23.47,112.88,24.86,112.88,26.96z M108.08,24.77v4.39h1.22c1.2,0,1.85-0.76,1.85-2.2c0-1.43-0.66-2.19-1.85-2.19H108.08z"/>
+</svg>
     </div>
     <!-- اسم المستخدم في المنتصف — مرتكز بالضبط -->
     <div style="position:absolute;left:0;right:0;bottom:12px;display:flex;justify-content:center;pointer-events:none;">
@@ -652,7 +678,7 @@ body{
         </div>
       </div>
       <!-- زر ادفع الآن -->
-      <button onclick="showPaySheet()" style="width:100%;padding:13px;border-radius:var(--r);border:none;background:var(--g);color:#fff;font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;">
+      <button onclick="showPaySheet()" style="width:100%;padding:13px;border-radius:var(--r);border:none;background:var(--grad-h);color:#fff;font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
         ادفع الآن
       </button>
@@ -669,7 +695,7 @@ body{
       <div style="background:var(--wh);border-radius:var(--rb);overflow:hidden;box-shadow:var(--sh1);">
         <div class="list-row"><div class="lr-body"><div class="lr-title">القسط الأول</div><div class="lr-sub">1 مارس 2025</div></div><div class="lr-right"><div class="lr-val c-green">50 د.ك</div><div class="lr-sub-r c-green">✓ مسدد</div></div></div>
         <div class="list-row"><div class="lr-body"><div class="lr-title">القسط الثاني</div><div class="lr-sub">1 أبريل 2025</div></div><div class="lr-right"><div class="lr-val c-green">50 د.ك</div><div class="lr-sub-r c-green">✓ مسدد</div></div></div>
-        <div class="list-row" style="background:var(--g-l);"><div class="lr-body"><div class="lr-title">القسط الثالث</div><div class="lr-sub">1 يونيو 2025</div></div><div class="lr-right"><div class="lr-val">50 د.ك</div><span class="chip chip-gold" style="font-size:10px;padding:2px 8px;margin-top:4px;">قادم</span></div></div>
+        <div class="list-row" style="background:rgba(0,147,105,.1);"><div class="lr-body"><div class="lr-title">القسط الثالث</div><div class="lr-sub">1 يونيو 2025</div></div><div class="lr-right"><div class="lr-val">50 د.ك</div><span class="chip chip-gold" style="font-size:10px;padding:2px 8px;margin-top:4px;">قادم</span></div></div>
       </div>
     </div>
 
@@ -688,7 +714,7 @@ body{
       <div style="font-size:12px;font-weight:700;color:var(--n3);padding:8px 4px 6px;letter-spacing:.04em;">أبريل 2025</div>
       <div style="background:var(--wh);border-radius:var(--rb);overflow:hidden;box-shadow:var(--sh1);margin-bottom:14px;">
         <div class="list-row">
-          <div style="width:38px;height:38px;border-radius:10px;background:var(--g-l);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="16" height="16" style="color:var(--g)"><use href="#ic-check"/></svg></div>
+          <div style="width:38px;height:38px;border-radius:10px;background:rgba(0,147,105,.1);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="16" height="16" style="color:var(--g)"><use href="#ic-check"/></svg></div>
           <div class="lr-body"><div class="lr-title">القسط الثاني</div><div class="lr-sub">1 أبريل 2025</div></div>
           <div class="lr-right"><div class="lr-val c-green">+50 د.ك</div><div class="lr-sub-r c-green">مسدد</div></div>
         </div>
@@ -697,7 +723,7 @@ body{
       <div style="font-size:12px;font-weight:700;color:var(--n3);padding:8px 4px 6px;letter-spacing:.04em;">مارس 2025</div>
       <div style="background:var(--wh);border-radius:var(--rb);overflow:hidden;box-shadow:var(--sh1);margin-bottom:14px;">
         <div class="list-row">
-          <div style="width:38px;height:38px;border-radius:10px;background:var(--g-l);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="16" height="16" style="color:var(--g)"><use href="#ic-check"/></svg></div>
+          <div style="width:38px;height:38px;border-radius:10px;background:rgba(0,147,105,.1);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="16" height="16" style="color:var(--g)"><use href="#ic-check"/></svg></div>
           <div class="lr-body"><div class="lr-title">القسط الأول</div><div class="lr-sub">1 مارس 2025</div></div>
           <div class="lr-right"><div class="lr-val c-green">+50 د.ك</div><div class="lr-sub-r c-green">مسدد</div></div>
         </div>
@@ -706,7 +732,7 @@ body{
       <div style="font-size:12px;font-weight:700;color:var(--n3);padding:8px 4px 6px;letter-spacing:.04em;">فبراير 2025</div>
       <div style="background:var(--wh);border-radius:var(--rb);overflow:hidden;box-shadow:var(--sh1);margin-bottom:14px;">
         <div class="list-row">
-          <div style="width:38px;height:38px;border-radius:10px;background:var(--g-l);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="16" height="16" style="color:var(--g)"><use href="#ic-activity"/></svg></div>
+          <div style="width:38px;height:38px;border-radius:10px;background:rgba(0,147,105,.1);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="16" height="16" style="color:var(--g)"><use href="#ic-activity"/></svg></div>
           <div class="lr-body"><div class="lr-title">استلام تحويل القرض</div><div class="lr-sub">5 فبراير 2025</div></div>
           <div class="lr-right"><div class="lr-val c-green">+150 د.ك</div><div class="lr-sub-r c-green">استلمت</div></div>
         </div>
@@ -753,7 +779,7 @@ body{
     <div id="req-new" style="display:none;">
       <!-- اختيار النوع -->
       <div class="f fc g10 mb14">
-        <div id="type-q" style="border:2px solid var(--g);border-radius:var(--rb);padding:14px;background:var(--g-l);cursor:pointer;" onclick="selectType('q')">
+        <div id="type-q" style="border:2px solid var(--g);border-radius:var(--rb);padding:14px;background:rgba(0,147,105,.1);cursor:pointer;" onclick="selectType('q')">
           <div class="t-sm w700 c-green mb3">القرض الحسن المالي</div>
           <div class="t-xs c-n3">إيجار · دين ضروري · طوارئ</div>
         </div>
@@ -828,7 +854,7 @@ body{
 
       <!-- البيانات الشخصية -->
       <div class="pf-row" onclick="openSheet('sheet-personal')">
-        <div class="pf-ico" style="background:var(--g-l);"><svg width="18" height="18" style="color:var(--g)"><use href="#ic-user"/></svg></div>
+        <div class="pf-ico" style="background:rgba(0,147,105,.1);"><svg width="18" height="18" style="color:var(--g)"><use href="#ic-user"/></svg></div>
         <div class="pf-body"><div class="pf-title">البيانات الشخصية</div><div class="pf-sub">الاسم · البريد · رقم التلفون · الهوية</div></div>
         <div class="pf-right">›</div>
       </div>
@@ -913,7 +939,7 @@ body{
 ═══════════════════════════ -->
 <div class="screen" id="sc-donor">
   <!-- Green hero top -->
-  <div style="background:var(--g);flex-shrink:0;padding:env(safe-area-inset-top,44px) 20px 0;">
+  <div style="background:var(--grad-h);flex-shrink:0;padding:env(safe-area-inset-top,44px) 20px 0;">
     <div class="f ia jb" style="padding-bottom:14px;">
       <div style="cursor:pointer;" onclick="donorTab('profile')">
         <div style="font-size:12px;color:rgba(255,255,255,.6);margin-bottom:2px;">أهلاً،</div>
@@ -948,7 +974,7 @@ body{
     <!-- Tab: الرئيسية / Available cases -->
     <div class="scroll-body" id="donor-avail" style="padding:14px 16px;">
       <!-- بطاقة تعريفية خضراء -->
-      <div style="background:var(--g);border-radius:var(--rb);padding:18px 20px;margin-bottom:14px;color:#fff;">
+      <div style="background:var(--grad-h);border-radius:var(--rb);padding:18px 20px;margin-bottom:14px;color:#fff;">
         <div style="font-size:13px;font-weight:700;margin-bottom:6px;opacity:.9;">«من فرَّج عن مؤمن كربة من كرب الدنيا»</div>
         <div style="font-size:12px;opacity:.7;line-height:1.65;">كل ريال تموّله هنا هو صدقة جارية وسند حقيقي لأسرة محتاجة. جزاك الله خيراً.</div>
       </div>
@@ -1058,7 +1084,7 @@ body{
     <!-- Tab: Profile -->
     <div class="scroll-body" id="donor-profile" style="display:none;">
       <!-- Avatar hero -->
-      <div style="background:var(--g);padding:28px 20px 36px;display:flex;flex-direction:column;align-items:center;text-align:center;">
+      <div style="background:var(--grad-h);padding:28px 20px 36px;display:flex;flex-direction:column;align-items:center;text-align:center;">
         <div style="width:72px;height:72px;border-radius:50%;background:rgba(255,255,255,.18);border:2.5px solid rgba(255,255,255,.45);display:flex;align-items:center;justify-content:center;font-size:26px;font-weight:700;color:#fff;margin-bottom:12px;position:relative;">
           خ
           <div style="position:absolute;bottom:0;right:0;width:22px;height:22px;border-radius:50%;background:var(--wh);display:flex;align-items:center;justify-content:center;cursor:pointer;" onclick="showToast('تغيير الصورة')">
@@ -1074,7 +1100,7 @@ body{
       </div>
       <div style="background:var(--wh);border-radius:22px 22px 0 0;margin-top:-16px;">
         <div class="pf-row" onclick="openSheet('sheet-personal')">
-          <div class="pf-ico" style="background:var(--g-l);"><svg width="18" height="18" style="color:var(--g)"><use href="#ic-user"/></svg></div>
+          <div class="pf-ico" style="background:rgba(0,147,105,.1);"><svg width="18" height="18" style="color:var(--g)"><use href="#ic-user"/></svg></div>
           <div class="pf-body"><div class="pf-title">البيانات الشخصية</div><div class="pf-sub">الاسم · البريد · رقم التلفون · الهوية</div></div>
           <div class="pf-right">›</div>
         </div>
@@ -1134,7 +1160,7 @@ body{
       <!-- Stat cards -->
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;">
         <div class="card" style="background:var(--n1);"><div style="font-size:26px;font-weight:700;color:var(--wh);letter-spacing:-1px;">1,850</div><div class="t-xs mt4" style="color:rgba(255,255,255,.45);">د.ك موّلت</div></div>
-        <div class="card" style="background:var(--g-l);"><div style="font-size:26px;font-weight:700;color:var(--g);letter-spacing:-1px;">12</div><div class="t-xs mt4 c-green">حالة ممولة</div></div>
+        <div class="card" style="background:rgba(0,147,105,.1);"><div style="font-size:26px;font-weight:700;color:var(--g);letter-spacing:-1px;">12</div><div class="t-xs mt4 c-green">حالة ممولة</div></div>
         <div class="card"><div style="font-size:26px;font-weight:700;color:var(--n1);letter-spacing:-1px;">91%</div><div class="t-xs mt4 c-n3">الالتزام</div></div>
         <div class="card"><div style="font-size:26px;font-weight:700;color:var(--n1);letter-spacing:-1px;">4.6</div><div class="t-xs mt4 c-n3">تقييم ⭐</div></div>
       </div>
@@ -1237,12 +1263,12 @@ body{
     </div>
     <div style="padding:0 0 24px;">
       <div class="pf-row">
-        <div class="pf-ico" style="background:var(--g-l);"><svg width="18" height="18" style="color:var(--g)"><use href="#ic-doc"/></svg></div>
+        <div class="pf-ico" style="background:rgba(0,147,105,.1);"><svg width="18" height="18" style="color:var(--g)"><use href="#ic-doc"/></svg></div>
         <div class="pf-body"><div class="pf-title">صورة الهوية</div><div class="pf-sub">مرفوعة · مقبولة ✓</div></div>
         <span class="chip chip-green" style="font-size:10px;">✓</span>
       </div>
       <div class="pf-row">
-        <div class="pf-ico" style="background:var(--g-l);"><svg width="18" height="18" style="color:var(--g)"><use href="#ic-doc"/></svg></div>
+        <div class="pf-ico" style="background:rgba(0,147,105,.1);"><svg width="18" height="18" style="color:var(--g)"><use href="#ic-doc"/></svg></div>
         <div class="pf-body"><div class="pf-title">فاتورة الإيجار</div><div class="pf-sub">مرفوعة · مقبولة ✓</div></div>
         <span class="chip chip-green" style="font-size:10px;">✓</span>
       </div>
@@ -1388,7 +1414,7 @@ body{
       <div class="f ia jb t-sm"><span class="c-n3">الأقساط</span><span class="w700 c-n1" id="ds-inst">—</span></div>
     </div>
     <div class="t-xs c-n3 mb16" style="line-height:1.7;background:var(--bg);padding:12px;border-radius:var(--r);">"يحتاج المستفيد إلى دعم عاجل بعد ظروف طارئة طالت أسرته. تم التحقق من الحالة ومراجعتها من فريق سند."</div>
-    <div style="background:var(--g-l);border-radius:var(--r);padding:10px 12px;margin-bottom:16px;font-size:12px;color:var(--g);">
+    <div style="background:rgba(0,147,105,.1);border-radius:var(--r);padding:10px 12px;margin-bottom:16px;font-size:12px;color:var(--g);">
       التحويل يتم مباشرة من الممول للمستفيد عبر تحويل بنكي. المنصة لا تحتفظ بأموال.
     </div>
     <button class="btn btn-green" onclick="showToast('✓ تم تسجيل موافقتك — سيتواصل الفريق خلال 24 ساعة');closeDonorSheet()">أوافق على التمويل</button>
@@ -1428,7 +1454,7 @@ body{
         <div style="font-size:26px;font-weight:700;color:var(--ro);">8</div>
         <div class="t-xs c-n3 mt4">بانتظار المراجعة</div>
       </div>
-      <div style="background:var(--g-l);border-radius:var(--r);padding:14px;">
+      <div style="background:rgba(0,147,105,.1);border-radius:var(--r);padding:14px;">
         <div style="font-size:26px;font-weight:700;color:var(--g);">8,200</div>
         <div class="t-xs c-n3 mt4">د.ك حجم التمويل</div>
       </div>
@@ -1884,7 +1910,7 @@ const manifest = {
   name:'سند',short_name:'سند',
   description:'منصة القرض الحسن',
   start_url:'./',display:'standalone',
-  background_color:'#ffffff',theme_color:'#1A8754',
+  background_color:'#ffffff',theme_color:'#009369',
   orientation:'portrait',
   icons:[
     {src:"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'%3E%3Crect width='192' height='192' rx='40' fill='%231A8754'/%3E%3Ccircle cx='52' cy='60' r='36' fill='white'/%3E%3Ccircle cx='140' cy='60' r='36' fill='white' opacity='.4'/%3E%3Cpath d='M52 96 Q96 140 140 96' stroke='white' stroke-width='10' stroke-linecap='round' fill='none'/%3E%3C/svg%3E",sizes:'192x192',type:'image/svg+xml',purpose:'any maskable'},
@@ -1926,9 +1952,10 @@ if(isIos && !isStandalone){
 
 // Service Worker
 if('serviceWorker' in navigator){
-  const sw=`const C='sanad-v1';self.addEventListener('install',e=>self.skipWaiting());self.addEventListener('activate',e=>clients.claim());self.addEventListener('fetch',e=>e.respondWith(caches.match(e.request).then(r=>r||fetch(e.request))));`;
-  const swB=new Blob([sw],{type:'text/javascript'});
-  navigator.serviceWorker.register(URL.createObjectURL(swB)).catch(()=>{});
+  window.addEventListener('load',()=>{
+    navigator.serviceWorker.register('/Sanad/sw.js')
+      .then(r=>console.log('SW:',r.scope)).catch(e=>console.log('SW err:',e));
+  });
 }
 
 /* ═══════════════════════════
@@ -2230,7 +2257,7 @@ function adminTab(tab) {
         ستنتقل إلى بوابة <strong>My Fatoorah</strong> لإتمام الدفع الآمن بالبطاقة مباشرة للممول
       </p>
 
-      <button onclick="goMyFatoorah()" style="width:100%;padding:15px;border-radius:var(--r);border:none;background:var(--g);color:#fff;font-family:inherit;font-size:15px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:10px;">
+      <button onclick="goMyFatoorah()" style="width:100%;padding:15px;border-radius:var(--r);border:none;background:var(--grad-h);color:#fff;font-family:inherit;font-size:15px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:10px;">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
         الدفع عبر My Fatoorah
       </button>
