@@ -1,0 +1,1906 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#1A8754">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="سند">
+<title>سند — منصة القرض الحسن</title>
+<link rel="manifest" href="/Sanad/manifest.json">
+<link rel="apple-touch-icon" href="/Sanad/icon-192.png">
+<meta name="mobile-web-app-capable" content="yes">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════
+   TOKENS
+═══════════════════════════════════ */
+:root{
+  --g:#1A8754;--g-d:#0F5C39;--g-l:#E8F5EE;
+  --n1:#1C1C1E;--n2:#48484A;--n3:#8E8E93;--n4:#C7C7CC;
+  --bg:#F5F5F7;--bg2:#EBEBED;--bd:#E5E5E7;--wh:#fff;
+  --ro:#C0392B;--ro-l:#FEF0EE;
+  --go:#B5860D;--go-l:#FFF8E1;
+  --sh1:0 1px 4px rgba(0,0,0,.07);
+  --sh2:0 4px 16px rgba(0,0,0,.09);
+  --sh3:0 12px 40px rgba(0,0,0,.14);
+  --r:14px;--rb:20px;--rx:28px;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+html{height:100%;-webkit-text-size-adjust:100%;}
+body{
+  font-family:'IBM Plex Sans Arabic',sans-serif;
+  background:var(--bg);color:var(--n1);direction:rtl;
+  height:100%;overflow:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+
+/* ═══ SCREEN SYSTEM ═══ */
+.screen{
+  position:fixed;inset:0;
+  display:flex;flex-direction:column;
+  background:var(--bg);
+  opacity:0;pointer-events:none;
+  transform:translateX(30px);
+  transition:opacity .28s ease, transform .28s ease;
+  z-index:1;
+}
+.screen.active{
+  opacity:1;pointer-events:all;transform:none;z-index:10;
+}
+.screen.exit{
+  opacity:0;transform:translateX(-30px);z-index:5;
+}
+
+/* ═══ SCROLLABLE BODY ═══ */
+.scroll-body{
+  flex:1;overflow-y:auto;overflow-x:hidden;
+  -webkit-overflow-scrolling:touch;
+}
+.scroll-body::-webkit-scrollbar{display:none;}
+
+/* ═══ STATUS BAR ═══ */
+.status-bar{
+  height:env(safe-area-inset-top,44px);
+  min-height:44px;
+  flex-shrink:0;
+  display:flex;align-items:flex-end;justify-content:space-between;
+  padding:0 20px 8px;
+  background:transparent;
+}
+.sb-white{background:var(--wh);}
+.sb-dark{background:var(--n1);}
+.sb-green{background:var(--g);}
+.sb-time{font-size:15px;font-weight:700;}
+.sb-icons{display:flex;gap:5px;align-items:center;}
+
+/* ═══ TOP BAR ═══ */
+.top-bar{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:12px 20px;flex-shrink:0;
+}
+.top-bar.white{background:var(--wh);border-bottom:1px solid var(--bd);}
+.top-bar.dark{background:var(--n1);}
+.top-bar.green{background:var(--g);}
+.top-bar.transparent{background:transparent;}
+.tb-back{
+  width:36px;height:36px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;border:none;background:none;
+}
+.tb-back-light{background:rgba(255,255,255,.15);}
+.tb-back-dark{background:var(--bg2);}
+.tb-title{font-size:16px;font-weight:700;}
+.tb-title-white{color:var(--wh);}
+.tb-title-dark{color:var(--n1);}
+.tb-right{display:flex;align-items:center;gap:8px;}
+.tb-icon-btn{
+  width:36px;height:36px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;position:relative;border:none;background:none;
+}
+.tib-light{background:rgba(255,255,255,.15);}
+.tib-dark{background:var(--bg2);}
+.notif-badge{
+  position:absolute;top:4px;right:4px;
+  width:8px;height:8px;border-radius:50%;
+  background:var(--ro);border:1.5px solid var(--wh);
+}
+.notif-badge-dark{border-color:var(--n1);}
+
+/* ═══ BOTTOM NAV — Line + Icon + Label ═══ */
+.bottom-nav{
+  flex-shrink:0;
+  background:var(--wh);
+  border-top:1px solid var(--bd);
+  padding-bottom:env(safe-area-inset-bottom,16px);
+  display:flex;
+}
+.bn-item{
+  flex:1;display:flex;flex-direction:column;
+  align-items:center;padding:10px 4px 6px;
+  cursor:pointer;position:relative;gap:4px;
+  border:none;background:none;font-family:inherit;
+}
+.bn-line{
+  position:absolute;top:-1px;left:20%;right:20%;
+  height:2.5px;border-radius:0 0 3px 3px;
+  background:var(--g);opacity:0;transition:.2s;
+}
+.bn-item.on .bn-line{opacity:1;}
+.bn-label{font-size:10px;font-weight:500;color:var(--n4);transition:.2s;}
+.bn-item.on .bn-label{color:var(--g);font-weight:700;}
+
+/* ═══ LOGO — Two Dots + Bridge ═══ */
+.logo-mark{
+  width:42px;height:42px;border-radius:13px;
+  background:linear-gradient(135deg,#1A8754,#0F5C39);
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;
+  box-shadow:0 4px 14px rgba(26,135,84,.35);
+}
+.logo-mark-sm{width:34px;height:34px;border-radius:10px;}
+.logo-text{font-size:20px;font-weight:700;color:var(--n1);}
+.logo-text-white{color:var(--wh);}
+
+/* ═══ BUTTONS ═══ */
+.btn{
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  width:100%;padding:15px;border-radius:var(--r);border:none;
+  font-family:'IBM Plex Sans Arabic',sans-serif;
+  font-size:15px;font-weight:700;cursor:pointer;transition:.18s;
+}
+.btn-dark{background:var(--n1);color:var(--wh);}
+.btn-dark:active{opacity:.88;}
+.btn-green{background:var(--g);color:var(--wh);box-shadow:0 4px 14px rgba(26,135,84,.3);}
+.btn-green:active{opacity:.88;}
+.btn-gray{background:var(--bg2);color:var(--n2);}
+.btn-outline{background:transparent;border:1.5px solid var(--bd);color:var(--n1);}
+.btn-sm{padding:10px 16px;font-size:13px;border-radius:10px;width:auto;}
+.btn-xs{padding:7px 12px;font-size:12px;border-radius:8px;width:auto;}
+.btn-green-sm{background:var(--g);color:var(--wh);}
+.btn-gray-sm{background:var(--bg2);color:var(--n3);}
+.btn-red-sm{background:var(--ro-l);color:var(--ro);}
+
+/* ═══ FORM ═══ */
+.form-group{margin-bottom:14px;}
+.form-label{font-size:12px;font-weight:700;color:var(--n3);margin-bottom:6px;display:block;letter-spacing:.03em;}
+.form-input{
+  width:100%;padding:13px 14px;
+  border-radius:var(--r);border:1.5px solid var(--bd);
+  background:var(--bg);font-family:'IBM Plex Sans Arabic',sans-serif;
+  font-size:15px;color:var(--n1);outline:none;transition:.18s;
+  appearance:none;
+}
+.form-input:focus{border-color:var(--g);background:var(--wh);box-shadow:0 0 0 3px rgba(26,135,84,.1);}
+.form-input::placeholder{color:var(--n4);}
+
+/* ═══ CARD ═══ */
+.card{
+  background:var(--wh);border-radius:var(--rb);
+  padding:18px;box-shadow:var(--sh1);
+}
+.card + .card{margin-top:10px;}
+
+/* ═══ CHIP ═══ */
+.chip{
+  display:inline-flex;align-items:center;gap:4px;
+  padding:4px 10px;border-radius:99px;font-size:11px;font-weight:700;
+}
+.chip-green{background:var(--g-l);color:var(--g);}
+.chip-gray{background:var(--bg2);color:var(--n3);}
+.chip-red{background:var(--ro-l);color:var(--ro);}
+.chip-gold{background:var(--go-l);color:var(--go);}
+
+/* ═══ PROGRESS ═══ */
+.prog-track{height:5px;background:var(--bg2);border-radius:99px;overflow:hidden;}
+.prog-fill{height:100%;border-radius:99px;background:var(--g);transition:width .4s;}
+.prog-fill-red{background:var(--ro);}
+
+/* ═══ DIVIDER ═══ */
+.divider{height:1px;background:var(--bd);margin:4px 0;}
+.section-gap{height:8px;background:var(--bg);}
+
+/* ═══ AVATAR ═══ */
+.avatar{
+  border-radius:50%;display:flex;align-items:center;
+  justify-content:center;font-weight:700;color:var(--wh);flex-shrink:0;
+}
+.av-sm{width:34px;height:34px;font-size:13px;}
+.av-md{width:40px;height:40px;font-size:15px;}
+.av-lg{width:48px;height:48px;font-size:18px;}
+.av-green{background:var(--g);}
+.av-gray{background:var(--n4);}
+.av-dark{background:var(--n1);}
+
+/* ═══ LIST ROW ═══ */
+.list-row{
+  display:flex;align-items:center;gap:12px;
+  padding:14px 20px;background:var(--wh);
+  border-bottom:1px solid var(--bd);
+}
+.list-row:last-child{border-bottom:none;}
+.lr-body{flex:1;}
+.lr-title{font-size:14px;font-weight:600;color:var(--n1);}
+.lr-sub{font-size:12px;color:var(--n3);margin-top:2px;}
+.lr-right{text-align:left;flex-shrink:0;}
+.lr-val{font-size:14px;font-weight:700;color:var(--n1);}
+.lr-sub-r{font-size:11px;color:var(--n3);margin-top:2px;}
+
+/* ═══ COLLAPSIBLE ═══ */
+.coll{background:var(--wh);border-radius:var(--rb);margin-bottom:10px;overflow:hidden;box-shadow:var(--sh1);}
+.coll-hd{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:15px 18px;cursor:pointer;user-select:none;
+  border:none;background:none;width:100%;font-family:inherit;
+  text-align:right;
+}
+.coll-hd-title{font-size:14px;font-weight:700;color:var(--n1);display:flex;align-items:center;gap:8px;}
+.coll-hd-right{display:flex;align-items:center;gap:8px;}
+.coll-arrow{transition:transform .25s;color:var(--n3);}
+.coll-arrow.open{transform:rotate(180deg);}
+.coll-body{display:none;border-top:1px solid var(--bd);}
+.coll-body.open{display:block;}
+.coll-badge{
+  min-width:20px;height:20px;border-radius:99px;
+  padding:0 6px;display:flex;align-items:center;justify-content:center;
+  font-size:11px;font-weight:700;color:var(--wh);
+}
+.cb-red{background:var(--ro);}
+.cb-gold{background:var(--go);}
+.cb-green{background:var(--g);}
+
+/* ═══ SWITCH TABS ═══ */
+.sw-tabs{
+  display:flex;background:var(--bg2);border-radius:var(--r);
+  padding:3px;gap:2px;
+}
+.sw-tab{
+  flex:1;text-align:center;padding:8px;border-radius:10px;
+  font-size:13px;font-weight:600;color:var(--n3);
+  cursor:pointer;transition:.18s;border:none;background:none;font-family:inherit;
+}
+.sw-tab.on{background:var(--wh);color:var(--n1);box-shadow:var(--sh1);}
+
+/* ═══ SPINNER ═══ */
+.spinner{
+  width:24px;height:24px;border-radius:50%;
+  border:3px solid var(--g-l);border-top-color:var(--g);
+  animation:spin .8s linear infinite;
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+.fade-up{animation:fadeUp .3s ease;}
+
+/* ═══ TOAST ═══ */
+.toast{
+  position:fixed;bottom:100px;left:50%;transform:translateX(-50%) translateY(20px);
+  background:var(--n1);color:var(--wh);
+  padding:12px 20px;border-radius:99px;font-size:13px;font-weight:600;
+  opacity:0;transition:.3s;z-index:999;white-space:nowrap;
+  box-shadow:var(--sh3);pointer-events:none;
+}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
+/* ═══ MODAL SHEET ═══ */
+.sheet-overlay{
+  position:fixed;inset:0;z-index:200;
+  background:rgba(0,0,0,.5);backdrop-filter:blur(4px);
+  opacity:0;pointer-events:none;transition:.25s;
+}
+.sheet-overlay.open{opacity:1;pointer-events:all;}
+.sheet{
+  position:absolute;bottom:0;left:0;right:0;
+  background:var(--wh);border-radius:24px 24px 0 0;
+  padding:20px 20px calc(20px + env(safe-area-inset-bottom,16px));
+  transform:translateY(100%);transition:transform .3s cubic-bezier(.16,1,.3,1);
+  max-height:90vh;overflow-y:auto;
+}
+.sheet.open{transform:none;}
+.sheet-handle{
+  width:36px;height:4px;border-radius:99px;
+  background:var(--bd);margin:0 auto 20px;
+}
+.sheet-title{font-size:18px;font-weight:700;margin-bottom:16px;}
+
+/* ═══ INSTALL BANNER ═══ */
+.install-banner{
+  position:fixed;bottom:0;left:0;right:0;z-index:300;
+  background:var(--wh);border-top:1px solid var(--bd);
+  padding:16px 20px calc(16px + env(safe-area-inset-bottom,0px));
+  display:none;gap:14px;align-items:center;
+  box-shadow:0 -8px 30px rgba(0,0,0,.1);
+}
+.install-banner.show{display:flex;}
+
+/* ═══ UTILS ═══ */
+.f{display:flex;}.fc{flex-direction:column;}.ia{align-items:center;}.jb{justify-content:space-between;}.jc{justify-content:center;}
+.g4{gap:4px;}.g6{gap:6px;}.g8{gap:8px;}.g10{gap:10px;}.g12{gap:12px;}.g14{gap:14px;}
+.f1{flex:1;}.w100{width:100%;}
+.p16{padding:16px;}.p20{padding:20px;}.px20{padding-right:20px;padding-left:20px;}
+.mt4{margin-top:4px;}.mt8{margin-top:8px;}.mt10{margin-top:10px;}.mt12{margin-top:12px;}.mt14{margin-top:14px;}.mt16{margin-top:16px;}.mt20{margin-top:20px;}
+.mb8{margin-bottom:8px;}.mb10{margin-bottom:10px;}.mb12{margin-bottom:12px;}.mb16{margin-bottom:16px;}
+.t-xs{font-size:11px;}.t-sm{font-size:12px;}.t-base{font-size:14px;}.t-md{font-size:16px;}.t-lg{font-size:20px;}.t-xl{font-size:26px;}.t-huge{font-size:36px;}
+.w700{font-weight:700;}.w600{font-weight:600;}.w500{font-weight:500;}
+.c-n1{color:var(--n1);}.c-n2{color:var(--n2);}.c-n3{color:var(--n3);}.c-n4{color:var(--n4);}
+.c-green{color:var(--g);}.c-red{color:var(--ro);}
+.lh{letter-spacing:-.4px;}
+
+/* ── PROFILE SHEET ── */
+.profile-sheet-ov{position:fixed;inset:0;z-index:150;background:rgba(0,0,0,.45);display:none;align-items:flex-end;}
+.profile-sheet-ov.open{display:flex;}
+.profile-sheet{background:var(--wh);border-radius:24px 24px 0 0;width:100%;max-height:92vh;overflow-y:auto;padding:0 0 env(safe-area-inset-bottom,20px);}
+.ps-handle{width:36px;height:4px;background:var(--bd);border-radius:99px;margin:14px auto 0;}
+.ps-hdr{padding:16px 20px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--bd);}
+.ps-title{font-size:16px;font-weight:700;color:var(--n1);}
+.ps-close{width:30px;height:30px;border-radius:50%;background:var(--bg2);border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--n3);}
+.pf-row{display:flex;align-items:center;gap:12px;padding:14px 20px;border-bottom:1px solid var(--bd);cursor:pointer;}
+.pf-row:last-child{border-bottom:none;}
+.pf-ico{width:38px;height:38px;border-radius:11px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.pf-body{flex:1;}
+.pf-title{font-size:14px;font-weight:600;color:var(--n1);}
+.pf-sub{font-size:11px;color:var(--n3);margin-top:2px;}
+.pf-right{font-size:13px;color:var(--n4);}
+.edit-field{width:100%;padding:11px 14px;border-radius:var(--r);border:1.5px solid var(--bd);background:var(--bg);font-family:inherit;font-size:14px;color:var(--n1);outline:none;margin-top:6px;}
+.edit-field:focus{border-color:var(--g);background:var(--wh);}
+.pf-label{font-size:11px;font-weight:700;color:var(--n3);letter-spacing:.03em;margin-top:14px;display:block;}
+.toggle-row{display:flex;align-items:center;justify-content:space-between;padding:14px 20px;border-bottom:1px solid var(--bd);}
+.toggle{width:44px;height:26px;border-radius:13px;background:var(--bg2);border:none;cursor:pointer;position:relative;transition:.2s;flex-shrink:0;}
+.toggle.on{background:var(--g);}
+.toggle::after{content:'';position:absolute;width:20px;height:20px;border-radius:50%;background:white;top:3px;right:3px;transition:.2s;box-shadow:0 1px 3px rgba(0,0,0,.2);}
+.toggle.on::after{right:auto;left:3px;}
+.lang-option{display:flex;align-items:center;gap:10px;padding:14px 20px;border-bottom:1px solid var(--bd);cursor:pointer;}
+.lang-radio{width:20px;height:20px;border-radius:50%;border:2px solid var(--bd);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.lang-radio.on{border-color:var(--g);}
+.lang-radio.on::after{content:'';width:10px;height:10px;border-radius:50%;background:var(--g);display:block;}
+
+</style>
+
+<!-- SVG ICONS library -->
+<svg style="display:none">
+<symbol id="ic-home" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></symbol>
+<symbol id="ic-doc" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></symbol>
+<symbol id="ic-cal" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></symbol>
+<symbol id="ic-user" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></symbol>
+<symbol id="ic-users" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></symbol>
+<symbol id="ic-chart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/><line x1="3" y1="20" x2="21" y2="20"/></symbol>
+<symbol id="ic-bell" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></symbol>
+<symbol id="ic-back" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></symbol>
+<symbol id="ic-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></symbol>
+<symbol id="ic-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></symbol>
+<symbol id="ic-plus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></symbol>
+<symbol id="ic-chevron-down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></symbol>
+<symbol id="ic-alert" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></symbol>
+<symbol id="ic-id" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><circle cx="8" cy="12" r="2.5"/><line x1="13" y1="10" x2="19" y2="10"/><line x1="13" y1="14" x2="17" y2="14"/></symbol>
+<symbol id="ic-lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></symbol>
+<symbol id="ic-phone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.4 2 2 0 0 1 3.58 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 9.91a16 16 0 0 0 6.16 6.16l.91-.82a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></symbol>
+<symbol id="ic-logout" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></symbol>
+<symbol id="ic-activity" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></symbol>
+<symbol id="ic-settings" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></symbol>
+</svg>
+
+<!-- ═══════════════════════════
+     SCREEN 1: HOME — Dark Hero
+═══════════════════════════ -->
+<div class="screen active" id="sc-home">
+  <!-- Dark hero section -->
+  <div style="background:var(--n1);flex-shrink:0;padding:env(safe-area-inset-top,44px) 0 0;">
+    <div style="padding:32px 28px 44px;text-align:center;">
+      <!-- Logo: Two dots + bridge -->
+      <div style="display:inline-flex;align-items:center;justify-content:center;margin-bottom:24px;">
+        <svg width="72" height="48" viewBox="0 0 72 48" fill="none">
+          <circle cx="16" cy="13" r="12" fill="white"/>
+          <circle cx="56" cy="13" r="12" fill="rgba(255,255,255,0.28)"/>
+          <path d="M4 26 Q36 43 68 26" stroke="white" stroke-width="3.5" stroke-linecap="round" fill="none"/>
+        </svg>
+      </div>
+      <div style="font-size:38px;font-weight:700;color:var(--wh);letter-spacing:-2px;line-height:1;margin-bottom:8px;">سند</div>
+      <div style="font-size:13px;color:rgba(255,255,255,.38);letter-spacing:2px;margin-bottom:0;">SANAD PLATFORM</div>
+    </div>
+  </div>
+
+  <!-- White card lifting up -->
+  <div style="background:var(--wh);border-radius:28px 28px 0 0;margin-top:-22px;flex:1;padding:28px 24px 0;display:flex;flex-direction:column;">
+    <div style="font-size:20px;font-weight:700;color:var(--n1);margin-bottom:6px;">مرحباً 👋</div>
+    <div style="font-size:14px;color:var(--n3);line-height:1.65;margin-bottom:28px;">تفريج الكرب بطريقة منظمة وشرعية — بدون فوائد، بدون بنوك.</div>
+
+    <!-- Stats row -->
+    <div style="display:flex;justify-content:space-around;padding:16px;background:var(--bg);border-radius:16px;margin-bottom:24px;">
+      <div style="text-align:center;">
+        <div style="font-size:20px;font-weight:700;color:var(--n1);">50+</div>
+        <div style="font-size:11px;color:var(--n3);margin-top:2px;">ممول موثق</div>
+      </div>
+      <div style="width:1px;background:var(--bd);"></div>
+      <div style="text-align:center;">
+        <div style="font-size:20px;font-weight:700;color:var(--n1);">٠ د.ك</div>
+        <div style="font-size:11px;color:var(--n3);margin-top:2px;">فوائد</div>
+      </div>
+      <div style="width:1px;background:var(--bd);"></div>
+      <div style="text-align:center;">
+        <div style="font-size:20px;font-weight:700;color:var(--g);">100%</div>
+        <div style="font-size:11px;color:var(--n3);margin-top:2px;">شرعي</div>
+      </div>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:20px;">
+      <button class="btn btn-dark" onclick="go('sc-login-select')">دخول</button>
+      <button class="btn btn-gray" onclick="go('sc-login-select')">إنشاء حساب</button>
+    </div>
+    <div style="text-align:center;font-size:11px;color:var(--n4);padding-bottom:env(safe-area-inset-bottom,20px);">المنصة مغلقة — بدعوة فقط</div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════
+     SCREEN 2: LOGIN SELECT
+═══════════════════════════ -->
+<div class="screen" id="sc-login-select">
+  <div class="status-bar sb-white">
+    <span class="sb-time" style="color:var(--n1)">9:41</span>
+  </div>
+  <div class="top-bar white">
+    <button class="tb-back" onclick="go('sc-home')">
+      <svg width="20" height="20"><use href="#ic-back"/></svg>
+    </button>
+    <div style="display:flex;align-items:center;gap:8px;">
+      <svg width="22" height="22" viewBox="0 0 72 48" fill="none">
+        <circle cx="16" cy="13" r="12" fill="#1A8754"/>
+        <circle cx="56" cy="13" r="12" fill="rgba(28,28,30,0.35)"/>
+        <path d="M4 26 Q36 43 68 26" stroke="#1A8754" stroke-width="4" stroke-linecap="round" fill="none"/>
+      </svg>
+      <span style="font-size:16px;font-weight:700;">سند</span>
+    </div>
+    <div style="width:36px;"></div>
+  </div>
+  <div class="scroll-body p20">
+    <div class="t-lg w700 mb8">من أنت؟</div>
+    <div class="t-sm c-n3 mb20">اختر نوع حسابك للمتابعة</div>
+
+    <div style="display:flex;flex-direction:column;gap:12px;">
+      <div onclick="go('sc-login-ben')" style="background:var(--wh);border-radius:var(--rb);padding:20px;border:2px solid var(--bd);cursor:pointer;display:flex;align-items:center;gap:14px;transition:.18s;" onmousedown="this.style.borderColor='var(--g)'">
+        <div style="width:48px;height:48px;border-radius:14px;background:var(--g-l);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+          <svg width="24" height="24" style="color:var(--g)"><use href="#ic-user"/></svg>
+        </div>
+        <div style="flex:1;">
+          <div class="t-base w700 c-n1">مستفيد</div>
+          <div class="t-xs c-n3 mt4">أريد تقديم طلب مساعدة</div>
+        </div>
+        <svg width="16" height="16" style="color:var(--n4);transform:scaleX(-1)"><use href="#ic-back"/></svg>
+      </div>
+
+      <div onclick="go('sc-login-donor')" style="background:var(--wh);border-radius:var(--rb);padding:20px;border:2px solid var(--bd);cursor:pointer;display:flex;align-items:center;gap:14px;">
+        <div style="width:48px;height:48px;border-radius:14px;background:var(--n1);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+          <svg width="24" height="24" style="color:var(--wh)"><use href="#ic-users"/></svg>
+        </div>
+        <div style="flex:1;">
+          <div class="t-base w700 c-n1">ممول</div>
+          <div class="t-xs c-n3 mt4">أريد تمويل حالات القرض الحسن</div>
+        </div>
+        <svg width="16" height="16" style="color:var(--n4);transform:scaleX(-1)"><use href="#ic-back"/></svg>
+      </div>
+
+      <div onclick="go('sc-login-admin')" style="background:var(--bg);border-radius:var(--rb);padding:16px;border:1.5px solid var(--bd);cursor:pointer;display:flex;align-items:center;gap:12px;">
+        <div style="width:40px;height:40px;border-radius:12px;background:var(--bg2);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+          <svg width="20" height="20" style="color:var(--n3)"><use href="#ic-settings"/></svg>
+        </div>
+        <div class="t-sm w600 c-n3 f1">دخول الإدارة</div>
+        <svg width="14" height="14" style="color:var(--n4);transform:scaleX(-1)"><use href="#ic-back"/></svg>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════
+     SCREEN 3: LOGIN BENEFICIARY — Simple
+═══════════════════════════ -->
+<div class="screen" id="sc-login-ben">
+  <div class="status-bar sb-white"><span class="sb-time" style="color:var(--n1)">9:41</span></div>
+  <div class="top-bar white">
+    <button class="tb-back" onclick="go('sc-login-select')"><svg width="20" height="20"><use href="#ic-back"/></svg></button>
+    <span class="tb-title tb-title-dark">دخول المستفيد</span>
+    <div style="width:36px;"></div>
+  </div>
+  <div class="scroll-body p20">
+    <div class="t-lg w700 mb8 lh">تسجيل الدخول</div>
+    <div class="t-sm c-n3 mb24">أهلاً بك في منصة سند</div>
+
+    <div class="form-group">
+      <label class="form-label">رقم الجوال</label>
+      <input class="form-input" type="tel" placeholder="+965 XXXX XXXX" dir="ltr">
+    </div>
+    <div class="form-group">
+      <label class="form-label">كلمة المرور</label>
+      <input class="form-input" type="password" placeholder="••••••••" dir="ltr">
+    </div>
+    <button class="btn btn-dark mt8" onclick="go('sc-ben')">دخول</button>
+    <div class="t-xs c-n3 mt16" style="text-align:center;">نسيت كلمة المرور؟ <span style="color:var(--g);font-weight:600;cursor:pointer;">استعادة</span></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════
+     SCREEN 4: LOGIN DONOR
+═══════════════════════════ -->
+<div class="screen" id="sc-login-donor">
+  <div class="status-bar sb-white"><span class="sb-time" style="color:var(--n1)">9:41</span></div>
+  <div class="top-bar white">
+    <button class="tb-back" onclick="go('sc-login-select')"><svg width="20" height="20"><use href="#ic-back"/></svg></button>
+    <span class="tb-title tb-title-dark">دخول الممول</span>
+    <div style="width:36px;"></div>
+  </div>
+  <div class="scroll-body p20">
+    <div class="t-lg w700 mb8 lh">تسجيل الدخول</div>
+    <div class="t-sm c-n3 mb24">أهلاً بك يا ممول الخير</div>
+    <div class="form-group">
+      <label class="form-label">رقم الجوال أو البريد</label>
+      <input class="form-input" type="tel" placeholder="+965 XXXX XXXX" dir="ltr">
+    </div>
+    <div class="form-group">
+      <label class="form-label">كلمة المرور</label>
+      <input class="form-input" type="password" placeholder="••••••••" dir="ltr">
+    </div>
+    <button class="btn btn-dark mt8" onclick="go('sc-donor')">دخول</button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════
+     SCREEN 5: LOGIN ADMIN
+═══════════════════════════ -->
+<div class="screen" id="sc-login-admin">
+  <div class="status-bar sb-white"><span class="sb-time" style="color:var(--n1)">9:41</span></div>
+  <div class="top-bar white">
+    <button class="tb-back" onclick="go('sc-login-select')"><svg width="20" height="20"><use href="#ic-back"/></svg></button>
+    <span class="tb-title tb-title-dark">دخول الإدارة</span>
+    <div style="width:36px;"></div>
+  </div>
+  <div class="scroll-body p20">
+    <div class="t-lg w700 mb8">لوحة الإدارة</div>
+    <div class="t-sm c-n3 mb24">وصول مخصص لفريق سند</div>
+    <div class="form-group">
+      <label class="form-label">البريد الإلكتروني</label>
+      <input class="form-input" type="email" placeholder="admin@sanad.kw" dir="ltr">
+    </div>
+    <div class="form-group">
+      <label class="form-label">كلمة المرور</label>
+      <input class="form-input" type="password" placeholder="••••••••" dir="ltr">
+    </div>
+    <button class="btn btn-dark mt8" onclick="go('sc-admin')">دخول</button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════
+     SCREEN 6: BENEFICIARY APP
+═══════════════════════════ -->
+<div class="screen" id="sc-ben">
+
+  <!-- ── Shared top bar (always visible) ── -->
+  <div id="ben-topbar" style="background:var(--wh);border-bottom:1px solid var(--bd);flex-shrink:0;padding:env(safe-area-inset-top,44px) 20px 14px;display:flex;align-items:center;justify-content:space-between;">
+    <div id="ben-topbar-left" style="cursor:pointer;" onclick="benTab('profile')">
+      <div class="t-xs c-n3">أهلاً،</div>
+      <div class="t-md w700 c-n1 mt4">محمد</div>
+    </div>
+    <div class="f ia g10">
+      <button class="tb-icon-btn tib-dark" onclick="showToast('لا توجد إشعارات جديدة')" style="position:relative;">
+        <svg width="20" height="20" style="color:var(--n2)"><use href="#ic-bell"/></svg>
+        <div class="notif-badge"></div>
+      </button>
+      <div class="avatar av-sm av-green" style="cursor:pointer;" onclick="benTab('profile')">م</div>
+    </div>
+  </div>
+
+  <!-- ══ TAB: الرئيسية ══ -->
+  <div class="scroll-body" id="ben-tab-home" style="padding:16px;">
+    <!-- بطاقة الأقساط — خضراء -->
+    <div style="background:var(--g);border-radius:22px;padding:22px 20px;color:var(--wh);margin-bottom:14px;">
+      <div style="font-size:11px;color:rgba(255,255,255,.65);margin-bottom:6px;letter-spacing:.04em;">المبلغ عليك</div>
+      <div style="font-size:44px;font-weight:700;letter-spacing:-2px;line-height:1;">150</div>
+      <div style="font-size:13px;color:rgba(255,255,255,.55);margin-top:3px;margin-bottom:18px;">دينار كويتي</div>
+      <div style="height:1px;background:rgba(255,255,255,.2);margin-bottom:16px;"></div>
+      <div class="f ia jb">
+        <div>
+          <div style="font-size:11px;color:rgba(255,255,255,.6);margin-bottom:3px;">القسط القادم</div>
+          <div style="font-size:20px;font-weight:700;">50 د.ك</div>
+        </div>
+        <div style="text-align:left;">
+          <div style="font-size:11px;color:rgba(255,255,255,.6);margin-bottom:3px;">في</div>
+          <div style="font-size:20px;font-weight:700;">7 أيام</div>
+        </div>
+        <div style="background:rgba(255,255,255,.18);border-radius:99px;padding:7px 14px;">
+          <div style="font-size:12px;font-weight:700;color:#fff;">67% مسدد</div>
+        </div>
+      </div>
+      <!-- Progress dots -->
+      <div class="f ia g8 mt16" style="justify-content:center;">
+        <div style="width:26px;height:26px;border-radius:50%;background:rgba(255,255,255,.9);display:flex;align-items:center;justify-content:center;"><svg width="11" height="11" style="color:var(--g)"><use href="#ic-check"/></svg></div>
+        <div style="flex:1;height:2px;background:rgba(255,255,255,.6);border-radius:1px;max-width:28px;"></div>
+        <div style="width:26px;height:26px;border-radius:50%;background:rgba(255,255,255,.9);display:flex;align-items:center;justify-content:center;"><svg width="11" height="11" style="color:var(--g)"><use href="#ic-check"/></svg></div>
+        <div style="flex:1;height:2px;background:rgba(255,255,255,.3);border-radius:1px;max-width:28px;"></div>
+        <div style="width:26px;height:26px;border-radius:50%;background:rgba(255,255,255,.25);border:2px solid rgba(255,255,255,.7);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;">3</div>
+      </div>
+    </div>
+
+    <!-- قائمة الطلبات -->
+    <div style="font-size:13px;font-weight:700;color:var(--n1);margin-bottom:10px;">طلباتي</div>
+    <div class="card" style="border-right:3px solid var(--g);margin-bottom:10px;">
+      <div class="f ia jb mb8"><div class="lr-title">قرض حسن — سداد إيجار</div><span class="chip chip-green">نشط</span></div>
+      <div class="t-xs c-n3 mb10">#REQ-0041 · 20 مايو 2025 · خالد العتيبي</div>
+      <div class="f ia jb t-xs c-n3 mb5"><span>المبلغ</span><span>الأقساط</span><span>السداد</span></div>
+      <div class="f ia jb t-sm w600 mb8"><span>150 د.ك</span><span>3 شهرية</span><span class="c-green">67%</span></div>
+      <div class="prog-track"><div class="prog-fill" style="width:67%"></div></div>
+    </div>
+    <div style="background:var(--bg);border-radius:var(--rb);padding:14px;margin-bottom:10px;">
+      <div class="f ia jb mb6"><div class="t-base w700 c-n2">احتياجات — غذاء</div><span class="chip chip-gray">مكتمل</span></div>
+      <div class="t-xs c-n3">#REQ-0089 · نوفمبر 2024 · 80 د.ك</div>
+    </div>
+    <div style="background:var(--bg);border-radius:var(--rb);padding:14px;">
+      <div class="f ia jb mb6"><div class="t-base w700 c-n2">قرض حسن — دين</div><span class="chip chip-gray">مكتمل</span></div>
+      <div class="t-xs c-n3">#REQ-0041-B · يوليو 2024 · 120 د.ك</div>
+    </div>
+
+    <!-- زر طلب جديد -->
+    <button class="btn btn-green mt14" onclick="benTab('new')">+ طلب جديد</button>
+  </div>
+
+  <!-- ══ TAB: طلباتي ══ -->
+  <div class="scroll-body" id="ben-tab-reqs" style="display:none;padding:16px;">
+    <div class="f ia jb mb16">
+      <div class="t-lg w700 c-n1">طلباتي</div>
+      <button class="btn btn-green btn-sm" onclick="benTab('new')"><svg width="14" height="14"><use href="#ic-plus"/></svg> جديد</button>
+    </div>
+    <div class="sw-tabs mb16">
+      <button class="sw-tab on" onclick="swTab(this,this.parentElement)">الحالية</button>
+      <button class="sw-tab" onclick="swTab(this,this.parentElement)">السابقة</button>
+    </div>
+    <div class="card" style="border-right:3px solid var(--g);margin-bottom:10px;">
+      <div class="f ia jb mb10"><div class="t-base w700 c-n1">قرض حسن — إيجار</div><span class="chip chip-green">نشط</span></div>
+      <div class="t-xs c-n3 mb12">#REQ-0041 · 20 مايو 2025 · خالد العتيبي</div>
+      <div class="f ia jb t-xs c-n3 mb6"><span>المبلغ</span><span>الأقساط</span><span>السداد</span></div>
+      <div class="f ia jb t-sm w600 mb10"><span>150 د.ك</span><span>3 أقساط</span><span class="c-green">67%</span></div>
+      <div class="prog-track"><div class="prog-fill" style="width:67%"></div></div>
+    </div>
+    <div style="background:var(--bg);border-radius:var(--rb);padding:16px;margin-bottom:10px;">
+      <div class="f ia jb mb8"><div class="t-base w700 c-n2">احتياجات — غذاء</div><span class="chip chip-gray">مكتمل</span></div>
+      <div class="t-xs c-n3">#REQ-0089 · نوفمبر 2024 · 80 د.ك</div>
+    </div>
+    <div style="background:var(--bg);border-radius:var(--rb);padding:16px;">
+      <div class="f ia jb mb8"><div class="t-base w700 c-n2">قرض حسن — دين</div><span class="chip chip-gray">مكتمل</span></div>
+      <div class="t-xs c-n3">#REQ-0041-B · يوليو 2024 · 120 د.ك</div>
+    </div>
+  </div>
+
+  <!-- ══ TAB: الأقساط ══ -->
+  <div class="scroll-body" id="ben-tab-inst" style="display:none;padding:16px;">
+    <div class="t-lg w700 c-n1 mb4">الأقساط</div>
+    <div class="t-sm c-n3 mb14">#REQ-0041 · قرض حسن — سداد إيجار</div>
+
+    <!-- ملخص -->
+    <div style="background:var(--g-l);border-radius:var(--rb);padding:16px 20px;display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
+      <div><div class="t-xs c-green mb4">إجمالي القرض</div><div class="t-xl w700 c-n1">150 د.ك</div></div>
+      <div style="width:1px;background:rgba(26,135,84,.2);height:40px;"></div>
+      <div style="text-align:left;"><div class="t-xs c-n3 mb4">مسدد</div><div class="t-xl w700 c-green">100 د.ك</div></div>
+      <div style="text-align:left;"><div class="t-xs c-n3 mb4">متبقي</div><div class="t-xl w700 c-n1">50 د.ك</div></div>
+    </div>
+
+    <!-- نقاط الأقساط -->
+    <div class="f ia g8 mb14" style="justify-content:center;">
+      <div style="width:32px;height:32px;border-radius:50%;background:var(--g);display:flex;align-items:center;justify-content:center;"><svg width="14" height="14" style="color:white"><use href="#ic-check"/></svg></div>
+      <div style="flex:1;height:2px;background:var(--g);max-width:36px;border-radius:1px;"></div>
+      <div style="width:32px;height:32px;border-radius:50%;background:var(--g);display:flex;align-items:center;justify-content:center;"><svg width="14" height="14" style="color:white"><use href="#ic-check"/></svg></div>
+      <div style="flex:1;height:2px;background:var(--bg2);max-width:36px;border-radius:1px;"></div>
+      <div style="width:32px;height:32px;border-radius:50%;background:var(--g-l);border:2px solid var(--g);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:var(--g);">3</div>
+    </div>
+
+    <!-- قائمة الأقساط -->
+    <div style="background:var(--wh);border-radius:var(--rb);overflow:hidden;box-shadow:var(--sh1);margin-bottom:18px;">
+      <div class="list-row"><div class="lr-body"><div class="lr-title">القسط الأول</div><div class="lr-sub">1 مارس 2025</div></div><div class="lr-right"><div class="lr-val c-green">50 د.ك</div><div class="lr-sub-r c-green">✓ مسدد</div></div></div>
+      <div class="list-row"><div class="lr-body"><div class="lr-title">القسط الثاني</div><div class="lr-sub">1 أبريل 2025</div></div><div class="lr-right"><div class="lr-val c-green">50 د.ك</div><div class="lr-sub-r c-green">✓ مسدد</div></div></div>
+      <div class="list-row" style="background:var(--g-l);"><div class="lr-body"><div class="lr-title">القسط الثالث</div><div class="lr-sub">1 يونيو 2025</div></div><div class="lr-right"><div class="lr-val">50 د.ك</div><span class="chip chip-gold" style="font-size:10px;padding:2px 8px;margin-top:4px;">بعد 7 أيام</span></div></div>
+    </div>
+
+    <!-- المعاملات السابقة -->
+    <div style="font-size:13px;font-weight:700;color:var(--n1);margin-bottom:10px;">المعاملات السابقة</div>
+    <div style="background:var(--wh);border-radius:var(--rb);overflow:hidden;box-shadow:var(--sh1);">
+      <div class="list-row">
+        <div style="width:36px;height:36px;border-radius:10px;background:var(--g-l);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="16" height="16" style="color:var(--g)"><use href="#ic-check"/></svg></div>
+        <div class="lr-body"><div class="lr-title">سداد القسط الثاني</div><div class="lr-sub">1 أبريل 2025</div></div>
+        <div class="lr-right"><div class="lr-val c-green">50 د.ك</div><div class="lr-sub-r c-green">✓</div></div>
+      </div>
+      <div class="list-row">
+        <div style="width:36px;height:36px;border-radius:10px;background:var(--g-l);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="16" height="16" style="color:var(--g)"><use href="#ic-check"/></svg></div>
+        <div class="lr-body"><div class="lr-title">سداد القسط الأول</div><div class="lr-sub">1 مارس 2025</div></div>
+        <div class="lr-right"><div class="lr-val c-green">50 د.ك</div><div class="lr-sub-r c-green">✓</div></div>
+      </div>
+      <div class="list-row">
+        <div style="width:36px;height:36px;border-radius:10px;background:var(--bg2);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="16" height="16" style="color:var(--n3)"><use href="#ic-activity"/></svg></div>
+        <div class="lr-body"><div class="lr-title">استلام تحويل القرض</div><div class="lr-sub">5 فبراير 2025</div></div>
+        <div class="lr-right"><div class="lr-val">150 د.ك</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ TAB: طلب جديد ══ -->
+  <div class="scroll-body" id="ben-tab-new" style="display:none;padding:16px;">
+    <div class="t-lg w700 c-n1 mb4">طلب جديد</div>
+    <div class="t-sm c-n3 mb16">اختر نوع الدعم المطلوب</div>
+    <div class="f fc g10 mb16">
+      <div id="type-q" style="border:2px solid var(--g);border-radius:var(--rb);padding:16px;background:var(--g-l);cursor:pointer;" onclick="selectType('q')">
+        <div class="t-sm w700 c-green mb4">القرض الحسن المالي</div>
+        <div class="t-xs c-n3">إيجار · دين ضروري · طوارئ · 50–300 د.ك</div>
+      </div>
+      <div id="type-d" style="border:1.5px solid var(--bd);border-radius:var(--rb);padding:16px;background:var(--wh);cursor:pointer;" onclick="selectType('d')">
+        <div class="t-sm w700 c-n1 mb4">الاحتياجات المباشرة</div>
+        <div class="t-xs c-n3">مواد غذائية · احتياجات أسرية · مستلزمات أطفال</div>
+      </div>
+    </div>
+    <div class="mb16">
+      <div class="form-label">المبلغ المطلوب (د.ك)</div>
+      <div style="background:var(--bg);border-radius:var(--r);padding:14px 16px;font-size:30px;font-weight:700;color:var(--n1);">150</div>
+    </div>
+    <div class="mb16">
+      <div class="form-label">عدد الأقساط</div>
+      <div class="f g8">
+        <div onclick="selectInst(this)" style="flex:1;text-align:center;padding:11px;border-radius:var(--r);background:var(--bg);font-size:14px;font-weight:600;color:var(--n3);cursor:pointer;">2</div>
+        <div onclick="selectInst(this)" style="flex:1;text-align:center;padding:11px;border-radius:var(--r);background:var(--n1);font-size:14px;font-weight:700;color:var(--wh);cursor:pointer;">3</div>
+        <div onclick="selectInst(this)" style="flex:1;text-align:center;padding:11px;border-radius:var(--r);background:var(--bg);font-size:14px;font-weight:600;color:var(--n3);cursor:pointer;">4</div>
+        <div onclick="selectInst(this)" style="flex:1;text-align:center;padding:11px;border-radius:var(--r);background:var(--bg);font-size:14px;font-weight:600;color:var(--n3);cursor:pointer;">6</div>
+      </div>
+    </div>
+    <div class="mb16">
+      <div class="form-label">شرح الحالة</div>
+      <textarea class="form-input" style="height:88px;resize:none;" placeholder="اشرح وضعك بصدق..."></textarea>
+    </div>
+    <div style="background:var(--g-l);border-radius:var(--r);padding:10px 12px;margin-bottom:16px;font-size:12px;color:var(--g);">
+      المنصة ليست بنكاً — التحويل يتم مباشرة بين الممول والمستفيد
+    </div>
+    <button class="btn btn-green" onclick="showToast('تم إرسال طلبك ✓ ستتلقى إشعاراً خلال 24 ساعة');benTab('home')">إرسال الطلب</button>
+  </div>
+
+  <!-- ══ TAB: حسابي ══ -->
+  <div class="scroll-body" id="ben-tab-profile" style="display:none;">
+    <!-- Avatar hero -->
+    <div style="background:var(--g);padding:28px 20px 36px;display:flex;flex-direction:column;align-items:center;text-align:center;">
+      <div style="width:72px;height:72px;border-radius:50%;background:rgba(255,255,255,.18);border:2.5px solid rgba(255,255,255,.45);display:flex;align-items:center;justify-content:center;font-size:26px;font-weight:700;color:#fff;margin-bottom:12px;position:relative;">
+        م
+        <div style="position:absolute;bottom:0;right:0;width:22px;height:22px;border-radius:50%;background:var(--wh);display:flex;align-items:center;justify-content:center;cursor:pointer;" onclick="showToast('تغيير الصورة')">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--g)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+        </div>
+      </div>
+      <div style="font-size:19px;font-weight:700;color:#fff;margin-bottom:3px;">محمد إبراهيم حسن</div>
+      <div style="font-size:11px;color:rgba(255,255,255,.55);">مستفيد · منذ مايو 2025</div>
+      <div style="display:inline-flex;align-items:center;gap:5px;margin-top:10px;padding:5px 14px;border-radius:99px;background:rgba(255,255,255,.15);font-size:11px;font-weight:700;color:#fff;">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        موثق
+      </div>
+    </div>
+
+    <div style="background:var(--wh);border-radius:22px 22px 0 0;margin-top:-16px;">
+
+      <!-- البيانات الشخصية -->
+      <div class="pf-row" onclick="openSheet('sheet-personal')">
+        <div class="pf-ico" style="background:var(--g-l);"><svg width="18" height="18" style="color:var(--g)"><use href="#ic-user"/></svg></div>
+        <div class="pf-body"><div class="pf-title">البيانات الشخصية</div><div class="pf-sub">الاسم · البريد · رقم التلفون · الهوية</div></div>
+        <div class="pf-right">›</div>
+      </div>
+
+      <!-- المستندات -->
+      <div class="pf-row" onclick="openSheet('sheet-docs')">
+        <div class="pf-ico" style="background:var(--go-l);"><svg width="18" height="18" style="color:var(--go)"><use href="#ic-doc"/></svg></div>
+        <div class="pf-body"><div class="pf-title">المستندات المرفوعة</div><div class="pf-sub">الهوية · المستندات الداعمة</div></div>
+        <div style="display:flex;align-items:center;gap:6px;"><span style="font-size:11px;font-weight:700;padding:3px 9px;border-radius:99px;background:var(--go-l);color:var(--go);">3</span><div class="pf-right">›</div></div>
+      </div>
+
+      <!-- الإشعارات -->
+      <div class="pf-row" onclick="openSheet('sheet-notifs')">
+        <div class="pf-ico" style="background:#F0EBFF;"><svg width="18" height="18" style="color:#7B4FDB"><use href="#ic-bell"/></svg></div>
+        <div class="pf-body"><div class="pf-title">الإشعارات</div><div class="pf-sub">إدارة الإشعارات والتنبيهات</div></div>
+        <div class="pf-right">›</div>
+      </div>
+
+      <!-- الخصوصية والأمان -->
+      <div class="pf-row" onclick="openSheet('sheet-security')">
+        <div class="pf-ico" style="background:var(--bg2);"><svg width="18" height="18" style="color:var(--n2)"><use href="#ic-lock"/></svg></div>
+        <div class="pf-body"><div class="pf-title">الخصوصية والأمان</div><div class="pf-sub">كلمة السر · البصمة</div></div>
+        <div class="pf-right">›</div>
+      </div>
+
+      <!-- تواصل معنا -->
+      <div class="pf-row" onclick="openSheet('sheet-chat')">
+        <div class="pf-ico" style="background:#E8F0FE;"><svg width="18" height="18" style="color:#1565C0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
+        <div class="pf-body"><div class="pf-title">تواصل معنا</div><div class="pf-sub">دردشة مباشرة مع فريق سند</div></div>
+        <div class="pf-right">›</div>
+      </div>
+
+      <!-- اللغة -->
+      <div class="pf-row" onclick="openSheet('sheet-lang')">
+        <div class="pf-ico" style="background:var(--bg2);"><svg width="18" height="18" style="color:var(--n2)" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></div>
+        <div class="pf-body"><div class="pf-title">اللغة</div><div class="pf-sub">العربية</div></div>
+        <div class="pf-right">›</div>
+      </div>
+
+      <!-- تسجيل الخروج -->
+      <div class="pf-row" onclick="go('sc-home')" style="margin-top:8px;border-top:8px solid var(--bg);">
+        <div class="pf-ico" style="background:var(--ro-l);"><svg width="18" height="18" style="color:var(--ro)"><use href="#ic-logout"/></svg></div>
+        <div class="pf-body"><div class="pf-title" style="color:var(--ro);">تسجيل الخروج</div></div>
+      </div>
+
+      <div style="text-align:center;font-size:10px;color:var(--n4);padding:16px 0 20px;">سند · الإصدار 1.0.0</div>
+    </div>
+  </div>
+
+  <!-- ══ Bottom Nav ══ -->
+  <nav class="bottom-nav">
+    <button class="bn-item on" id="bni-home" onclick="benTab('home')">
+      <div class="bn-line"></div>
+      <svg width="22" height="22"><use href="#ic-home"/></svg>
+      <span class="bn-label">الرئيسية</span>
+    </button>
+    <button class="bn-item" id="bni-inst" onclick="benTab('inst')">
+      <div class="bn-line"></div>
+      <svg width="22" height="22"><use href="#ic-cal"/></svg>
+      <span class="bn-label">الأقساط</span>
+    </button>
+    <button class="bn-item" id="bni-new" onclick="benTab('new')">
+      <div class="bn-line"></div>
+      <svg width="22" height="22"><use href="#ic-plus"/></svg>
+      <span class="bn-label">طلب جديد</span>
+    </button>
+    <button class="bn-item" id="bni-profile" onclick="benTab('profile')">
+      <div class="bn-line"></div>
+      <svg width="22" height="22"><use href="#ic-user"/></svg>
+      <span class="bn-label">حسابي</span>
+    </button>
+  </nav>
+</div>
+
+
+<!-- ═══════════════════════════
+     SCREEN 7: DONOR APP — Green Impact + Tabs
+═══════════════════════════ -->
+<div class="screen" id="sc-donor">
+  <!-- Green hero top -->
+  <div style="background:var(--g);flex-shrink:0;padding:env(safe-area-inset-top,44px) 20px 0;">
+    <div class="f ia jb" style="padding-bottom:14px;">
+      <div style="cursor:pointer;" onclick="donorTab('profile')">
+        <div style="font-size:12px;color:rgba(255,255,255,.6);margin-bottom:2px;">أهلاً،</div>
+        <div style="font-size:18px;font-weight:700;color:var(--wh);">خالد</div>
+      </div>
+      <div class="f ia g8">
+        <button class="tb-icon-btn tib-light" onclick="showToast('٣ إشعارات جديدة')">
+          <svg width="20" height="20" style="color:rgba(255,255,255,.9)"><use href="#ic-bell"/></svg>
+          <div class="notif-badge notif-badge-dark"></div>
+        </button>
+        <div class="avatar av-sm" style="background:rgba(255,255,255,.2);color:var(--wh);cursor:pointer;" onclick="donorTab('profile')">خ</div>
+      </div>
+    </div>
+    <!-- Impact numbers -->
+    <div style="padding-bottom:28px;">
+      <div style="font-size:12px;color:rgba(255,255,255,.6);margin-bottom:4px;">إجمالي تأثيرك</div>
+      <div style="font-size:42px;font-weight:700;color:var(--wh);letter-spacing:-2px;line-height:1;">1,850</div>
+      <div style="font-size:13px;color:rgba(255,255,255,.5);margin-top:4px;">دينار موّلت · 12 شخص استفاد</div>
+    </div>
+  </div>
+
+  <!-- White card lifts -->
+  <div style="background:var(--wh);border-radius:24px 24px 0 0;margin-top:-18px;flex:1;display:flex;flex-direction:column;overflow:hidden;">
+    <!-- Tabs: only avail + mine (no stats) -->
+    <div id="donor-tabs-bar" style="padding:16px 16px 0;flex-shrink:0;">
+      <div class="sw-tabs">
+        <button class="sw-tab on" id="donor-tab-avail" onclick="donorTab('avail')">متاحة (5)</button>
+        <button class="sw-tab" id="donor-tab-mine" onclick="donorTab('mine')">حالاتي</button>
+      </div>
+    </div>
+
+    <!-- Tab: الرئيسية / Available cases -->
+    <div class="scroll-body" id="donor-avail" style="padding:14px 16px;">
+      <!-- بطاقة تعريفية خضراء -->
+      <div style="background:var(--g);border-radius:var(--rb);padding:18px 20px;margin-bottom:14px;color:#fff;">
+        <div style="font-size:13px;font-weight:700;margin-bottom:6px;opacity:.9;">«من فرَّج عن مؤمن كربة من كرب الدنيا»</div>
+        <div style="font-size:12px;opacity:.7;line-height:1.65;">كل ريال تموّله هنا هو صدقة جارية وسند حقيقي لأسرة محتاجة. جزاك الله خيراً.</div>
+      </div>
+
+      <div style="font-size:13px;font-weight:700;color:var(--n1);margin-bottom:10px;">الحالات المتاحة للتمويل</div>
+      <div class="f fc g10">
+        <div class="card" onclick="showDonorSheet('محمد إبراهيم حسن','سداد إيجار','150','3')">
+          <div class="f ia jb mb10">
+            <div class="f ia g10">
+              <div class="avatar av-sm av-green">م</div>
+              <div><div class="lr-title">محمد إبراهيم</div><div class="lr-sub mt4">سداد إيجار · 20 مايو</div></div>
+            </div>
+            <span class="chip chip-green">موثق ✓</span>
+          </div>
+          <div class="f ia jb t-xs c-n3 mb6"><span>النوع</span><span>المبلغ</span><span>الأقساط</span></div>
+          <div class="f ia jb t-sm w600 mb10"><span>قرض حسن</span><span class="c-green">150 د.ك</span><span>3 شهرية</span></div>
+          <button class="btn btn-green btn-sm" onclick="event.stopPropagation();showDonorSheet('محمد إبراهيم حسن','سداد إيجار','150','3')">تمويل هذه الحالة</button>
+        </div>
+        <div class="card" onclick="showDonorSheet('فاطمة أحمد محمود','احتياجات أسرية','200','4')">
+          <div class="f ia jb mb10">
+            <div class="f ia g10">
+              <div class="avatar av-sm av-gray">ف</div>
+              <div><div class="lr-title">فاطمة أحمد</div><div class="lr-sub mt4">احتياجات أسرية · 19 مايو</div></div>
+            </div>
+            <span class="chip chip-green">موثق ✓</span>
+          </div>
+          <div class="f ia jb t-xs c-n3 mb6"><span>النوع</span><span>المبلغ</span><span>الأقساط</span></div>
+          <div class="f ia jb t-sm w600 mb10"><span>احتياجات</span><span class="c-green">200 د.ك</span><span>4 شهرية</span></div>
+          <button class="btn btn-green btn-sm" onclick="event.stopPropagation();showDonorSheet('فاطمة أحمد محمود','احتياجات أسرية','200','4')">تمويل هذه الحالة</button>
+        </div>
+        <div class="card" onclick="showDonorSheet('يوسف علي نصر','سداد دين ضروري','250','5')">
+          <div class="f ia jb mb10">
+            <div class="f ia g10">
+              <div class="avatar av-sm av-dark">ي</div>
+              <div><div class="lr-title">يوسف علي</div><div class="lr-sub mt4">دين ضروري · 18 مايو</div></div>
+            </div>
+            <span class="chip chip-green">موثق ✓</span>
+          </div>
+          <div class="f ia jb t-xs c-n3 mb6"><span>النوع</span><span>المبلغ</span><span>الأقساط</span></div>
+          <div class="f ia jb t-sm w600 mb10"><span>قرض حسن</span><span class="c-green">250 د.ك</span><span>5 شهرية</span></div>
+          <button class="btn btn-green btn-sm" onclick="event.stopPropagation();showDonorSheet('يوسف علي نصر','سداد دين ضروري','250','5')">تمويل هذه الحالة</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tab: حالاتي — 4 تبويبات -->
+    <div class="scroll-body" id="donor-mine" style="padding:14px 16px;display:none;">
+      <div class="sw-tabs mb14">
+        <button class="sw-tab on" id="mine-tab-active" onclick="mineTab('active',this)">قيد التمويل</button>
+        <button class="sw-tab" id="mine-tab-paid" onclick="mineTab('paid',this)">تم الدفع</button>
+        <button class="sw-tab" id="mine-tab-late" onclick="mineTab('late',this)">متعذر</button>
+        <button class="sw-tab" id="mine-tab-done" onclick="mineTab('done',this)">مكتمل</button>
+      </div>
+
+      <!-- قيد التمويل -->
+      <div id="mine-active" class="f fc g10">
+        <div class="card">
+          <div class="f ia jb mb8"><div class="lr-title">طارق حسين أحمد</div><span class="chip chip-green">نشط</span></div>
+          <div class="t-xs c-n3 mb10">قرض حسن · سداد إيجار · 150 د.ك</div>
+          <div class="f ia g8 mb4"><div class="prog-track f1"><div class="prog-fill" style="width:67%"></div></div><span class="t-xs c-n3">67%</span></div>
+          <div class="t-xs c-n3">القسط القادم: 50 د.ك · بعد 7 أيام</div>
+        </div>
+        <div class="card">
+          <div class="f ia jb mb8"><div class="lr-title">نورة سالم الرشيد</div><span class="chip chip-green">نشط</span></div>
+          <div class="t-xs c-n3 mb10">احتياجات أسرية · 120 د.ك</div>
+          <div class="f ia g8 mb4"><div class="prog-track f1"><div class="prog-fill" style="width:50%"></div></div><span class="t-xs c-n3">50%</span></div>
+          <div class="t-xs c-n3">القسط القادم: 30 د.ك · بعد 14 يوم</div>
+        </div>
+      </div>
+
+      <!-- تم الدفع -->
+      <div id="mine-paid" class="f fc g10" style="display:none;">
+        <div class="card">
+          <div class="f ia jb mb8"><div class="lr-title">نادية علي حسن</div><span class="chip chip-gray">مسدد</span></div>
+          <div class="t-xs c-n3">احتياجات · 100 د.ك · مسدد بالكامل ✓</div>
+        </div>
+        <div class="card">
+          <div class="f ia jb mb8"><div class="lr-title">أحمد فهد الكندري</div><span class="chip chip-gray">مسدد</span></div>
+          <div class="t-xs c-n3">قرض حسن · 80 د.ك · مسدد بالكامل ✓</div>
+        </div>
+      </div>
+
+      <!-- متعذر -->
+      <div id="mine-late" class="f fc g10" style="display:none;">
+        <div class="card" style="border:1.5px solid var(--ro-l);">
+          <div class="f ia jb mb8"><div class="lr-title">عمر محمد يوسف</div><span class="chip chip-red">متعذر</span></div>
+          <div class="t-xs c-n3 mb10">قرض حسن · دين · 90 د.ك</div>
+          <div class="f ia g8 mb4"><div class="prog-track f1"><div class="prog-fill prog-fill-red" style="width:33%"></div></div><span class="t-xs c-n3">33%</span></div>
+          <div class="t-xs c-red mb10">⚠ متأخر 7 أيام — تم إرسال تذكير</div>
+          <button class="btn btn-sm" style="background:var(--ro-l);color:var(--ro);width:100%;" onclick="showToast('تم إرسال تذكير للمستفيد')">إرسال تذكير</button>
+        </div>
+      </div>
+
+      <!-- مكتمل -->
+      <div id="mine-done" class="f fc g10" style="display:none;">
+        <div class="card" style="background:var(--bg);">
+          <div class="f ia jb mb6"><div class="lr-title c-n2">سلطان ناصر العنزي</div><span class="chip chip-gray">مكتمل</span></div>
+          <div class="t-xs c-n3">قرض حسن · 200 د.ك · 5 أقساط · مارس 2025</div>
+        </div>
+        <div class="card" style="background:var(--bg);">
+          <div class="f ia jb mb6"><div class="lr-title c-n2">ريم عبدالله الشمري</div><span class="chip chip-gray">مكتمل</span></div>
+          <div class="t-xs c-n3">احتياجات · 150 د.ك · 4 أقساط · يناير 2025</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tab: Profile -->
+    <div class="scroll-body" id="donor-profile" style="display:none;">
+      <!-- Avatar hero -->
+      <div style="background:var(--g);padding:28px 20px 36px;display:flex;flex-direction:column;align-items:center;text-align:center;">
+        <div style="width:72px;height:72px;border-radius:50%;background:rgba(255,255,255,.18);border:2.5px solid rgba(255,255,255,.45);display:flex;align-items:center;justify-content:center;font-size:26px;font-weight:700;color:#fff;margin-bottom:12px;position:relative;">
+          خ
+          <div style="position:absolute;bottom:0;right:0;width:22px;height:22px;border-radius:50%;background:var(--wh);display:flex;align-items:center;justify-content:center;cursor:pointer;" onclick="showToast('تغيير الصورة')">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--g)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+          </div>
+        </div>
+        <div style="font-size:19px;font-weight:700;color:#fff;margin-bottom:3px;">خالد العتيبي</div>
+        <div style="font-size:11px;color:rgba(255,255,255,.55);">ممول · منذ يناير 2025</div>
+        <div style="display:inline-flex;align-items:center;gap:5px;margin-top:10px;padding:5px 14px;border-radius:99px;background:rgba(255,255,255,.15);font-size:11px;font-weight:700;color:#fff;">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          ممول موثق
+        </div>
+      </div>
+      <div style="background:var(--wh);border-radius:22px 22px 0 0;margin-top:-16px;">
+        <div class="pf-row" onclick="openSheet('sheet-personal')">
+          <div class="pf-ico" style="background:var(--g-l);"><svg width="18" height="18" style="color:var(--g)"><use href="#ic-user"/></svg></div>
+          <div class="pf-body"><div class="pf-title">البيانات الشخصية</div><div class="pf-sub">الاسم · البريد · رقم التلفون · الهوية</div></div>
+          <div class="pf-right">›</div>
+        </div>
+        <div class="pf-row" onclick="openSheet('sheet-notifs')">
+          <div class="pf-ico" style="background:#F0EBFF;"><svg width="18" height="18" style="color:#7B4FDB"><use href="#ic-bell"/></svg></div>
+          <div class="pf-body"><div class="pf-title">الإشعارات</div><div class="pf-sub">إدارة الإشعارات والتنبيهات</div></div>
+          <div class="pf-right">›</div>
+        </div>
+        <div class="pf-row" onclick="openSheet('sheet-security')">
+          <div class="pf-ico" style="background:var(--bg2);"><svg width="18" height="18" style="color:var(--n2)"><use href="#ic-lock"/></svg></div>
+          <div class="pf-body"><div class="pf-title">الخصوصية والأمان</div><div class="pf-sub">كلمة السر · البصمة</div></div>
+          <div class="pf-right">›</div>
+        </div>
+        <div class="pf-row" onclick="openSheet('sheet-chat')">
+          <div class="pf-ico" style="background:#E8F0FE;"><svg width="18" height="18" style="color:#1565C0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
+          <div class="pf-body"><div class="pf-title">تواصل معنا</div><div class="pf-sub">دردشة مباشرة مع فريق سند</div></div>
+          <div class="pf-right">›</div>
+        </div>
+        <div class="pf-row" onclick="openSheet('sheet-lang')">
+          <div class="pf-ico" style="background:var(--bg2);"><svg width="18" height="18" style="color:var(--n2)" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></div>
+          <div class="pf-body"><div class="pf-title">اللغة</div><div class="pf-sub">العربية</div></div>
+          <div class="pf-right">›</div>
+        </div>
+        <div class="pf-row" onclick="go('sc-home')" style="margin-top:8px;border-top:8px solid var(--bg);">
+          <div class="pf-ico" style="background:var(--ro-l);"><svg width="18" height="18" style="color:var(--ro)"><use href="#ic-logout"/></svg></div>
+          <div class="pf-body"><div class="pf-title" style="color:var(--ro);">تسجيل الخروج</div></div>
+        </div>
+        <div style="text-align:center;font-size:10px;color:var(--n4);padding:16px 0 20px;">سند · الإصدار 1.0.0</div>
+      </div>
+    </div>
+
+    <!-- Tab: Stats -->
+    <div class="scroll-body" id="donor-stats" style="padding:14px 16px;display:none;">
+
+      <!-- Filters -->
+      <div style="display:flex;gap:8px;margin-bottom:14px;overflow-x:auto;padding-bottom:4px;" class="hide-scroll">
+        <!-- Month filter -->
+        <select style="padding:8px 12px;border-radius:99px;border:1.5px solid var(--bd);background:var(--wh);font-family:inherit;font-size:12px;font-weight:600;color:var(--n1);cursor:pointer;flex-shrink:0;" onchange="showToast('تم تطبيق الفلتر')">
+          <option>كل الأشهر</option>
+          <option>يناير 2025</option>
+          <option>فبراير 2025</option>
+          <option>مارس 2025</option>
+          <option>أبريل 2025</option>
+          <option>مايو 2025</option>
+        </select>
+        <!-- Type filter -->
+        <select style="padding:8px 12px;border-radius:99px;border:1.5px solid var(--bd);background:var(--wh);font-family:inherit;font-size:12px;font-weight:600;color:var(--n1);cursor:pointer;flex-shrink:0;" onchange="showToast('تم تطبيق الفلتر')">
+          <option>كل الأنواع</option>
+          <option>قرض حسن</option>
+          <option>احتياجات</option>
+          <option>قيد التمويل</option>
+          <option>متعذر</option>
+          <option>مكتمل</option>
+        </select>
+      </div>
+
+      <!-- Stat cards -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;">
+        <div class="card" style="background:var(--n1);"><div style="font-size:26px;font-weight:700;color:var(--wh);letter-spacing:-1px;">1,850</div><div class="t-xs mt4" style="color:rgba(255,255,255,.45);">د.ك موّلت</div></div>
+        <div class="card" style="background:var(--g-l);"><div style="font-size:26px;font-weight:700;color:var(--g);letter-spacing:-1px;">12</div><div class="t-xs mt4 c-green">حالة ممولة</div></div>
+        <div class="card"><div style="font-size:26px;font-weight:700;color:var(--n1);letter-spacing:-1px;">91%</div><div class="t-xs mt4 c-n3">الالتزام</div></div>
+        <div class="card"><div style="font-size:26px;font-weight:700;color:var(--n1);letter-spacing:-1px;">4.6</div><div class="t-xs mt4 c-n3">تقييم ⭐</div></div>
+      </div>
+
+      <!-- توزيع حسب النوع -->
+      <div class="card mb10">
+        <div class="t-sm w700 c-n1 mb14">توزيع التمويل حسب النوع</div>
+        <div class="mb12">
+          <div class="f ia jb t-xs c-n3 mb6"><span>القرض الحسن المالي</span><span class="w700 c-n1">58% · 7 حالات</span></div>
+          <div class="prog-track"><div class="prog-fill" style="width:58%;background:var(--n1);"></div></div>
+        </div>
+        <div class="mb12">
+          <div class="f ia jb t-xs c-n3 mb6"><span>الاحتياجات المباشرة</span><span class="w700 c-green">42% · 5 حالات</span></div>
+          <div class="prog-track"><div class="prog-fill" style="width:42%;"></div></div>
+        </div>
+      </div>
+
+      <!-- توزيع حسب الحالة -->
+      <div class="card">
+        <div class="t-sm w700 c-n1 mb14">توزيع حسب حالة السداد</div>
+        <div class="mb10">
+          <div class="f ia jb t-xs c-n3 mb6"><span>قيد التمويل</span><span class="w700 c-green">2 حالات</span></div>
+          <div class="prog-track"><div class="prog-fill" style="width:17%;"></div></div>
+        </div>
+        <div class="mb10">
+          <div class="f ia jb t-xs c-n3 mb6"><span>تم الدفع</span><span class="w700 c-n1">2 حالات</span></div>
+          <div class="prog-track"><div class="prog-fill" style="width:17%;background:var(--n1);"></div></div>
+        </div>
+        <div class="mb10">
+          <div class="f ia jb t-xs c-n3 mb6"><span>متعذر</span><span class="w700" style="color:var(--ro);">1 حالة</span></div>
+          <div class="prog-track"><div class="prog-fill prog-fill-red" style="width:8%;"></div></div>
+        </div>
+        <div>
+          <div class="f ia jb t-xs c-n3 mb6"><span>مكتمل</span><span class="w700 c-n1">7 حالات</span></div>
+          <div class="prog-track"><div class="prog-fill" style="width:58%;background:var(--bg2);"></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <nav class="bottom-nav">
+    <button class="bn-item on" id="dni-home" onclick="donorTab('home')">
+      <div class="bn-line"></div>
+      <svg width="22" height="22"><use href="#ic-home"/></svg>
+      <span class="bn-label">الرئيسية</span>
+    </button>
+    <button class="bn-item" id="dni-mine" onclick="donorTab('mine')">
+      <div class="bn-line"></div>
+      <svg width="22" height="22"><use href="#ic-users"/></svg>
+      <span class="bn-label">حالاتي</span>
+    </button>
+    <button class="bn-item" id="dni-stats" onclick="donorTab('stats')">
+      <div class="bn-line"></div>
+      <svg width="22" height="22"><use href="#ic-chart"/></svg>
+      <span class="bn-label">تقارير</span>
+    </button>
+    <button class="bn-item" id="dni-profile" onclick="donorTab('profile')">
+      <div class="bn-line"></div>
+      <svg width="22" height="22"><use href="#ic-user"/></svg>
+      <span class="bn-label">حسابي</span>
+    </button>
+  </nav>
+</div>
+
+<!-- ══════════════════════════
+   PROFILE SUB-SHEETS
+══════════════════════════ -->
+
+<!-- Sheet: البيانات الشخصية -->
+<div class="profile-sheet-ov" id="sheet-personal" onclick="if(event.target===this)closeSheet('sheet-personal')">
+  <div class="profile-sheet">
+    <div class="ps-handle"></div>
+    <div class="ps-hdr">
+      <div class="ps-title">البيانات الشخصية</div>
+      <button class="ps-close" onclick="closeSheet('sheet-personal')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+    </div>
+    <div style="padding:16px 20px 24px;">
+      <span class="pf-label">الاسم المختصر للعرض</span>
+      <input class="edit-field" type="text" value="محمد" placeholder="الاسم الظاهر للآخرين">
+      <span class="pf-label">الاسم الكامل</span>
+      <input class="edit-field" type="text" value="محمد إبراهيم حسن" placeholder="الاسم الكامل">
+      <span class="pf-label">البريد الإلكتروني</span>
+      <input class="edit-field" type="email" value="mohammed@email.com" placeholder="البريد الإلكتروني" dir="ltr">
+      <span class="pf-label">رقم التلفون</span>
+      <input class="edit-field" type="tel" value="+965 9XXX XXXX" placeholder="+965 XXXX XXXX" dir="ltr">
+      <span class="pf-label">رقم الهوية / البطاقة المدنية</span>
+      <input class="edit-field" type="text" value="2XXXXXXXXX" placeholder="رقم البطاقة المدنية" dir="ltr">
+      <button style="width:100%;padding:14px;border-radius:var(--r);border:none;background:var(--g);color:#fff;font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;margin-top:20px;" onclick="showToast('تم حفظ البيانات ✓');closeSheet('sheet-personal')">حفظ التغييرات</button>
+    </div>
+  </div>
+</div>
+
+<!-- Sheet: المستندات -->
+<div class="profile-sheet-ov" id="sheet-docs" onclick="if(event.target===this)closeSheet('sheet-docs')">
+  <div class="profile-sheet">
+    <div class="ps-handle"></div>
+    <div class="ps-hdr">
+      <div class="ps-title">المستندات المرفوعة</div>
+      <button class="ps-close" onclick="closeSheet('sheet-docs')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+    </div>
+    <div style="padding:0 0 24px;">
+      <div class="pf-row">
+        <div class="pf-ico" style="background:var(--g-l);"><svg width="18" height="18" style="color:var(--g)"><use href="#ic-doc"/></svg></div>
+        <div class="pf-body"><div class="pf-title">صورة الهوية</div><div class="pf-sub">مرفوعة · مقبولة ✓</div></div>
+        <span class="chip chip-green" style="font-size:10px;">✓</span>
+      </div>
+      <div class="pf-row">
+        <div class="pf-ico" style="background:var(--g-l);"><svg width="18" height="18" style="color:var(--g)"><use href="#ic-doc"/></svg></div>
+        <div class="pf-body"><div class="pf-title">فاتورة الإيجار</div><div class="pf-sub">مرفوعة · مقبولة ✓</div></div>
+        <span class="chip chip-green" style="font-size:10px;">✓</span>
+      </div>
+      <div class="pf-row">
+        <div class="pf-ico" style="background:var(--go-l);"><svg width="18" height="18" style="color:var(--go)"><use href="#ic-doc"/></svg></div>
+        <div class="pf-body"><div class="pf-title">مستند داعم</div><div class="pf-sub">بانتظار المراجعة</div></div>
+        <span class="chip chip-gold" style="font-size:10px;">مراجعة</span>
+      </div>
+      <div style="padding:14px 20px;">
+        <button style="width:100%;padding:13px;border-radius:var(--r);border:1.5px dashed var(--bd);background:var(--bg);font-family:inherit;font-size:13px;font-weight:600;color:var(--g);cursor:pointer;" onclick="showToast('رفع مستند جديد')">+ رفع مستند جديد</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Sheet: الإشعارات -->
+<div class="profile-sheet-ov" id="sheet-notifs" onclick="if(event.target===this)closeSheet('sheet-notifs')">
+  <div class="profile-sheet">
+    <div class="ps-handle"></div>
+    <div class="ps-hdr">
+      <div class="ps-title">الإشعارات</div>
+      <button class="ps-close" onclick="closeSheet('sheet-notifs')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+    </div>
+    <div style="padding-bottom:24px;">
+      <div class="toggle-row">
+        <div><div class="pf-title">إشعارات الأقساط</div><div class="pf-sub" style="margin-top:2px;">تذكير قبل موعد القسط بيومين</div></div>
+        <button class="toggle on" onclick="this.classList.toggle('on')"></button>
+      </div>
+      <div class="toggle-row">
+        <div><div class="pf-title">إشعارات الطلبات</div><div class="pf-sub" style="margin-top:2px;">قبول أو رفض طلباتك</div></div>
+        <button class="toggle on" onclick="this.classList.toggle('on')"></button>
+      </div>
+      <div class="toggle-row">
+        <div><div class="pf-title">إشعارات التحويلات</div><div class="pf-sub" style="margin-top:2px;">عند اكتمال أي تحويل</div></div>
+        <button class="toggle on" onclick="this.classList.toggle('on')"></button>
+      </div>
+      <div class="toggle-row">
+        <div><div class="pf-title">إشعارات عامة</div><div class="pf-sub" style="margin-top:2px;">أخبار وتحديثات المنصة</div></div>
+        <button class="toggle" onclick="this.classList.toggle('on')"></button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Sheet: الخصوصية والأمان -->
+<div class="profile-sheet-ov" id="sheet-security" onclick="if(event.target===this)closeSheet('sheet-security')">
+  <div class="profile-sheet">
+    <div class="ps-handle"></div>
+    <div class="ps-hdr">
+      <div class="ps-title">الخصوصية والأمان</div>
+      <button class="ps-close" onclick="closeSheet('sheet-security')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+    </div>
+    <div style="padding-bottom:24px;">
+      <!-- Change password -->
+      <div style="padding:16px 20px;border-bottom:1px solid var(--bd);">
+        <div class="pf-title" style="margin-bottom:14px;">تغيير كلمة السر</div>
+        <span class="pf-label" style="margin-top:0;">كلمة السر الحالية</span>
+        <input class="edit-field" type="password" placeholder="••••••••" dir="ltr">
+        <span class="pf-label">كلمة السر الجديدة</span>
+        <input class="edit-field" type="password" placeholder="••••••••" dir="ltr">
+        <span class="pf-label">تأكيد كلمة السر</span>
+        <input class="edit-field" type="password" placeholder="••••••••" dir="ltr">
+        <button style="width:100%;padding:13px;border-radius:var(--r);border:none;background:var(--n1);color:#fff;font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;margin-top:14px;" onclick="showToast('تم تغيير كلمة السر ✓');closeSheet('sheet-security')">تغيير كلمة السر</button>
+      </div>
+      <!-- Biometrics -->
+      <div class="toggle-row">
+        <div>
+          <div class="pf-title">الدخول بالبصمة</div>
+          <div class="pf-sub" style="margin-top:2px;">استخدام بصمة الإصبع أو Face ID</div>
+        </div>
+        <button class="toggle on" onclick="this.classList.toggle('on')"></button>
+      </div>
+      <div class="toggle-row">
+        <div>
+          <div class="pf-title">رمز الدخول السريع</div>
+          <div class="pf-sub" style="margin-top:2px;">PIN مكون من 6 أرقام</div>
+        </div>
+        <button class="toggle" onclick="this.classList.toggle('on')"></button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Sheet: تواصل معنا -->
+<div class="profile-sheet-ov" id="sheet-chat" onclick="if(event.target===this)closeSheet('sheet-chat')">
+  <div class="profile-sheet">
+    <div class="ps-handle"></div>
+    <div class="ps-hdr">
+      <div class="ps-title">تواصل مع فريق سند</div>
+      <button class="ps-close" onclick="closeSheet('sheet-chat')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+    </div>
+    <div style="padding:0 0 24px;">
+      <!-- Chat messages -->
+      <div style="padding:16px 20px;background:var(--bg);min-height:200px;max-height:300px;overflow-y:auto;">
+        <div style="display:flex;gap:10px;margin-bottom:14px;">
+          <div style="width:30px;height:30px;border-radius:50%;background:var(--g);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;flex-shrink:0;">س</div>
+          <div style="background:var(--wh);border-radius:12px 12px 12px 0;padding:10px 12px;max-width:75%;box-shadow:var(--sh1);">
+            <div style="font-size:12px;color:var(--n1);line-height:1.5;">أهلاً بك في سند! كيف يمكننا مساعدتك؟</div>
+            <div style="font-size:10px;color:var(--n4);margin-top:4px;">فريق سند · اليوم</div>
+          </div>
+        </div>
+      </div>
+      <!-- Input -->
+      <div style="padding:12px 20px;display:flex;gap:10px;align-items:center;border-top:1px solid var(--bd);">
+        <input class="edit-field" style="margin-top:0;flex:1;" type="text" placeholder="اكتب رسالتك...">
+        <button style="width:40px;height:40px;border-radius:50%;border:none;background:var(--g);display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;" onclick="showToast('تم إرسال رسالتك ✓')">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Sheet: اللغة -->
+<div class="profile-sheet-ov" id="sheet-lang" onclick="if(event.target===this)closeSheet('sheet-lang')">
+  <div class="profile-sheet">
+    <div class="ps-handle"></div>
+    <div class="ps-hdr">
+      <div class="ps-title">اللغة</div>
+      <button class="ps-close" onclick="closeSheet('sheet-lang')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+    </div>
+    <div style="padding-bottom:24px;">
+      <div class="lang-option" onclick="selectLang(this,'ar')">
+        <div class="lang-radio on" id="lang-ar"></div>
+        <div><div class="pf-title">العربية</div><div class="pf-sub">Arabic</div></div>
+      </div>
+      <div class="lang-option" onclick="selectLang(this,'en')">
+        <div class="lang-radio" id="lang-en"></div>
+        <div><div class="pf-title">English</div><div class="pf-sub">الإنجليزية</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Donor case sheet -->
+<div class="sheet-overlay" id="donor-sheet" onclick="closeDonorSheet()">
+  <div class="sheet" id="donor-sheet-inner" onclick="event.stopPropagation()">
+    <div class="sheet-handle"></div>
+    <div class="sheet-title" id="ds-title">—</div>
+    <div style="background:var(--bg);border-radius:var(--r);padding:14px 16px;margin-bottom:16px;">
+      <div class="f ia jb t-sm mb8"><span class="c-n3">النوع</span><span class="w700 c-n1" id="ds-type">—</span></div>
+      <div class="f ia jb t-sm mb8"><span class="c-n3">المبلغ</span><span class="w700 c-green" id="ds-amt">—</span></div>
+      <div class="f ia jb t-sm"><span class="c-n3">الأقساط</span><span class="w700 c-n1" id="ds-inst">—</span></div>
+    </div>
+    <div class="t-xs c-n3 mb16" style="line-height:1.7;background:var(--bg);padding:12px;border-radius:var(--r);">"يحتاج المستفيد إلى دعم عاجل بعد ظروف طارئة طالت أسرته. تم التحقق من الحالة ومراجعتها من فريق سند."</div>
+    <div style="background:var(--g-l);border-radius:var(--r);padding:10px 12px;margin-bottom:16px;font-size:12px;color:var(--g);">
+      التحويل يتم مباشرة من الممول للمستفيد عبر تحويل بنكي. المنصة لا تحتفظ بأموال.
+    </div>
+    <button class="btn btn-green" onclick="showToast('✓ تم تسجيل موافقتك — سيتواصل الفريق خلال 24 ساعة');closeDonorSheet()">أوافق على التمويل</button>
+    <button class="btn btn-gray mt10" onclick="closeDonorSheet()">إغلاق</button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════
+     SCREEN 8: ADMIN — Requests First + Collapsibles
+═══════════════════════════ -->
+<div class="screen" id="sc-admin">
+  <div style="background:var(--wh);border-bottom:1px solid var(--bd);flex-shrink:0;padding:env(safe-area-inset-top,44px) 20px 14px;display:flex;align-items:center;justify-content:space-between;">
+    <div>
+      <div class="t-xs c-n3">لوحة الإدارة</div>
+      <div class="t-md w700 c-n1 mt4">مرحباً، مشرف</div>
+    </div>
+    <div class="f ia g8">
+      <span class="chip" style="background:var(--go-l);color:var(--go);">مدير</span>
+      <button class="tb-icon-btn tib-dark" onclick="showToast('٥ إشعارات')">
+        <svg width="20" height="20" style="color:var(--n2)"><use href="#ic-bell"/></svg>
+        <div class="notif-badge"></div>
+      </button>
+    </div>
+  </div>
+
+  <div class="scroll-body" style="padding:14px 16px;">
+
+    <!-- Alert bar -->
+    <div style="background:var(--ro-l);border-radius:var(--r);padding:12px 16px;display:flex;align-items:center;gap:10px;margin-bottom:14px;">
+      <svg width="18" height="18" style="color:var(--ro);flex-shrink:0;"><use href="#ic-alert"/></svg>
+      <span style="font-size:13px;font-weight:600;color:var(--ro);">8 طلبات تنتظر مراجعتك الآن</span>
+    </div>
+
+    <!-- Quick stats -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;">
+      <div onclick="toggleColl('coll-review')" style="background:var(--ro-l);border-radius:var(--r);padding:14px;cursor:pointer;">
+        <div style="font-size:26px;font-weight:700;color:var(--ro);">8</div>
+        <div class="t-xs c-n3 mt4">بانتظار المراجعة</div>
+      </div>
+      <div style="background:var(--g-l);border-radius:var(--r);padding:14px;">
+        <div style="font-size:26px;font-weight:700;color:var(--g);">8,200</div>
+        <div class="t-xs c-n3 mt4">د.ك حجم التمويل</div>
+      </div>
+      <div onclick="toggleColl('coll-late')" style="background:var(--go-l);border-radius:var(--r);padding:14px;cursor:pointer;">
+        <div style="font-size:26px;font-weight:700;color:var(--go);">4</div>
+        <div class="t-xs c-n3 mt4">حالات تأخر</div>
+      </div>
+      <div style="background:var(--bg2);border-radius:var(--r);padding:14px;">
+        <div style="font-size:26px;font-weight:700;color:var(--n1);">91%</div>
+        <div class="t-xs c-n3 mt4">نسبة الالتزام</div>
+      </div>
+    </div>
+
+    <!-- COLL 1: مراجعة الطلبات — OPEN by default -->
+    <div class="coll" id="coll-review">
+      <button class="coll-hd" onclick="toggleColl('coll-review')">
+        <div class="coll-hd-title">
+          <span style="width:20px;height:20px;background:var(--ro);border-radius:5px;display:flex;align-items:center;justify-content:center;"><svg width="12" height="12" style="color:white"><use href="#ic-doc"/></svg></span>
+          مراجعة الطلبات
+        </div>
+        <div class="coll-hd-right">
+          <span class="coll-badge cb-red">8</span>
+          <svg width="18" height="18" class="coll-arrow open" style="color:var(--n3)"><use href="#ic-chevron-down"/></svg>
+        </div>
+      </button>
+      <div class="coll-body open" style="padding:12px 16px;">
+        <div class="f fc g10">
+          <!-- Request 1 -->
+          <div style="background:var(--bg);border-radius:var(--r);padding:14px;">
+            <div class="f ia jb mb8">
+              <div class="f ia g8"><div class="avatar av-sm" style="background:#EBEBED;color:var(--n3);">ف</div><div><div class="t-sm w700 c-n1">فاطمة أحمد محمود</div><div class="t-xs c-n3 mt4">احتياجات · اليوم · 200 د.ك</div></div></div>
+              <span class="chip chip-red" style="font-size:10px;">جديد</span>
+            </div>
+            <div class="f g8">
+              <button class="btn btn-green btn-xs f1" onclick="showToast('✓ تم القبول وإرساله للممولين')"><svg width="12" height="12"><use href="#ic-check"/></svg> قبول</button>
+              <button class="btn btn-red-sm btn-xs" onclick="showToast('تم الرفض وإشعار المستفيد')"><svg width="12" height="12"><use href="#ic-x"/></svg> رفض</button>
+              <button class="btn btn-gray btn-xs" onclick="showToast('طُلبت مستندات إضافية')">مستندات</button>
+            </div>
+          </div>
+          <!-- Request 2 -->
+          <div style="background:var(--bg);border-radius:var(--r);padding:14px;">
+            <div class="f ia jb mb8">
+              <div class="f ia g8"><div class="avatar av-sm" style="background:#EBEBED;color:var(--n3);">ك</div><div><div class="t-sm w700 c-n1">كريم محمد علي</div><div class="t-xs c-n3 mt4">قرض حسن · أمس · 250 د.ك</div></div></div>
+              <span class="chip chip-gold" style="font-size:10px;">مراجعة</span>
+            </div>
+            <div class="f g8">
+              <button class="btn btn-green btn-xs f1" onclick="showToast('✓ تم القبول')"><svg width="12" height="12"><use href="#ic-check"/></svg> قبول</button>
+              <button class="btn btn-red-sm btn-xs" onclick="showToast('تم الرفض')"><svg width="12" height="12"><use href="#ic-x"/></svg> رفض</button>
+              <button class="btn btn-gray btn-xs" onclick="showToast('طُلبت مستندات')">مستندات</button>
+            </div>
+          </div>
+          <!-- Request 3 -->
+          <div style="background:var(--bg);border-radius:var(--r);padding:14px;">
+            <div class="f ia jb mb8">
+              <div class="f ia g8"><div class="avatar av-sm" style="background:#EBEBED;color:var(--n3);">س</div><div><div class="t-sm w700 c-n1">سارة علي حسين</div><div class="t-xs c-n3 mt4">قرض حسن · أمس · 180 د.ك</div></div></div>
+              <span class="chip chip-red" style="font-size:10px;">جديد</span>
+            </div>
+            <div class="f g8">
+              <button class="btn btn-green btn-xs f1" onclick="showToast('✓ تم القبول')"><svg width="12" height="12"><use href="#ic-check"/></svg> قبول</button>
+              <button class="btn btn-red-sm btn-xs" onclick="showToast('تم الرفض')"><svg width="12" height="12"><use href="#ic-x"/></svg> رفض</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- COLL 2: حالات التأخر -->
+    <div class="coll" id="coll-late">
+      <button class="coll-hd" onclick="toggleColl('coll-late')">
+        <div class="coll-hd-title">
+          <span style="width:20px;height:20px;background:var(--go);border-radius:5px;display:flex;align-items:center;justify-content:center;"><svg width="12" height="12" style="color:white"><use href="#ic-alert"/></svg></span>
+          حالات التأخر في السداد
+        </div>
+        <div class="coll-hd-right">
+          <span class="coll-badge cb-gold">4</span>
+          <svg width="18" height="18" class="coll-arrow" style="color:var(--n3)"><use href="#ic-chevron-down"/></svg>
+        </div>
+      </button>
+      <div class="coll-body" style="padding:12px 16px;">
+        <div class="f fc g8">
+          <div class="f ia jb" style="padding:10px 0;border-bottom:1px solid var(--bd);">
+            <div class="f ia g8"><div class="avatar av-sm av-dark">ع</div><div><div class="t-sm w700 c-n1">عمر محمد يوسف</div><div class="t-xs c-n3 mt4">خالد العتيبي · 30 د.ك</div></div></div>
+            <div class="f ia g8"><span class="t-xs" style="color:var(--ro);font-weight:700;">7 أيام</span><button class="btn btn-green btn-xs" onclick="showToast('✓ تم إرسال تنبيه')">تنبيه</button></div>
+          </div>
+          <div class="f ia jb" style="padding:10px 0;">
+            <div class="f ia g8"><div class="avatar av-sm av-gray">ح</div><div><div class="t-sm w700 c-n1">حسن إبراهيم</div><div class="t-xs c-n3 mt4">سعود الشمري · 40 د.ك</div></div></div>
+            <div class="f ia g8"><span class="t-xs" style="color:var(--go);font-weight:700;">3 أيام</span><button class="btn btn-green btn-xs" onclick="showToast('✓ تم إرسال تنبيه')">تنبيه</button></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- COLL 3: الأقساط القادمة -->
+    <div class="coll" id="coll-upcoming">
+      <button class="coll-hd" onclick="toggleColl('coll-upcoming')">
+        <div class="coll-hd-title">
+          <span style="width:20px;height:20px;background:var(--g);border-radius:5px;display:flex;align-items:center;justify-content:center;"><svg width="12" height="12" style="color:white"><use href="#ic-cal"/></svg></span>
+          الأقساط القادمة هذا الأسبوع
+        </div>
+        <div class="coll-hd-right">
+          <svg width="18" height="18" class="coll-arrow" style="color:var(--n3)"><use href="#ic-chevron-down"/></svg>
+        </div>
+      </button>
+      <div class="coll-body" style="padding:0;">
+        <div class="list-row"><div class="lr-body"><div class="lr-title">محمد إبراهيم</div><div class="lr-sub">قرض حسن · 1 يونيو</div></div><div class="lr-right"><div class="lr-val c-green">50 د.ك</div><span class="chip chip-gold" style="font-size:10px;">قادم</span></div></div>
+        <div class="list-row"><div class="lr-body"><div class="lr-title">ريم سامي</div><div class="lr-sub">احتياجات · 3 يونيو</div></div><div class="lr-right"><div class="lr-val c-green">40 د.ك</div><span class="chip chip-gold" style="font-size:10px;">قادم</span></div></div>
+      </div>
+    </div>
+
+    <!-- COLL 4: إحصائيات -->
+    <div class="coll" id="coll-stats">
+      <button class="coll-hd" onclick="toggleColl('coll-stats')">
+        <div class="coll-hd-title">
+          <span style="width:20px;height:20px;background:var(--n1);border-radius:5px;display:flex;align-items:center;justify-content:center;"><svg width="12" height="12" style="color:white"><use href="#ic-chart"/></svg></span>
+          إحصائيات المنصة
+        </div>
+        <div class="coll-hd-right">
+          <svg width="18" height="18" class="coll-arrow" style="color:var(--n3)"><use href="#ic-chevron-down"/></svg>
+        </div>
+      </button>
+      <div class="coll-body" style="padding:14px 16px;">
+        <div class="f fc g10">
+          <div class="f ia jb t-sm c-n3 mb4"><span>نسبة الموافقة</span><span class="w700 c-n1">78%</span></div>
+          <div class="prog-track mb8"><div class="prog-fill" style="width:78%;background:var(--n1);"></div></div>
+          <div class="f ia jb t-sm c-n3 mb4"><span>الالتزام بالسداد</span><span class="w700 c-green">91%</span></div>
+          <div class="prog-track mb8"><div class="prog-fill" style="width:91%;"></div></div>
+          <div class="f ia jb t-sm c-n3 mb4"><span>رضا الممولين</span><span class="w700 c-n1">4.7 ⭐</span></div>
+          <div class="prog-track"><div class="prog-fill" style="width:94%;background:var(--go);"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- COLL 5: الممولون -->
+    <div class="coll" id="coll-donors">
+      <button class="coll-hd" onclick="toggleColl('coll-donors')">
+        <div class="coll-hd-title">
+          <span style="width:20px;height:20px;background:var(--n1);border-radius:5px;display:flex;align-items:center;justify-content:center;"><svg width="12" height="12" style="color:white"><use href="#ic-users"/></svg></span>
+          الممولون النشطون
+        </div>
+        <div class="coll-hd-right">
+          <svg width="18" height="18" class="coll-arrow" style="color:var(--n3)"><use href="#ic-chevron-down"/></svg>
+        </div>
+      </button>
+      <div class="coll-body" style="padding:0;">
+        <div class="list-row"><div class="avatar av-sm av-green" style="flex-shrink:0;">خ</div><div class="lr-body"><div class="lr-title">خالد العتيبي</div><div class="lr-sub">12 حالة · 1,850 د.ك · 4.6⭐</div></div><span class="chip chip-green" style="font-size:10px;">موثق</span></div>
+        <div class="list-row"><div class="avatar av-sm av-dark" style="flex-shrink:0;">س</div><div class="lr-body"><div class="lr-title">سعود الشمري</div><div class="lr-sub">7 حالات · 950 د.ك · 4.8⭐</div></div><span class="chip chip-green" style="font-size:10px;">موثق</span></div>
+        <div class="list-row"><div class="avatar av-sm av-gray" style="flex-shrink:0;">ر</div><div class="lr-body"><div class="lr-title">رنا الكندري</div><div class="lr-sub">3 حالات · 400 د.ك · 5⭐</div></div><span class="chip chip-green" style="font-size:10px;">موثق</span></div>
+      </div>
+    </div>
+
+    <!-- COLL 6: سجل النشاط -->
+    <div class="coll" id="coll-logs" style="margin-bottom:20px;">
+      <button class="coll-hd" onclick="toggleColl('coll-logs')">
+        <div class="coll-hd-title">
+          <span style="width:20px;height:20px;background:var(--n3);border-radius:5px;display:flex;align-items:center;justify-content:center;"><svg width="12" height="12" style="color:white"><use href="#ic-activity"/></svg></span>
+          سجل النشاط
+        </div>
+        <div class="coll-hd-right">
+          <svg width="18" height="18" class="coll-arrow" style="color:var(--n3)"><use href="#ic-chevron-down"/></svg>
+        </div>
+      </button>
+      <div class="coll-body" style="padding:0;">
+        <div class="list-row"><div class="lr-body"><div class="lr-title">قُبل طلب فاطمة محمود</div><div class="lr-sub">اليوم 11:20 ص · 200 د.ك</div></div></div>
+        <div class="list-row"><div class="lr-body"><div class="lr-title">رُفض طلب — مستندات ناقصة</div><div class="lr-sub">اليوم 10:05 ص</div></div></div>
+        <div class="list-row"><div class="lr-body"><div class="lr-title">تنبيه تأخر — عمر محمد</div><div class="lr-sub">أمس 5:00 م</div></div></div>
+      </div>
+    </div>
+
+    <!-- Logout -->
+    <button class="btn btn-gray mb16" onclick="go('sc-home')"><svg width="16" height="16" style="color:var(--n3)"><use href="#ic-logout"/></svg> تسجيل الخروج</button>
+  </div>
+
+  <nav class="bottom-nav">
+    <button class="bn-item on" id="adni-review" onclick="adminTab('review')">
+      <div class="bn-line"></div>
+      <svg width="22" height="22"><use href="#ic-doc"/></svg>
+      <span class="bn-label">المراجعة</span>
+    </button>
+    <button class="bn-item" id="adni-cases" onclick="adminTab('cases')">
+      <div class="bn-line"></div>
+      <svg width="22" height="22"><use href="#ic-users"/></svg>
+      <span class="bn-label">الحالات</span>
+    </button>
+    <button class="bn-item" id="adni-stats" onclick="adminTab('stats')">
+      <div class="bn-line"></div>
+      <svg width="22" height="22"><use href="#ic-chart"/></svg>
+      <span class="bn-label">إحصائيات</span>
+    </button>
+    <button class="bn-item" id="adni-profile" onclick="adminTab('profile')">
+      <div class="bn-line"></div>
+      <svg width="22" height="22"><use href="#ic-settings"/></svg>
+      <span class="bn-label">الإدارة</span>
+    </button>
+  </nav>
+</div>
+
+<!-- ═══════════════════════════
+     TOAST
+═══════════════════════════ -->
+<div class="toast" id="toast"></div>
+
+<!-- ═══════════════════════════
+     INSTALL BANNER
+═══════════════════════════ -->
+<div class="install-banner" id="install-banner">
+  <div style="width:52px;height:52px;border-radius:14px;background:var(--g);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+    <svg width="26" height="26" viewBox="0 0 72 48" fill="none"><circle cx="16" cy="16" r="13" fill="white"/><circle cx="56" cy="16" r="13" fill="rgba(255,255,255,0.3)"/><path d="M16 29 Q36 44 56 29" stroke="white" stroke-width="3.5" stroke-linecap="round" fill="none"/></svg>
+  </div>
+  <div style="flex:1;">
+    <div style="font-size:15px;font-weight:700;color:var(--n1);">تثبيت سند</div>
+    <div style="font-size:12px;color:var(--n3);margin-top:2px;">أضف التطبيق لشاشتك الرئيسية</div>
+    <div style="display:flex;gap:8px;margin-top:10px;">
+      <button id="install-btn" style="padding:9px 20px;border-radius:99px;border:none;background:var(--g);color:var(--wh);font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;">تثبيت</button>
+      <button onclick="document.getElementById('install-banner').classList.remove('show')" style="padding:9px 16px;border-radius:99px;border:none;background:var(--bg2);color:var(--n3);font-family:inherit;font-size:13px;cursor:pointer;">لاحقاً</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ═══════════════════════════
+   SCREEN NAVIGATION
+═══════════════════════════ */
+let currentScreen = 'sc-home';
+
+function go(id) {
+  const from = document.getElementById(currentScreen);
+  const to = document.getElementById(id);
+  if(!to || id === currentScreen) return;
+
+  from.classList.add('exit');
+  to.classList.add('active');
+  currentScreen = id;
+
+  setTimeout(() => {
+    from.classList.remove('active', 'exit');
+  }, 320);
+
+  // Reset scroll
+  const scroll = to.querySelector('.scroll-body');
+  if(scroll) scroll.scrollTop = 0;
+}
+
+/* ═══════════════════════════
+   BEN TABS
+═══════════════════════════ */
+const BEN_TABS = ['home','inst','new','profile'];
+
+function benTab(tab) {
+  if(currentScreen !== 'sc-ben') go('sc-ben');
+
+  // Show correct tab content
+  ['home','reqs','inst','new','profile'].forEach(t => {
+    const el = document.getElementById('ben-tab-' + t);
+    if(el) el.style.display = t===tab ? 'block' : 'none';
+  });
+
+  // Update nav
+  BEN_TABS.forEach(t => {
+    const btn = document.getElementById('bni-' + t);
+    if(!btn) return;
+    btn.classList.toggle('on', t===tab);
+    const lbl = btn.querySelector('.bn-label');
+    const svgEl = btn.querySelector('svg');
+    if(lbl) lbl.style.color = t===tab ? 'var(--g)' : '';
+    if(svgEl) svgEl.style.color = t===tab ? 'var(--g)' : 'var(--n4)';
+  });
+
+  // Top bar title
+  const titles = {home:'محمد', inst:'الأقساط', new:'طلب جديد', profile:'حسابي'};
+  const left = document.getElementById('ben-topbar-left');
+  if(left) {
+    if(tab === 'home') {
+      left.innerHTML = '<div class="t-xs c-n3">أهلاً،</div><div class="t-md w700 c-n1 mt4">محمد</div>';
+    } else {
+      left.innerHTML = '<div class="t-md w700 c-n1">' + (titles[tab]||'') + '</div>';
+    }
+  }
+}
+
+/* ── Type selector (new request) ── */
+function selectType(t) {
+  const q = document.getElementById('type-q');
+  const d = document.getElementById('type-d');
+  if(!q||!d) return;
+  if(t==='q'){
+    q.style.border='2px solid var(--g)'; q.style.background='var(--g-l)';
+    d.style.border='1.5px solid var(--bd)'; d.style.background='var(--wh)';
+  } else {
+    d.style.border='2px solid var(--go)'; d.style.background='var(--go-l)';
+    q.style.border='1.5px solid var(--bd)'; q.style.background='var(--wh)';
+  }
+}
+
+/* ── Installment selector ── */
+function selectInst(el) {
+  el.parentElement.querySelectorAll('div').forEach(d => {
+    d.style.background='var(--bg)'; d.style.color='var(--n3)'; d.style.fontWeight='600';
+  });
+  el.style.background='var(--n1)'; el.style.color='#fff'; el.style.fontWeight='700';
+}
+
+/* ── Generic sw-tab ── */
+function swTab(btn, container) {
+  container.querySelectorAll('.sw-tab').forEach(b => b.classList.remove('on'));
+  btn.classList.add('on');
+}
+
+/* ═══════════════════════════
+   DONOR TABS
+═══════════════════════════ */
+const DONOR_TABS = ['home','mine','stats','profile'];
+
+function donorTab(tab) {
+  const activeTab = tab === 'home' ? 'avail' : tab;
+
+  ['avail','mine','stats','profile'].forEach(t => {
+    const el = document.getElementById('donor-' + t);
+    if(el) el.style.display = t === activeTab ? 'block' : 'none';
+  });
+
+  // sw-tabs bar (avail/mine only — no stats)
+  ['avail','mine'].forEach(t => {
+    const btn = document.getElementById('donor-tab-' + t);
+    if(btn) btn.classList.toggle('on', t === activeTab);
+  });
+
+  // Hero + tabs bar visibility
+  const tabsBar = document.getElementById('donor-tabs-bar');
+  const greenHero = document.querySelector('#sc-donor > div[style*="background:var(--g)"]');
+  const whiteCard = document.querySelector('#sc-donor > div[style*="border-radius:24px 24px 0 0"]');
+
+  if(activeTab === 'profile') {
+    if(tabsBar) tabsBar.style.display = 'none';
+    if(greenHero) greenHero.style.display = 'none';
+    if(whiteCard) { whiteCard.style.marginTop = '0'; whiteCard.style.borderRadius = '0'; }
+  } else {
+    if(tabsBar) tabsBar.style.display = '';
+    if(greenHero) greenHero.style.display = '';
+    if(whiteCard) { whiteCard.style.marginTop = '-18px'; whiteCard.style.borderRadius = '24px 24px 0 0'; }
+  }
+
+  // Bottom nav
+  ['home','mine','stats','profile'].forEach(t => {
+    const btn = document.getElementById('dni-' + t);
+    if(!btn) return;
+    const isActive = (t === tab) || (t === 'home' && activeTab === 'avail');
+    btn.classList.toggle('on', isActive);
+    const lbl = btn.querySelector('.bn-label');
+    const svgEl = btn.querySelector('svg');
+    if(lbl) lbl.style.color = isActive ? 'var(--g)' : '';
+    if(svgEl) svgEl.style.color = isActive ? 'var(--g)' : 'var(--n4)';
+  });
+}
+
+/* Mine sub-tabs */
+function mineTab(tab, btn) {
+  ['active','paid','late','done'].forEach(t => {
+    const el = document.getElementById('mine-' + t);
+    if(el) el.style.display = t===tab ? 'flex' : 'none';
+  });
+  document.querySelectorAll('#donor-mine .sw-tab').forEach(b => b.classList.remove('on'));
+  if(btn) btn.classList.add('on');
+}
+
+/* ═══════════════════════════
+   COLLAPSIBLES (Admin)
+═══════════════════════════ */
+function toggleColl(id) {
+  const el = document.getElementById(id);
+  if(!el) return;
+  const body = el.querySelector('.coll-body');
+  const arrow = el.querySelector('.coll-arrow');
+  if(!body) return;
+  const isOpen = body.classList.contains('open');
+  body.classList.toggle('open', !isOpen);
+  if(arrow) arrow.classList.toggle('open', !isOpen);
+}
+
+/* ═══════════════════════════
+   DONOR CASE SHEET
+═══════════════════════════ */
+function showDonorSheet(name, type, amt, inst) {
+  document.getElementById('ds-title').textContent = name;
+  document.getElementById('ds-type').textContent = type;
+  document.getElementById('ds-amt').textContent = amt + ' د.ك';
+  document.getElementById('ds-inst').textContent = inst + ' أقساط شهرية';
+  document.getElementById('donor-sheet').classList.add('open');
+  document.getElementById('donor-sheet-inner').classList.add('open');
+}
+function closeDonorSheet() {
+  document.getElementById('donor-sheet').classList.remove('open');
+  document.getElementById('donor-sheet-inner').classList.remove('open');
+}
+
+/* ═══════════════════════════
+   TOAST
+═══════════════════════════ */
+let toastTimer;
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 2800);
+}
+
+/* ═══════════════════════════
+   PWA
+═══════════════════════════ */
+// Manifest
+const manifest = {
+  name:'سند',short_name:'سند',
+  description:'منصة القرض الحسن',
+  start_url:'./',display:'standalone',
+  background_color:'#ffffff',theme_color:'#1A8754',
+  orientation:'portrait',
+  icons:[
+    {src:"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'%3E%3Crect width='192' height='192' rx='40' fill='%231A8754'/%3E%3Ccircle cx='52' cy='60' r='36' fill='white'/%3E%3Ccircle cx='140' cy='60' r='36' fill='white' opacity='.4'/%3E%3Cpath d='M52 96 Q96 140 140 96' stroke='white' stroke-width='10' stroke-linecap='round' fill='none'/%3E%3C/svg%3E",sizes:'192x192',type:'image/svg+xml',purpose:'any maskable'},
+    {src:"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='100' fill='%231A8754'/%3E%3Ccircle cx='140' cy='160' r='96' fill='white'/%3E%3Ccircle cx='372' cy='160' r='96' fill='white' opacity='.4'/%3E%3Cpath d='M140 256 Q256 370 372 256' stroke='white' stroke-width='28' stroke-linecap='round' fill='none'/%3E%3C/svg%3E",sizes:'512x512',type:'image/svg+xml'}
+  ]
+};
+const mBlob = new Blob([JSON.stringify(manifest)],{type:'application/json'});
+const mURL = URL.createObjectURL(mBlob);
+const mLink = document.createElement('link');
+mLink.rel='manifest'; mLink.href=mURL;
+document.head.appendChild(mLink);
+
+// Install prompt
+let deferredPrompt;
+window.addEventListener('beforeinstallprompt', e => {
+  e.preventDefault();
+  deferredPrompt = e;
+  document.getElementById('install-banner').classList.add('show');
+});
+document.getElementById('install-btn').addEventListener('click', async () => {
+  if(!deferredPrompt) return;
+  deferredPrompt.prompt();
+  await deferredPrompt.userChoice;
+  deferredPrompt = null;
+  document.getElementById('install-banner').classList.remove('show');
+});
+window.addEventListener('appinstalled', () => {
+  document.getElementById('install-banner').classList.remove('show');
+});
+
+// iOS
+const isIos = /iphone|ipad|ipod/i.test(navigator.userAgent);
+const isStandalone = window.matchMedia('(display-mode:standalone)').matches;
+if(isIos && !isStandalone){
+  setTimeout(()=>{
+    showToast('لتثبيت سند: شارك ← أضف للشاشة الرئيسية');
+  },4000);
+}
+
+// Service Worker
+if('serviceWorker' in navigator){
+  const sw=`const C='sanad-v1';self.addEventListener('install',e=>self.skipWaiting());self.addEventListener('activate',e=>clients.claim());self.addEventListener('fetch',e=>e.respondWith(caches.match(e.request).then(r=>r||fetch(e.request))));`;
+  const swB=new Blob([sw],{type:'text/javascript'});
+  navigator.serviceWorker.register(URL.createObjectURL(swB)).catch(()=>{});
+}
+
+/* ═══════════════════════════
+   PROFILE SHEETS
+═══════════════════════════ */
+function openSheet(id) {
+  const ov = document.getElementById(id);
+  if(!ov) return;
+  ov.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeSheet(id) {
+  const ov = document.getElementById(id);
+  if(!ov) return;
+  ov.classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+/* Language selector */
+function selectLang(row, lang) {
+  document.querySelectorAll('.lang-radio').forEach(r => r.classList.remove('on'));
+  row.querySelector('.lang-radio').classList.add('on');
+  showToast(lang === 'ar' ? 'تم اختيار العربية ✓' : 'English selected ✓');
+  setTimeout(() => closeSheet('sheet-lang'), 800);
+}
+
+
+/* ═══ ADMIN TABS ═══ */
+function adminTab(tab) {
+  const tabs = ['review','cases','stats','profile'];
+  tabs.forEach(t => {
+    const btn = document.getElementById('adni-' + t);
+    if(!btn) return;
+    btn.classList.toggle('on', t===tab);
+    const lbl = btn.querySelector('.bn-label');
+    const svgEl = btn.querySelector('svg');
+    if(lbl) lbl.style.color = t===tab ? 'var(--g)' : '';
+    if(svgEl) svgEl.style.color = t===tab ? 'var(--g)' : 'var(--n4)';
+  });
+
+  // Map tabs to collapsible sections
+  const reviewSections = ['coll-review'];
+  const casesSections = ['coll-late','coll-upcoming','coll-donors'];
+  const statsSections = ['coll-stats'];
+  const profileSections = ['coll-logs'];
+
+  const allColls = ['coll-review','coll-late','coll-upcoming','coll-donors','coll-stats','coll-logs'];
+  let show = [];
+  if(tab==='review') show = reviewSections;
+  else if(tab==='cases') show = casesSections;
+  else if(tab==='stats') show = statsSections;
+  else if(tab==='profile') show = profileSections;
+
+  allColls.forEach(id => {
+    const el = document.getElementById(id);
+    if(el) el.style.display = show.includes(id) ? 'block' : 'none';
+  });
+
+  // Also hide/show alert bar and stat cards
+  const alertBar = document.querySelector('#sc-admin .scroll-body > div[style*="ro-l"]');
+  const statGrid = document.querySelector('#sc-admin .scroll-body > div[style*="grid-template-columns"]');
+  if(alertBar) alertBar.style.display = tab==='review' ? '' : 'none';
+  if(statGrid) statGrid.style.display = tab==='review' ? '' : 'none';
+
+  // Update title
+  const titles = {review:'مراجعة الطلبات', cases:'إدارة الحالات', stats:'الإحصائيات', profile:'سجل النشاط'};
+  const hdr = document.querySelector('#sc-admin .scroll-body + nav');
+}
+
+</script>
+</body>
+</html>
