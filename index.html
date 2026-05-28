@@ -1174,6 +1174,11 @@ body{
           <div class="pf-body"><div class="pf-title">البيانات الشخصية</div></div>
           <div class="pf-right">›</div>
         </div>
+        <div class="pf-row" onclick="openSheet('sheet-donor-payment')">
+          <div class="pf-ico" style="background:#E8F0FE;"><svg width="18" height="18" style="color:#1565C0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg></div>
+          <div class="pf-body"><div class="pf-title">وسائل الدفع</div></div>
+          <div class="pf-right">›</div>
+        </div>
         <div class="pf-row" onclick="openSheet('sheet-notifs')">
           <div class="pf-ico" style="background:#F0EBFF;"><svg width="18" height="18" style="color:#7B4FDB"><use href="#ic-bell"/></svg></div>
           <div class="pf-body"><div class="pf-title">الإشعارات</div></div>
@@ -1463,230 +1468,333 @@ body{
 </div>
 
 <!-- ═══════════════════════════
-     SCREEN 8: ADMIN — Requests First + Collapsibles
+     SCREEN 8: ADMIN APP
 ═══════════════════════════ -->
 <div class="screen" id="sc-admin">
-  <div style="background:var(--wh);border-bottom:1px solid var(--bd);flex-shrink:0;padding:env(safe-area-inset-top,44px) 20px 14px;display:flex;align-items:center;justify-content:space-between;">
-    <div>
-      <div class="t-xs c-n3">لوحة الإدارة</div>
-      <div class="t-md w700 c-n1 mt4">مرحباً، مشرف</div>
-    </div>
-    <div class="f ia g8">
-      <span class="chip" style="background:var(--go-l);color:var(--go);">مدير</span>
-      <button class="tb-icon-btn tib-dark" onclick="showToast('٥ إشعارات')">
-        <svg width="20" height="20" style="color:var(--n2)"><use href="#ic-bell"/></svg>
-        <div class="notif-badge"></div>
+
+  <!-- Gradient header -->
+  <div style="background:var(--grad-h);flex-shrink:0;padding-top:env(safe-area-inset-top,44px);">
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 20px 12px;">
+      <div style="width:36px;"></div>
+      <svg viewBox="0 0 120 38" xmlns="http://www.w3.org/2000/svg" style="height:30px;width:auto;">
+        <circle fill="white" cx="17.24" cy="16.95" r="10.45"/>
+        <circle fill="white" fill-opacity="0.5" cx="46.41" cy="16.27" r="10.45"/>
+        <path fill="white" d="M31.37,32.15c-7.46,0-14.54-2.38-20.47-6.89c-1.44-1.09-1.72-3.15-0.63-4.59c1.09-1.44,3.15-1.72,4.59-0.63c4.78,3.63,10.49,5.55,16.51,5.55c6.58,0,12.94-2.37,17.9-6.68c1.37-1.19,3.43-1.04,4.62,0.33c1.19,1.36,1.04,3.43-0.33,4.62C47.41,29.2,39.53,32.15,31.37,32.15z"/>
+        <path fill="white" d="M76.4,16.8c-1.02,0-1.81-0.26-2.35-0.77c-0.54-0.51-0.81-1.33-0.81-2.46V12.1h2.53v1.41h3.01c0.48,0,0.84-0.07,1.06-0.22s0.34-0.39,0.34-0.72c0-0.16-0.03-0.35-0.1-0.57s-0.14-0.44-0.21-0.66l-1.93-5.56l2.81-0.99l2.22,6.35c0.16,0.48,0.32,0.88,0.48,1.19c0.16,0.31,0.33,0.55,0.52,0.72s0.38,0.3,0.59,0.36c0.21,0.07,0.46,0.1,0.76,0.1h0.66v2.63l-0.66,0.66c-0.61,0-1.15-0.04-1.6-0.13c-0.45-0.09-0.86-0.25-1.22-0.48c-0.36-0.23-0.68-0.54-0.97-0.92s-0.56-0.87-0.82-1.47l-0.09,0.04c-0.09,0.53-0.21,0.98-0.36,1.36c-0.15,0.38-0.35,0.69-0.58,0.92c-0.23,0.23-0.52,0.41-0.86,0.52c-0.34,0.11-0.74,0.17-1.21,0.17H76.4z"/>
+        <path fill="white" d="M85.31,14.16l0.66-0.66h2.35v2.63l-0.66,0.66h-2.35V14.16z"/>
+        <path fill="white" d="M87.66,14.16l0.66-0.66h0.66c1.17,0,1.76-0.51,1.76-1.54V8.83h2.42v3.14c0,1.02,0.51,1.54,1.54,1.54h0.88v2.63l-0.66,0.66c-1.17,0-2.06-0.24-2.67-0.71c-0.61-0.48-1.01-1.23-1.22-2.25h-0.13c-0.21,1.03-0.56,1.78-1.05,2.25c-0.5,0.48-1.22,0.71-2.17,0.71V14.16z M91.72,7.07c-0.38,0-0.69-0.12-0.93-0.35c-0.24-0.23-0.36-0.61-0.36-1.12c0-0.51,0.12-0.89,0.36-1.12c0.24-0.23,0.55-0.35,0.93-0.35h0.44c0.38,0,0.69,0.12,0.93,0.35s0.36,0.61,0.36,1.12c0,0.51-0.12,0.89-0.36,1.12c-0.24,0.23-0.55,0.35-0.93,0.35H91.72z"/>
+        <path fill="white" d="M94.91,14.16l0.66-0.66h0.02c0.7,0,1.23-0.08,1.57-0.25c0.34-0.17,0.62-0.46,0.82-0.89l0.86-1.78l2.17,1.05l-0.77,1.6c0.35,0.16,0.71,0.3,1.08,0.41c0.37,0.11,0.74,0.17,1.12,0.17c0.63,0,1.08-0.14,1.36-0.41c0.28-0.27,0.42-0.75,0.42-1.44v-1.38h2.42v1.38c0,0.61,0.11,1.06,0.32,1.34c0.21,0.28,0.5,0.42,0.87,0.42h0.22c0.31,0,0.56-0.11,0.75-0.34c0.19-0.23,0.29-0.59,0.29-1.09c0-0.21-0.02-0.46-0.07-0.78s-0.1-0.7-0.18-1.15l-0.2-1.12l2.39-0.39l0.18,1.12c0.07,0.42,0.12,0.82,0.15,1.2c0.03,0.37,0.04,0.75,0.04,1.13c0,1.64-0.28,2.84-0.85,3.61c-0.56,0.77-1.44,1.15-2.62,1.15c-1.04,0-1.82-0.25-2.35-0.75c-0.53-0.5-0.89-1.27-1.08-2.31h-0.13c-0.12,1.05-0.38,1.83-0.78,2.32c-0.4,0.49-0.93,0.74-1.59,0.74c-0.42,0-0.85-0.08-1.26-0.23c-0.42-0.15-0.96-0.43-1.64-0.82l-0.46-0.26c-0.45,0.44-0.97,0.72-1.55,0.86c-0.58,0.13-1.31,0.2-2.19,0.2V14.16z"/>
+        <path fill="white" d="M73.89,28.32c0.08,0.8,0.8,1.06,1.54,1.06c0.69,0,1.27-0.28,1.27-0.85c0-0.44-0.28-0.65-1.05-0.78l-1.24-0.23c-1.1-0.2-1.94-0.74-1.94-1.98c0-1.32,1.2-2.19,2.8-2.19c1.81,0,2.84,0.79,2.97,2.15h-1.6c-0.06-0.61-0.59-0.93-1.35-0.93c-0.7,0-1.16,0.34-1.16,0.84c0,0.49,0.34,0.62,1.01,0.75l1.33,0.26c1.22,0.22,1.89,0.84,1.89,1.99c0,1.35-1.26,2.19-2.88,2.19c-1.8,0-3.09-0.74-3.24-2.28H73.89z"/>
+        <path fill="white" d="M84.92,28.97h-2.96l-0.58,1.5h-1.66l2.79-7h1.91l2.8,7h-1.74L84.92,28.97z M82.45,27.68h1.99l-0.97-2.59h-0.03L82.45,27.68z"/>
+        <path fill="white" d="M93.79,27.88h0.02v-4.42h1.62v7h-1.58l-3.26-4.95h-0.02v4.95h-1.62v-7h1.94L93.79,27.88z"/>
+        <path fill="white" d="M102.38,28.97h-2.96l-0.58,1.5h-1.66l2.79-7h1.91l2.8,7h-1.74L102.38,28.97z M99.91,27.68h1.99l-0.97-2.59h-0.03L99.91,27.68z"/>
+        <path fill="white" d="M112.88,26.96c0,2.11-1.39,3.51-3.58,3.51h-2.87v-7h2.87C111.49,23.47,112.88,24.86,112.88,26.96z M108.08,24.77v4.39h1.22c1.2,0,1.85-0.76,1.85-2.2c0-1.43-0.66-2.19-1.85-2.19H108.08z"/>
+      </svg>
+      <button class="tb-icon-btn tib-light" onclick="showToast('٥ إشعارات جديدة')">
+        <svg width="20" height="20" style="color:rgba(255,255,255,.9)"><use href="#ic-bell"/></svg>
+        <div class="notif-badge notif-badge-dark"></div>
       </button>
     </div>
   </div>
 
-  <div class="scroll-body" style="padding:14px 16px;">
+  <!-- ══ TAB: الرئيسية ══ -->
+  <div class="scroll-body" id="adm-tab-home" style="padding:16px;">
 
-    <!-- Alert bar -->
+    <!-- Alert -->
     <div style="background:var(--ro-l);border-radius:var(--r);padding:12px 16px;display:flex;align-items:center;gap:10px;margin-bottom:14px;">
       <svg width="18" height="18" style="color:var(--ro);flex-shrink:0;"><use href="#ic-alert"/></svg>
-      <span style="font-size:13px;font-weight:600;color:var(--ro);">8 طلبات تنتظر مراجعتك الآن</span>
+      <span style="font-size:13px;font-weight:600;color:var(--ro);">8 طلبات تنتظر مراجعتك</span>
     </div>
 
-    <!-- Quick stats -->
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;">
-      <div onclick="toggleColl('coll-review')" style="background:var(--ro-l);border-radius:var(--r);padding:14px;cursor:pointer;">
-        <div style="font-size:26px;font-weight:700;color:var(--ro);">8</div>
-        <div class="t-xs c-n3 mt4">بانتظار المراجعة</div>
+    <!-- Stats grid -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px;">
+      <div style="background:var(--wh);border-radius:var(--rb);padding:16px;box-shadow:var(--sh1);cursor:pointer;" onclick="adminTab('requests')">
+        <div style="font-size:28px;font-weight:700;color:var(--ro);letter-spacing:-1px;">8</div>
+        <div style="font-size:11px;color:var(--n3);margin-top:4px;">طلبات جديدة</div>
       </div>
-      <div style="background:rgba(0,147,105,.1);border-radius:var(--r);padding:14px;">
-        <div style="font-size:26px;font-weight:700;color:var(--g);">8,200</div>
-        <div class="t-xs c-n3 mt4">د.ك حجم التمويل</div>
+      <div style="background:var(--wh);border-radius:var(--rb);padding:16px;box-shadow:var(--sh1);">
+        <div style="font-size:28px;font-weight:700;color:var(--g);letter-spacing:-1px;">24</div>
+        <div style="font-size:11px;color:var(--n3);margin-top:4px;">حالات نشطة</div>
       </div>
-      <div onclick="toggleColl('coll-late')" style="background:var(--go-l);border-radius:var(--r);padding:14px;cursor:pointer;">
-        <div style="font-size:26px;font-weight:700;color:var(--go);">4</div>
-        <div class="t-xs c-n3 mt4">حالات تأخر</div>
+      <div style="background:var(--wh);border-radius:var(--rb);padding:16px;box-shadow:var(--sh1);cursor:pointer;" onclick="adminTab('install')">
+        <div style="font-size:28px;font-weight:700;color:var(--go);letter-spacing:-1px;">4</div>
+        <div style="font-size:11px;color:var(--n3);margin-top:4px;">أقساط متأخرة</div>
       </div>
-      <div style="background:var(--bg2);border-radius:var(--r);padding:14px;">
-        <div style="font-size:26px;font-weight:700;color:var(--n1);">91%</div>
-        <div class="t-xs c-n3 mt4">نسبة الالتزام</div>
-      </div>
-    </div>
-
-    <!-- COLL 1: مراجعة الطلبات — OPEN by default -->
-    <div class="coll" id="coll-review">
-      <button class="coll-hd" onclick="toggleColl('coll-review')">
-        <div class="coll-hd-title">
-          <span style="width:20px;height:20px;background:var(--ro);border-radius:5px;display:flex;align-items:center;justify-content:center;"><svg width="12" height="12" style="color:white"><use href="#ic-doc"/></svg></span>
-          مراجعة الطلبات
-        </div>
-        <div class="coll-hd-right">
-          <span class="coll-badge cb-red">8</span>
-          <svg width="18" height="18" class="coll-arrow open" style="color:var(--n3)"><use href="#ic-chevron-down"/></svg>
-        </div>
-      </button>
-      <div class="coll-body open" style="padding:12px 16px;">
-        <div class="f fc g10">
-          <!-- Request 1 -->
-          <div style="background:var(--bg);border-radius:var(--r);padding:14px;">
-            <div class="f ia jb mb8">
-              <div class="f ia g8"><div class="avatar av-sm" style="background:#EBEBED;color:var(--n3);">ف</div><div><div class="t-sm w700 c-n1">فاطمة أحمد محمود</div><div class="t-xs c-n3 mt4">احتياجات · اليوم · 200 د.ك</div></div></div>
-              <span class="chip chip-red" style="font-size:10px;">جديد</span>
-            </div>
-            <div class="f g8">
-              <button class="btn btn-green btn-xs f1" onclick="showToast('✓ تم القبول وإرساله للممولين')"><svg width="12" height="12"><use href="#ic-check"/></svg> قبول</button>
-              <button class="btn btn-red-sm btn-xs" onclick="showToast('تم الرفض وإشعار المستفيد')"><svg width="12" height="12"><use href="#ic-x"/></svg> رفض</button>
-              <button class="btn btn-gray btn-xs" onclick="showToast('طُلبت مستندات إضافية')">مستندات</button>
-            </div>
-          </div>
-          <!-- Request 2 -->
-          <div style="background:var(--bg);border-radius:var(--r);padding:14px;">
-            <div class="f ia jb mb8">
-              <div class="f ia g8"><div class="avatar av-sm" style="background:#EBEBED;color:var(--n3);">ك</div><div><div class="t-sm w700 c-n1">كريم محمد علي</div><div class="t-xs c-n3 mt4">قرض حسن · أمس · 250 د.ك</div></div></div>
-              <span class="chip chip-gold" style="font-size:10px;">مراجعة</span>
-            </div>
-            <div class="f g8">
-              <button class="btn btn-green btn-xs f1" onclick="showToast('✓ تم القبول')"><svg width="12" height="12"><use href="#ic-check"/></svg> قبول</button>
-              <button class="btn btn-red-sm btn-xs" onclick="showToast('تم الرفض')"><svg width="12" height="12"><use href="#ic-x"/></svg> رفض</button>
-              <button class="btn btn-gray btn-xs" onclick="showToast('طُلبت مستندات')">مستندات</button>
-            </div>
-          </div>
-          <!-- Request 3 -->
-          <div style="background:var(--bg);border-radius:var(--r);padding:14px;">
-            <div class="f ia jb mb8">
-              <div class="f ia g8"><div class="avatar av-sm" style="background:#EBEBED;color:var(--n3);">س</div><div><div class="t-sm w700 c-n1">سارة علي حسين</div><div class="t-xs c-n3 mt4">قرض حسن · أمس · 180 د.ك</div></div></div>
-              <span class="chip chip-red" style="font-size:10px;">جديد</span>
-            </div>
-            <div class="f g8">
-              <button class="btn btn-green btn-xs f1" onclick="showToast('✓ تم القبول')"><svg width="12" height="12"><use href="#ic-check"/></svg> قبول</button>
-              <button class="btn btn-red-sm btn-xs" onclick="showToast('تم الرفض')"><svg width="12" height="12"><use href="#ic-x"/></svg> رفض</button>
-            </div>
-          </div>
-        </div>
+      <div style="background:var(--wh);border-radius:var(--rb);padding:16px;box-shadow:var(--sh1);cursor:pointer;" onclick="adminTab('users')">
+        <div style="font-size:28px;font-weight:700;color:var(--n1);letter-spacing:-1px;">37</div>
+        <div style="font-size:11px;color:var(--n3);margin-top:4px;">مستفيد · 12 ممول</div>
       </div>
     </div>
 
-    <!-- COLL 2: حالات التأخر -->
-    <div class="coll" id="coll-late">
-      <button class="coll-hd" onclick="toggleColl('coll-late')">
-        <div class="coll-hd-title">
-          <span style="width:20px;height:20px;background:var(--go);border-radius:5px;display:flex;align-items:center;justify-content:center;"><svg width="12" height="12" style="color:white"><use href="#ic-alert"/></svg></span>
-          حالات التأخر في السداد
-        </div>
-        <div class="coll-hd-right">
-          <span class="coll-badge cb-gold">4</span>
-          <svg width="18" height="18" class="coll-arrow" style="color:var(--n3)"><use href="#ic-chevron-down"/></svg>
-        </div>
-      </button>
-      <div class="coll-body" style="padding:12px 16px;">
-        <div class="f fc g8">
-          <div class="f ia jb" style="padding:10px 0;border-bottom:1px solid var(--bd);">
-            <div class="f ia g8"><div class="avatar av-sm av-dark">ع</div><div><div class="t-sm w700 c-n1">SF-078</div><div class="t-xs c-n3 mt4">SF-204 · 30 د.ك</div></div></div>
-            <div class="f ia g8"><span class="t-xs" style="color:var(--ro);font-weight:700;">7 أيام</span><button class="btn btn-green btn-xs" onclick="showToast('✓ تم إرسال تنبيه')">تنبيه</button></div>
-          </div>
-          <div class="f ia jb" style="padding:10px 0;">
-            <div class="f ia g8"><div class="avatar av-sm av-gray">ح</div><div><div class="t-sm w700 c-n1">حسن إبراهيم</div><div class="t-xs c-n3 mt4">SF-089 · 40 د.ك</div></div></div>
-            <div class="f ia g8"><span class="t-xs" style="color:var(--go);font-weight:700;">3 أيام</span><button class="btn btn-green btn-xs" onclick="showToast('✓ تم إرسال تنبيه')">تنبيه</button></div>
-          </div>
-        </div>
+    <!-- آخر النشاطات -->
+    <div style="font-size:12px;font-weight:700;color:var(--n3);margin-bottom:10px;letter-spacing:.04em;">آخر النشاطات</div>
+    <div style="background:var(--wh);border-radius:var(--rb);overflow:hidden;box-shadow:var(--sh1);">
+      <div class="list-row">
+        <div style="width:34px;height:34px;border-radius:10px;background:var(--ro-l);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="15" height="15" style="color:var(--ro)"><use href="#ic-doc"/></svg></div>
+        <div class="lr-body"><div class="lr-title">تم رفع طلب جديد</div><div class="lr-sub">فاطمة أحمد · 200 د.ك · الآن</div></div>
+      </div>
+      <div class="list-row">
+        <div style="width:34px;height:34px;border-radius:10px;background:rgba(0,147,105,.1);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="15" height="15" style="color:var(--g)"><use href="#ic-check"/></svg></div>
+        <div class="lr-body"><div class="lr-title">تم تسجيل دفعة</div><div class="lr-sub">محمد إبراهيم · 50 د.ك · منذ ساعة</div></div>
+      </div>
+      <div class="list-row">
+        <div style="width:34px;height:34px;border-radius:10px;background:rgba(0,147,105,.1);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="15" height="15" style="color:var(--g)"><use href="#ic-check"/></svg></div>
+        <div class="lr-body"><div class="lr-title">تم قبول حالة</div><div class="lr-sub">كريم محمد · قرض حسن · أمس</div></div>
+      </div>
+      <div class="list-row">
+        <div style="width:34px;height:34px;border-radius:10px;background:var(--go-l);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="15" height="15" style="color:var(--go)"><use href="#ic-alert"/></svg></div>
+        <div class="lr-body"><div class="lr-title">تنبيه تأخر سداد</div><div class="lr-sub">SF-078 · 7 أيام تأخر · أمس</div></div>
       </div>
     </div>
-
-    <!-- COLL 3: الأقساط القادمة -->
-    <div class="coll" id="coll-upcoming">
-      <button class="coll-hd" onclick="toggleColl('coll-upcoming')">
-        <div class="coll-hd-title">
-          <span style="width:20px;height:20px;background:var(--g);border-radius:5px;display:flex;align-items:center;justify-content:center;"><svg width="12" height="12" style="color:white"><use href="#ic-cal"/></svg></span>
-          الأقساط القادمة هذا الأسبوع
-        </div>
-        <div class="coll-hd-right">
-          <svg width="18" height="18" class="coll-arrow" style="color:var(--n3)"><use href="#ic-chevron-down"/></svg>
-        </div>
-      </button>
-      <div class="coll-body" style="padding:0;">
-        <div class="list-row"><div class="lr-body"><div class="lr-title">محمد إبراهيم</div><div class="lr-sub">قرض حسن · 1 يونيو</div></div><div class="lr-right"><div class="lr-val c-green">50 د.ك</div><span class="chip chip-gold" style="font-size:10px;">قادم</span></div></div>
-        <div class="list-row"><div class="lr-body"><div class="lr-title">ريم سامي</div><div class="lr-sub">احتياجات · 3 يونيو</div></div><div class="lr-right"><div class="lr-val c-green">40 د.ك</div><span class="chip chip-gold" style="font-size:10px;">قادم</span></div></div>
-      </div>
-    </div>
-
-    <!-- COLL 4: إحصائيات -->
-    <div class="coll" id="coll-stats">
-      <button class="coll-hd" onclick="toggleColl('coll-stats')">
-        <div class="coll-hd-title">
-          <span style="width:20px;height:20px;background:var(--n1);border-radius:5px;display:flex;align-items:center;justify-content:center;"><svg width="12" height="12" style="color:white"><use href="#ic-chart"/></svg></span>
-          إحصائيات المنصة
-        </div>
-        <div class="coll-hd-right">
-          <svg width="18" height="18" class="coll-arrow" style="color:var(--n3)"><use href="#ic-chevron-down"/></svg>
-        </div>
-      </button>
-      <div class="coll-body" style="padding:14px 16px;">
-        <div class="f fc g10">
-          <div class="f ia jb t-sm c-n3 mb4"><span>نسبة الموافقة</span><span class="w700 c-n1">78%</span></div>
-          <div class="prog-track mb8"><div class="prog-fill" style="width:78%;background:var(--n1);"></div></div>
-          <div class="f ia jb t-sm c-n3 mb4"><span>الالتزام بالسداد</span><span class="w700 c-green">91%</span></div>
-          <div class="prog-track mb8"><div class="prog-fill" style="width:91%;"></div></div>
-          <div class="f ia jb t-sm c-n3 mb4"><span>رضا الممولين</span><span class="w700 c-n1">4.7 ⭐</span></div>
-          <div class="prog-track"><div class="prog-fill" style="width:94%;background:var(--go);"></div></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- COLL 5: الممولون -->
-    <div class="coll" id="coll-donors">
-      <button class="coll-hd" onclick="toggleColl('coll-donors')">
-        <div class="coll-hd-title">
-          <span style="width:20px;height:20px;background:var(--n1);border-radius:5px;display:flex;align-items:center;justify-content:center;"><svg width="12" height="12" style="color:white"><use href="#ic-users"/></svg></span>
-          الممولون النشطون
-        </div>
-        <div class="coll-hd-right">
-          <svg width="18" height="18" class="coll-arrow" style="color:var(--n3)"><use href="#ic-chevron-down"/></svg>
-        </div>
-      </button>
-      <div class="coll-body" style="padding:0;">
-        <div class="list-row"><div class="avatar av-sm av-green" style="flex-shrink:0;">خ</div><div class="lr-body"><div class="lr-title">SF-204</div><div class="lr-sub">12 حالة · 1,850 د.ك · 4.6⭐</div></div><span class="chip chip-green" style="font-size:10px;">موثق</span></div>
-        <div class="list-row"><div class="avatar av-sm av-dark" style="flex-shrink:0;">س</div><div class="lr-body"><div class="lr-title">SF-089</div><div class="lr-sub">7 حالات · 950 د.ك · 4.8⭐</div></div><span class="chip chip-green" style="font-size:10px;">موثق</span></div>
-        <div class="list-row"><div class="avatar av-sm av-gray" style="flex-shrink:0;">ر</div><div class="lr-body"><div class="lr-title">رنا الكندري</div><div class="lr-sub">3 حالات · 400 د.ك · 5⭐</div></div><span class="chip chip-green" style="font-size:10px;">موثق</span></div>
-      </div>
-    </div>
-
-    <!-- COLL 6: سجل النشاط -->
-    <div class="coll" id="coll-logs" style="margin-bottom:20px;">
-      <button class="coll-hd" onclick="toggleColl('coll-logs')">
-        <div class="coll-hd-title">
-          <span style="width:20px;height:20px;background:var(--n3);border-radius:5px;display:flex;align-items:center;justify-content:center;"><svg width="12" height="12" style="color:white"><use href="#ic-activity"/></svg></span>
-          سجل النشاط
-        </div>
-        <div class="coll-hd-right">
-          <svg width="18" height="18" class="coll-arrow" style="color:var(--n3)"><use href="#ic-chevron-down"/></svg>
-        </div>
-      </button>
-      <div class="coll-body" style="padding:0;">
-        <div class="list-row"><div class="lr-body"><div class="lr-title">قُبل طلب فاطمة محمود</div><div class="lr-sub">اليوم 11:20 ص · 200 د.ك</div></div></div>
-        <div class="list-row"><div class="lr-body"><div class="lr-title">رُفض طلب — مستندات ناقصة</div><div class="lr-sub">اليوم 10:05 ص</div></div></div>
-        <div class="list-row"><div class="lr-body"><div class="lr-title">تنبيه تأخر — عمر محمد</div><div class="lr-sub">أمس 5:00 م</div></div></div>
-      </div>
-    </div>
-
-    <!-- Logout -->
-    <button class="btn btn-gray mb16" onclick="go('sc-home')"><svg width="16" height="16" style="color:var(--n3)"><use href="#ic-logout"/></svg> تسجيل الخروج</button>
   </div>
 
+  <!-- ══ TAB: الطلبات ══ -->
+  <div class="scroll-body" id="adm-tab-requests" style="display:none;padding:16px;">
+    <div class="sw-tabs mb14" id="req-adm-sw">
+      <button class="sw-tab on" onclick="admReqTab('new',this)">جديدة <span style="background:var(--ro);color:#fff;border-radius:99px;padding:1px 6px;font-size:10px;margin-right:3px;">8</span></button>
+      <button class="sw-tab" onclick="admReqTab('review',this)">مراجعة</button>
+      <button class="sw-tab" onclick="admReqTab('approved',this)">مقبولة</button>
+      <button class="sw-tab" onclick="admReqTab('done',this)">مكتملة</button>
+    </div>
+
+    <!-- جديدة -->
+    <div id="adm-req-new" class="f fc g10">
+      <div class="card" style="cursor:pointer;" onclick="openSheet('sheet-adm-req')">
+        <div class="f ia jb mb8">
+          <div class="f ia g8"><div class="avatar av-sm" style="background:var(--bg2);color:var(--n3);">ف</div><div><div class="t-sm w700 c-n1">فاطمة أحمد محمود</div><div class="t-xs c-n3 mt4">#REQ-0045 · اليوم</div></div></div>
+          <span class="chip chip-red" style="font-size:10px;">جديد</span>
+        </div>
+        <div class="f ia jb t-xs c-n3 mb6"><span>النوع</span><span>المبلغ</span><span>الأقساط</span></div>
+        <div class="f ia jb t-sm w600 mb10"><span>احتياجات</span><span class="c-green">200 د.ك</span><span>4 شهرية</span></div>
+        <div class="f g8">
+          <button class="btn btn-green btn-xs f1" onclick="event.stopPropagation();showToast('✓ تم القبول')"><svg width="11" height="11"><use href="#ic-check"/></svg> قبول</button>
+          <button class="btn btn-red-sm btn-xs" onclick="event.stopPropagation();showToast('تم الرفض')"><svg width="11" height="11"><use href="#ic-x"/></svg> رفض</button>
+          <button class="btn btn-gray btn-xs" onclick="event.stopPropagation();showToast('طُلبت مستندات')">مستندات</button>
+        </div>
+      </div>
+      <div class="card" style="cursor:pointer;" onclick="openSheet('sheet-adm-req')">
+        <div class="f ia jb mb8">
+          <div class="f ia g8"><div class="avatar av-sm" style="background:var(--bg2);color:var(--n3);">ك</div><div><div class="t-sm w700 c-n1">كريم محمد علي</div><div class="t-xs c-n3 mt4">#REQ-0044 · أمس</div></div></div>
+          <span class="chip chip-red" style="font-size:10px;">جديد</span>
+        </div>
+        <div class="f ia jb t-xs c-n3 mb6"><span>النوع</span><span>المبلغ</span><span>الأقساط</span></div>
+        <div class="f ia jb t-sm w600 mb10"><span>قرض حسن</span><span class="c-green">250 د.ك</span><span>5 شهرية</span></div>
+        <div class="f g8">
+          <button class="btn btn-green btn-xs f1" onclick="event.stopPropagation();showToast('✓ تم القبول')"><svg width="11" height="11"><use href="#ic-check"/></svg> قبول</button>
+          <button class="btn btn-red-sm btn-xs" onclick="event.stopPropagation();showToast('تم الرفض')"><svg width="11" height="11"><use href="#ic-x"/></svg> رفض</button>
+          <button class="btn btn-gray btn-xs" onclick="event.stopPropagation();showToast('طُلبت مستندات')">مستندات</button>
+        </div>
+      </div>
+    </div>
+    <!-- مراجعة -->
+    <div id="adm-req-review" class="f fc g10" style="display:none;">
+      <div class="card">
+        <div class="f ia jb mb8">
+          <div class="f ia g8"><div class="avatar av-sm" style="background:var(--bg2);color:var(--n3);">س</div><div><div class="t-sm w700 c-n1">سارة علي حسين</div><div class="t-xs c-n3 mt4">#REQ-0042 · أمس</div></div></div>
+          <span class="chip chip-gold" style="font-size:10px;">مراجعة</span>
+        </div>
+        <div class="f ia jb t-sm w600 mb10"><span>قرض حسن</span><span class="c-green">180 د.ك</span><span>3 شهرية</span></div>
+        <div class="f g8">
+          <button class="btn btn-green btn-xs f1" onclick="showToast('✓ تم القبول')"><svg width="11" height="11"><use href="#ic-check"/></svg> قبول</button>
+          <button class="btn btn-red-sm btn-xs" onclick="showToast('تم الرفض')"><svg width="11" height="11"><use href="#ic-x"/></svg> رفض</button>
+        </div>
+      </div>
+    </div>
+    <!-- مقبولة -->
+    <div id="adm-req-approved" class="f fc g10" style="display:none;">
+      <div class="card" style="background:var(--bg);">
+        <div class="f ia jb mb6"><div class="t-sm w700 c-n2">محمد إبراهيم حسن</div><span class="chip chip-green" style="font-size:10px;">مقبول</span></div>
+        <div class="t-xs c-n3">#REQ-0041 · قرض حسن · 150 د.ك · SF-204</div>
+      </div>
+    </div>
+    <!-- مكتملة -->
+    <div id="adm-req-done" class="f fc g10" style="display:none;">
+      <div class="card" style="background:var(--bg);">
+        <div class="f ia jb mb6"><div class="t-sm w700 c-n2">ريم سامي</div><span class="chip chip-gray" style="font-size:10px;">مكتمل</span></div>
+        <div class="t-xs c-n3">#REQ-0039 · احتياجات · 80 د.ك · مارس 2025</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ TAB: الأقساط ══ -->
+  <div class="scroll-body" id="adm-tab-install" style="display:none;padding:16px;">
+    <div class="sw-tabs mb14">
+      <button class="sw-tab on" onclick="admInstTab('active',this)">نشطة</button>
+      <button class="sw-tab" onclick="admInstTab('late',this)">متأخرة <span style="background:var(--ro);color:#fff;border-radius:99px;padding:1px 6px;font-size:10px;margin-right:3px;">4</span></button>
+      <button class="sw-tab" onclick="admInstTab('done',this)">مكتملة</button>
+    </div>
+    <!-- نشطة -->
+    <div id="adm-inst-active" class="f fc g10">
+      <div class="card">
+        <div class="f ia jb mb8"><div class="t-sm w700 c-n1">محمد إبراهيم — SF-204</div><span class="chip chip-green" style="font-size:10px;">نشط</span></div>
+        <div class="t-xs c-n3 mb8">قرض حسن · إيجار · 150 د.ك</div>
+        <div class="f ia g8 mb4"><div class="prog-track f1"><div class="prog-fill" style="width:67%"></div></div><span class="t-xs c-n3">67%</span></div>
+        <div class="t-xs c-n3 mb10">القسط القادم: 50 د.ك · 1 يونيو 2025</div>
+        <div class="f g8">
+          <button class="btn btn-green btn-xs f1" onclick="showToast('✓ تم تسجيل الدفعة')">تسجيل دفعة</button>
+          <button class="btn btn-gray btn-xs" onclick="showToast('تم إرسال تذكير')">تذكير</button>
+        </div>
+      </div>
+      <div class="card">
+        <div class="f ia jb mb8"><div class="t-sm w700 c-n1">ريم سامي — SF-317</div><span class="chip chip-green" style="font-size:10px;">نشط</span></div>
+        <div class="t-xs c-n3 mb8">احتياجات أسرية · 120 د.ك</div>
+        <div class="f ia g8 mb4"><div class="prog-track f1"><div class="prog-fill" style="width:50%"></div></div><span class="t-xs c-n3">50%</span></div>
+        <div class="t-xs c-n3 mb10">القسط القادم: 30 د.ك · 3 يونيو 2025</div>
+        <div class="f g8">
+          <button class="btn btn-green btn-xs f1" onclick="showToast('✓ تم تسجيل الدفعة')">تسجيل دفعة</button>
+          <button class="btn btn-gray btn-xs" onclick="showToast('تم إرسال تذكير')">تذكير</button>
+        </div>
+      </div>
+    </div>
+    <!-- متأخرة -->
+    <div id="adm-inst-late" class="f fc g10" style="display:none;">
+      <div class="card" style="border:1.5px solid var(--ro-l);">
+        <div class="f ia jb mb8"><div class="t-sm w700 c-n1">SF-078</div><span class="chip chip-red" style="font-size:10px;">متأخر 7 أيام</span></div>
+        <div class="t-xs c-n3 mb8">قرض حسن · دين · 90 د.ك</div>
+        <div class="f ia g8 mb4"><div class="prog-track f1"><div class="prog-fill prog-fill-red" style="width:33%"></div></div><span class="t-xs c-n3">33%</span></div>
+        <div class="t-xs c-red mb10">⚠ القسط: 30 د.ك — تأخر 7 أيام</div>
+        <div class="f g8">
+          <button class="btn btn-green btn-xs f1" onclick="showToast('✓ تم تسجيل الدفعة')">تسجيل دفعة</button>
+          <button class="btn btn-red-sm btn-xs" onclick="showToast('تم إرسال تنبيه')">تنبيه</button>
+        </div>
+      </div>
+    </div>
+    <!-- مكتملة -->
+    <div id="adm-inst-done" class="f fc g10" style="display:none;">
+      <div class="card" style="background:var(--bg);">
+        <div class="f ia jb mb6"><div class="t-sm w700 c-n2">SF-445</div><span class="chip chip-gray" style="font-size:10px;">مكتمل</span></div>
+        <div class="t-xs c-n3">قرض حسن · 200 د.ك · 5 أقساط ✓</div>
+      </div>
+      <div class="card" style="background:var(--bg);">
+        <div class="f ia jb mb6"><div class="t-sm w700 c-n2">SF-333</div><span class="chip chip-gray" style="font-size:10px;">مكتمل</span></div>
+        <div class="t-xs c-n3">احتياجات · 150 د.ك · 4 أقساط ✓</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ TAB: المستخدمين ══ -->
+  <div class="scroll-body" id="adm-tab-users" style="display:none;padding:16px;">
+    <div class="sw-tabs mb14">
+      <button class="sw-tab on" onclick="admUsersTab('ben',this)">المستفيدون (37)</button>
+      <button class="sw-tab" onclick="admUsersTab('donor',this)">الممولون (12)</button>
+    </div>
+    <!-- مستفيدون -->
+    <div id="adm-users-ben" class="f fc g10">
+      <div class="card" style="cursor:pointer;" onclick="openSheet('sheet-adm-user')">
+        <div class="f ia jb">
+          <div class="f ia g10">
+            <div class="avatar av-md av-green">م</div>
+            <div><div class="t-sm w700 c-n1">محمد إبراهيم حسن</div><div class="t-xs c-n3 mt4">+965 9XXX XXXX · حالة واحدة</div></div>
+          </div>
+          <span class="chip chip-green" style="font-size:10px;">موثق ✓</span>
+        </div>
+      </div>
+      <div class="card" style="cursor:pointer;" onclick="openSheet('sheet-adm-user')">
+        <div class="f ia jb">
+          <div class="f ia g10">
+            <div class="avatar av-md av-gray">ف</div>
+            <div><div class="t-sm w700 c-n1">فاطمة أحمد محمود</div><div class="t-xs c-n3 mt4">+965 9XXX XXXX · طلب معلق</div></div>
+          </div>
+          <span class="chip chip-gold" style="font-size:10px;">مراجعة</span>
+        </div>
+      </div>
+      <div class="card" style="cursor:pointer;" onclick="openSheet('sheet-adm-user')">
+        <div class="f ia jb">
+          <div class="f ia g10">
+            <div class="avatar av-md av-dark">ر</div>
+            <div><div class="t-sm w700 c-n1">ريم سامي العنزي</div><div class="t-xs c-n3 mt4">+965 9XXX XXXX · حالة واحدة</div></div>
+          </div>
+          <span class="chip chip-green" style="font-size:10px;">موثق ✓</span>
+        </div>
+      </div>
+    </div>
+    <!-- ممولون -->
+    <div id="adm-users-donor" class="f fc g10" style="display:none;">
+      <div class="card" style="cursor:pointer;" onclick="openSheet('sheet-adm-user')">
+        <div class="f ia jb">
+          <div class="f ia g10">
+            <div class="avatar av-md av-green">خ</div>
+            <div><div class="t-sm w700 c-n1">SF-204</div><div class="t-xs c-n3 mt4">12 حالة · 1,850 د.ك · 4.6⭐</div></div>
+          </div>
+          <span class="chip chip-green" style="font-size:10px;">موثق ✓</span>
+        </div>
+      </div>
+      <div class="card" style="cursor:pointer;" onclick="openSheet('sheet-adm-user')">
+        <div class="f ia jb">
+          <div class="f ia g10">
+            <div class="avatar av-md av-dark">س</div>
+            <div><div class="t-sm w700 c-n1">SF-089</div><div class="t-xs c-n3 mt4">7 حالات · 950 د.ك · 4.8⭐</div></div>
+          </div>
+          <span class="chip chip-green" style="font-size:10px;">موثق ✓</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ TAB: الإعدادات ══ -->
+  <div class="scroll-body" id="adm-tab-settings" style="display:none;">
+    <div style="background:var(--wh);">
+      <div class="pf-row" onclick="showToast('إعدادات التطبيق')">
+        <div class="pf-ico" style="background:var(--bg2);"><svg width="18" height="18" style="color:var(--n2)"><use href="#ic-settings"/></svg></div>
+        <div class="pf-body"><div class="pf-title">إعدادات التطبيق</div></div>
+        <div class="pf-right">›</div>
+      </div>
+      <div class="pf-row" onclick="showToast('الشعار والهوية')">
+        <div class="pf-ico" style="background:rgba(0,147,105,.1);">
+          <svg width="18" height="18" style="color:var(--g)" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><circle cx="12" cy="8" r="6"/><path d="M8 14l-4 8h16l-4-8"/></svg>
+        </div>
+        <div class="pf-body"><div class="pf-title">الشعار والهوية</div></div>
+        <div class="pf-right">›</div>
+      </div>
+      <div class="pf-row" onclick="showToast('شروط الاستخدام')">
+        <div class="pf-ico" style="background:var(--bg2);"><svg width="18" height="18" style="color:var(--n2)"><use href="#ic-doc"/></svg></div>
+        <div class="pf-body"><div class="pf-title">شروط الاستخدام</div></div>
+        <div class="pf-right">›</div>
+      </div>
+      <div class="pf-row" onclick="showToast('سياسة الخصوصية')">
+        <div class="pf-ico" style="background:var(--bg2);"><svg width="18" height="18" style="color:var(--n2)"><use href="#ic-lock"/></svg></div>
+        <div class="pf-body"><div class="pf-title">سياسة الخصوصية</div></div>
+        <div class="pf-right">›</div>
+      </div>
+      <div class="pf-row" onclick="openSheet('sheet-notifs')">
+        <div class="pf-ico" style="background:#F0EBFF;"><svg width="18" height="18" style="color:#7B4FDB"><use href="#ic-bell"/></svg></div>
+        <div class="pf-body"><div class="pf-title">الإشعارات</div></div>
+        <div class="pf-right">›</div>
+      </div>
+      <div class="pf-row" onclick="go('sc-home')" style="margin-top:8px;border-top:8px solid var(--bg);">
+        <div class="pf-ico" style="background:var(--ro-l);"><svg width="18" height="18" style="color:var(--ro)"><use href="#ic-logout"/></svg></div>
+        <div class="pf-body"><div class="pf-title" style="color:var(--ro);">تسجيل الخروج</div></div>
+      </div>
+      <div style="text-align:center;padding:16px 0 20px;"><div style="font-size:10px;color:rgba(0,0,0,.35);">مايو 2025 · الإصدار 1.0.0 · لوحة الإدارة</div></div>
+    </div>
+  </div>
+
+  <!-- Bottom Nav — 5 tabs -->
   <nav class="bottom-nav">
-    <button class="bn-item on" id="adni-review" onclick="adminTab('review')">
+    <button class="bn-item on" id="adni-home" onclick="adminTab('home')">
+      <div class="bn-line"></div>
+      <svg width="22" height="22"><use href="#ic-home"/></svg>
+      <span class="bn-label">الرئيسية</span>
+    </button>
+    <button class="bn-item" id="adni-requests" onclick="adminTab('requests')">
       <div class="bn-line"></div>
       <svg width="22" height="22"><use href="#ic-doc"/></svg>
-      <span class="bn-label">المراجعة</span>
+      <span class="bn-label">الطلبات</span>
     </button>
-    <button class="bn-item" id="adni-cases" onclick="adminTab('cases')">
+    <button class="bn-item" id="adni-install" onclick="adminTab('install')">
+      <div class="bn-line"></div>
+      <svg width="22" height="22"><use href="#ic-cal"/></svg>
+      <span class="bn-label">الأقساط</span>
+    </button>
+    <button class="bn-item" id="adni-users" onclick="adminTab('users')">
       <div class="bn-line"></div>
       <svg width="22" height="22"><use href="#ic-users"/></svg>
-      <span class="bn-label">الحالات</span>
+      <span class="bn-label">المستخدمين</span>
     </button>
-    <button class="bn-item" id="adni-stats" onclick="adminTab('stats')">
-      <div class="bn-line"></div>
-      <svg width="22" height="22"><use href="#ic-chart"/></svg>
-      <span class="bn-label">إحصائيات</span>
-    </button>
-    <button class="bn-item" id="adni-profile" onclick="adminTab('profile')">
+    <button class="bn-item" id="adni-settings" onclick="adminTab('settings')">
       <div class="bn-line"></div>
       <svg width="22" height="22"><use href="#ic-settings"/></svg>
-      <span class="bn-label">الإدارة</span>
+      <span class="bn-label">الإعدادات</span>
     </button>
   </nav>
 </div>
@@ -2024,44 +2132,40 @@ function selectLang(row, lang) {
 
 /* ═══ ADMIN TABS ═══ */
 function adminTab(tab) {
-  const tabs = ['review','cases','stats','profile'];
+  const tabs = ['home','requests','install','users','settings'];
   tabs.forEach(t => {
     const btn = document.getElementById('adni-' + t);
-    if(!btn) return;
-    btn.classList.toggle('on', t===tab);
-    const lbl = btn.querySelector('.bn-label');
-    const svgEl = btn.querySelector('svg');
-    if(lbl) lbl.style.color = t===tab ? 'var(--g)' : '';
-    if(svgEl) svgEl.style.color = t===tab ? 'var(--g)' : 'var(--n4)';
+    const content = document.getElementById('adm-tab-' + t);
+    if(btn) { btn.classList.toggle('on', t===tab); const lbl=btn.querySelector('.bn-label');const svgEl=btn.querySelector('svg');if(lbl)lbl.style.color=t===tab?'var(--g)':'';if(svgEl)svgEl.style.color=t===tab?'var(--g)':'var(--n4)'; }
+    if(content) content.style.display = t===tab ? 'block' : 'none';
   });
+}
 
-  // Map tabs to collapsible sections
-  const reviewSections = ['coll-review'];
-  const casesSections = ['coll-late','coll-upcoming','coll-donors'];
-  const statsSections = ['coll-stats'];
-  const profileSections = ['coll-logs'];
-
-  const allColls = ['coll-review','coll-late','coll-upcoming','coll-donors','coll-stats','coll-logs'];
-  let show = [];
-  if(tab==='review') show = reviewSections;
-  else if(tab==='cases') show = casesSections;
-  else if(tab==='stats') show = statsSections;
-  else if(tab==='profile') show = profileSections;
-
-  allColls.forEach(id => {
-    const el = document.getElementById(id);
-    if(el) el.style.display = show.includes(id) ? 'block' : 'none';
+function admReqTab(tab, btn) {
+  ['new','review','approved','done'].forEach(t => {
+    const el = document.getElementById('adm-req-'+t);
+    if(el) el.style.display = t===tab ? 'flex' : 'none';
   });
+  document.querySelectorAll('#adm-tab-requests .sw-tab').forEach(b=>b.classList.remove('on'));
+  if(btn) btn.classList.add('on');
+}
 
-  // Also hide/show alert bar and stat cards
-  const alertBar = document.querySelector('#sc-admin .scroll-body > div[style*="ro-l"]');
-  const statGrid = document.querySelector('#sc-admin .scroll-body > div[style*="grid-template-columns"]');
-  if(alertBar) alertBar.style.display = tab==='review' ? '' : 'none';
-  if(statGrid) statGrid.style.display = tab==='review' ? '' : 'none';
+function admInstTab(tab, btn) {
+  ['active','late','done'].forEach(t => {
+    const el = document.getElementById('adm-inst-'+t);
+    if(el) el.style.display = t===tab ? 'flex' : 'none';
+  });
+  document.querySelectorAll('#adm-tab-install .sw-tab').forEach(b=>b.classList.remove('on'));
+  if(btn) btn.classList.add('on');
+}
 
-  // Update title
-  const titles = {review:'مراجعة الطلبات', cases:'إدارة الحالات', stats:'الإحصائيات', profile:'سجل النشاط'};
-  const hdr = document.querySelector('#sc-admin .scroll-body + nav');
+function admUsersTab(tab, btn) {
+  ['ben','donor'].forEach(t => {
+    const el = document.getElementById('adm-users-'+t);
+    if(el) el.style.display = t===tab ? 'flex' : 'none';
+  });
+  document.querySelectorAll('#adm-tab-users .sw-tab').forEach(b=>b.classList.remove('on'));
+  if(btn) btn.classList.add('on');
 }
 
 </script>
@@ -2179,6 +2283,24 @@ function adminTab(tab) {
               <svg width="14" height="14" style="color:var(--ro)" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/></svg>
             </button>
           </div>
+        </div>
+      </div>
+
+      <!-- مستند الضامن - اختياري -->
+      <div style="background:var(--bg);border-radius:var(--rb);padding:14px 16px;margin-bottom:16px;border:1.5px dashed var(--bd);">
+        <div class="f ia jb">
+          <div class="f ia g10">
+            <div style="width:38px;height:38px;border-radius:10px;background:var(--bg2);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+              <svg width="18" height="18" style="color:var(--n3)" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            </div>
+            <div>
+              <div style="font-size:14px;font-weight:700;color:var(--n1);">مستند الضامن</div>
+              <div style="font-size:11px;color:var(--n3);margin-top:2px;">اختياري — يزيد فرصة القبول</div>
+            </div>
+          </div>
+          <button onclick="showToast('رفع مستند الضامن')" style="width:32px;height:32px;border-radius:9px;background:rgba(0,150,64,.12);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;">
+            <svg width="14" height="14" style="color:var(--g)" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/></svg>
+          </button>
         </div>
       </div>
 
@@ -2313,6 +2435,139 @@ function adminTab(tab) {
         الدفع عبر My Fatoorah
       </button>
       <button onclick="closePaySheet()" style="width:100%;padding:13px;border-radius:var(--r);border:none;background:var(--bg);color:var(--n3);font-family:inherit;font-size:14px;cursor:pointer;">إلغاء</button>
+    </div>
+  </div>
+</div>
+
+<!-- Sheet: وسائل دفع الممول -->
+<div class="profile-sheet-ov" id="sheet-donor-payment" onclick="if(event.target===this)closeSheet('sheet-donor-payment')">
+  <div class="profile-sheet">
+    <div class="ps-handle"></div>
+    <div class="ps-hdr">
+      <div class="ps-title">وسائل الدفع</div>
+      <button class="ps-close" onclick="closeSheet('sheet-donor-payment')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+    </div>
+    <div style="padding:12px 20px 28px;">
+      <div style="font-size:11px;font-weight:700;color:var(--n3);margin-bottom:10px;letter-spacing:.04em;">وسائل الدفع المسجلة</div>
+
+      <!-- 1. Bank account IBAN -->
+      <div style="background:var(--bg);border-radius:var(--rb);padding:14px 16px;margin-bottom:10px;">
+        <div class="f ia jb mb8">
+          <div class="f ia g10">
+            <div style="width:38px;height:38px;border-radius:10px;background:#E8F0FE;display:flex;align-items:center;justify-content:center;">
+              <svg width="18" height="18" style="color:#1565C0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg>
+            </div>
+            <div>
+              <div style="font-size:13px;font-weight:700;color:var(--n1);">الحساب البنكي</div>
+              <div style="font-size:11px;color:var(--n3);margin-top:1px;">بنك الكويت الوطني</div>
+            </div>
+          </div>
+          <span class="chip chip-green" style="font-size:10px;">افتراضي</span>
+        </div>
+        <div style="background:var(--wh);border-radius:10px;padding:10px 12px;">
+          <div style="font-size:11px;color:var(--n3);margin-bottom:3px;">رقم الآيبان</div>
+          <div style="font-size:13px;font-weight:700;color:var(--n1);direction:ltr;text-align:right;">KW91 KWNB 0000 0000 0000 1234 5678 90</div>
+          <div style="font-size:11px;color:var(--n3);margin-top:6px;margin-bottom:3px;">رقم الحساب</div>
+          <div style="font-size:13px;font-weight:700;color:var(--n1);direction:ltr;text-align:right;">1234567890</div>
+        </div>
+      </div>
+
+      <!-- 2. Phone / Wumadh -->
+      <div style="background:var(--bg);border-radius:var(--rb);padding:14px 16px;margin-bottom:10px;">
+        <div class="f ia jb mb8">
+          <div class="f ia g10">
+            <div style="width:38px;height:38px;border-radius:10px;background:rgba(0,150,64,.1);display:flex;align-items:center;justify-content:center;">
+              <svg width="18" height="18" style="color:var(--g)" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2A19.79 19.79 0 0 1 11.82 19 19.5 19.5 0 0 1 5 13.18 19.79 19.79 0 0 1 2.12 4.41 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 5.99 6l.82-.82a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            </div>
+            <div>
+              <div style="font-size:13px;font-weight:700;color:var(--n1);">رقم الجوال (وضمض)</div>
+              <div style="font-size:11px;color:var(--n3);margin-top:1px;">إرسال مباشر للمستفيد</div>
+            </div>
+          </div>
+        </div>
+        <div style="background:var(--wh);border-radius:10px;padding:10px 12px;">
+          <div style="font-size:11px;color:var(--n3);margin-bottom:3px;">رقم الجوال</div>
+          <div style="font-size:14px;font-weight:700;color:var(--n1);direction:ltr;text-align:right;">+965 9XXX XXXX</div>
+        </div>
+      </div>
+
+      <!-- 3. MyFatoorah -->
+      <div style="background:var(--bg);border-radius:var(--rb);padding:14px 16px;margin-bottom:10px;">
+        <div class="f ia jb mb8">
+          <div class="f ia g10">
+            <div style="width:38px;height:38px;border-radius:10px;background:rgba(0,150,64,.1);display:flex;align-items:center;justify-content:center;">
+              <svg width="18" height="18" style="color:var(--g)" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+            </div>
+            <div>
+              <div style="font-size:13px;font-weight:700;color:var(--n1);">MyFatoorah</div>
+              <div style="font-size:11px;color:var(--n3);margin-top:1px;">رابط دفع إلكتروني</div>
+            </div>
+          </div>
+        </div>
+        <div style="background:var(--wh);border-radius:10px;padding:10px 12px;">
+          <div style="font-size:11px;color:var(--n3);margin-bottom:3px;">رابط الدفع</div>
+          <div style="font-size:12px;font-weight:600;color:var(--g);direction:ltr;text-align:right;">my.myfatoorah.com/...</div>
+        </div>
+      </div>
+
+      <!-- Add another method -->
+      <button onclick="openSheet('sheet-add-payment')" style="width:100%;padding:13px;border-radius:var(--r);border:1.5px dashed var(--bd);background:var(--bg);font-family:inherit;font-size:13px;color:var(--g);font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;">
+        <svg width="16" height="16" style="color:var(--g)" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        إضافة وسيلة دفع أخرى
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Sheet: تفاصيل طلب إدارة -->
+<div class="profile-sheet-ov" id="sheet-adm-req" onclick="if(event.target===this)closeSheet('sheet-adm-req')">
+  <div class="profile-sheet">
+    <div class="ps-handle"></div>
+    <div class="ps-hdr"><div class="ps-title">تفاصيل الطلب</div><button class="ps-close" onclick="closeSheet('sheet-adm-req')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div>
+    <div style="padding:0 0 24px;">
+      <div class="pf-row" style="cursor:default;"><div class="pf-body"><div class="pf-title">المستفيد</div></div><div class="pf-right" style="color:var(--n2);font-weight:600;">فاطمة أحمد محمود</div></div>
+      <div class="pf-row" style="cursor:default;"><div class="pf-body"><div class="pf-title">نوع الطلب</div></div><span class="chip chip-green">احتياجات</span></div>
+      <div class="pf-row" style="cursor:default;"><div class="pf-body"><div class="pf-title">المبلغ</div></div><div style="font-size:16px;font-weight:700;color:var(--g);">200 د.ك</div></div>
+      <div class="pf-row" style="cursor:default;"><div class="pf-body"><div class="pf-title">الأقساط</div></div><div class="pf-right" style="color:var(--n2);">4 شهرية</div></div>
+      <div class="pf-row" style="cursor:default;"><div class="pf-body"><div class="pf-title">التاريخ</div></div><div class="pf-right" style="color:var(--n2);">اليوم · 11:20 ص</div></div>
+      <div style="padding:12px 20px;background:var(--bg);margin:8px 0;">
+        <div style="font-size:12px;font-weight:700;color:var(--n3);margin-bottom:8px;">المستندات</div>
+        <div class="f ia g8">
+          <div style="background:var(--wh);border-radius:8px;padding:7px 12px;font-size:12px;color:var(--n2);display:flex;align-items:center;gap:5px;"><svg width="13" height="13" style="color:var(--g)"><use href="#ic-doc"/></svg> البطاقة المدنية</div>
+          <div style="background:var(--wh);border-radius:8px;padding:7px 12px;font-size:12px;color:var(--n2);display:flex;align-items:center;gap:5px;"><svg width="13" height="13" style="color:var(--g)"><use href="#ic-doc"/></svg> إذن العمل</div>
+        </div>
+      </div>
+      <div style="padding:12px 20px;background:var(--bg);margin-bottom:8px;">
+        <div style="font-size:12px;font-weight:700;color:var(--n3);margin-bottom:6px;">ملاحظات</div>
+        <textarea style="width:100%;padding:10px;border-radius:var(--r);border:1.5px solid var(--bd);background:var(--wh);font-family:inherit;font-size:13px;height:70px;resize:none;" placeholder="أضف ملاحظة..."></textarea>
+      </div>
+      <div style="padding:0 20px;display:flex;gap:8px;">
+        <button class="btn btn-green f1" onclick="showToast('✓ تم القبول وإرساله للممولين');closeSheet('sheet-adm-req')"><svg width="14" height="14"><use href="#ic-check"/></svg> قبول</button>
+        <button class="btn btn-red-sm btn-sm" style="flex:1;" onclick="showToast('تم الرفض وإشعار المستفيد');closeSheet('sheet-adm-req')"><svg width="14" height="14"><use href="#ic-x"/></svg> رفض</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Sheet: تفاصيل مستخدم إدارة -->
+<div class="profile-sheet-ov" id="sheet-adm-user" onclick="if(event.target===this)closeSheet('sheet-adm-user')">
+  <div class="profile-sheet">
+    <div class="ps-handle"></div>
+    <div class="ps-hdr"><div class="ps-title">بيانات المستخدم</div><button class="ps-close" onclick="closeSheet('sheet-adm-user')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div>
+    <div style="padding:0 0 24px;">
+      <div style="padding:20px;text-align:center;border-bottom:1px solid var(--bd);">
+        <div class="avatar av-lg av-green" style="margin:0 auto 10px;">م</div>
+        <div style="font-size:16px;font-weight:700;color:var(--n1);">محمد إبراهيم حسن</div>
+        <div style="font-size:12px;color:var(--n3);margin-top:3px;">مستفيد · منذ مايو 2025</div>
+        <span class="chip chip-green" style="font-size:11px;margin-top:8px;display:inline-flex;">موثق ✓</span>
+      </div>
+      <div class="pf-row" style="cursor:default;"><div class="pf-body"><div class="pf-title">رقم الجوال</div></div><div class="pf-right" dir="ltr">+965 9XXX XXXX</div></div>
+      <div class="pf-row" style="cursor:default;"><div class="pf-body"><div class="pf-title">البطاقة المدنية</div></div><div class="pf-right">2XXXXXXXXX</div></div>
+      <div class="pf-row" style="cursor:default;"><div class="pf-body"><div class="pf-title">الحالات</div></div><div class="pf-right">حالة واحدة نشطة</div></div>
+      <div class="pf-row" style="cursor:default;"><div class="pf-body"><div class="pf-title">المستندات</div></div><span class="chip chip-green" style="font-size:10px;">مكتملة ✓</span></div>
+      <div style="padding:12px 20px;">
+        <button class="btn btn-gray" onclick="showToast('تم تعديل الحالة');closeSheet('sheet-adm-user')">تعديل حالة التوثيق</button>
+      </div>
     </div>
   </div>
 </div>
