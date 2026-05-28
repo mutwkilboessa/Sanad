@@ -74,7 +74,7 @@ body{
 }
 .sb-white{background:var(--wh);}
 .sb-dark{background:var(--n1);}
-.sb-green{background:var(--g);}
+.sb-green{background:var(--grad-h);}
 .sb-time{font-size:15px;font-weight:700;}
 .sb-icons{display:flex;gap:5px;align-items:center;}
 
@@ -85,7 +85,7 @@ body{
 }
 .top-bar.white{background:var(--wh);border-bottom:1px solid var(--bd);}
 .top-bar.dark{background:var(--n1);}
-.top-bar.green{background:var(--g);}
+.top-bar.green{background:var(--grad-h);}
 .top-bar.transparent{background:transparent;}
 .tb-back{
   width:36px;height:36px;border-radius:50%;
@@ -254,7 +254,7 @@ body{
 }
 .cb-red{background:var(--ro);}
 .cb-gold{background:var(--go);}
-.cb-green{background:var(--g);}
+.cb-green{background:var(--grad-h);}
 
 /* ═══ SWITCH TABS ═══ */
 .sw-tabs{
@@ -440,7 +440,8 @@ body{
      SCREEN 2: LOGIN SELECT
 ═══════════════════════════ -->
 <div class="screen" id="sc-login-select">
-  <div style="background:var(--grad-h);flex-shrink:0;padding:env(safe-area-inset-top,44px) 20px 14px;display:flex;align-items:center;justify-content:space-between;">
+  <div style="background:var(--grad-h);flex-shrink:0;padding-top:env(safe-area-inset-top,44px);">
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 20px 12px;">
     <div style="width:36px;"></div>
     <svg viewBox="0 0 120 38" xmlns="http://www.w3.org/2000/svg" style="height:32px;width:auto;">
       <circle fill="white" cx="17.24" cy="16.95" r="10.45"/>
@@ -459,6 +460,7 @@ body{
     <button class="tb-back tb-back-light" onclick="go('sc-home')">
       <svg width="20" height="20" style="color:white"><use href="#ic-back"/></svg>
     </button>
+    </div>
   </div>
   <div class="scroll-body p20">
     <div class="t-lg w700 mb8">من أنت؟</div>
@@ -502,7 +504,8 @@ body{
      SCREEN 3: LOGIN BENEFICIARY — Simple
 ═══════════════════════════ -->
 <div class="screen" id="sc-login-ben">
-  <div style="background:var(--grad-h);flex-shrink:0;padding:env(safe-area-inset-top,44px) 20px 14px;display:flex;align-items:center;justify-content:space-between;">
+  <div style="background:var(--grad-h);flex-shrink:0;padding-top:env(safe-area-inset-top,44px);">
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 20px 12px;">
     <div style="width:36px;"></div>
     <svg viewBox="0 0 120 38" xmlns="http://www.w3.org/2000/svg" style="height:32px;width:auto;">
       <circle fill="white" cx="17.24" cy="16.95" r="10.45"/>
@@ -521,6 +524,7 @@ body{
     <button class="tb-back tb-back-light" onclick="go('sc-login-select')">
       <svg width="20" height="20" style="color:white"><use href="#ic-back"/></svg>
     </button>
+    </div>
   </div>
   <div class="scroll-body p20">
     <div class="t-lg w700 mb8 lh">تسجيل الدخول</div>
@@ -565,7 +569,8 @@ body{
      SCREEN 4: LOGIN DONOR
 ═══════════════════════════ -->
 <div class="screen" id="sc-login-donor">
-  <div style="background:var(--grad-h);flex-shrink:0;padding:env(safe-area-inset-top,44px) 20px 14px;display:flex;align-items:center;justify-content:space-between;">
+  <div style="background:var(--grad-h);flex-shrink:0;padding-top:env(safe-area-inset-top,44px);">
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 20px 12px;">
     <div style="width:36px;"></div>
     <svg viewBox="0 0 120 38" xmlns="http://www.w3.org/2000/svg" style="height:32px;width:auto;">
       <circle fill="white" cx="17.24" cy="16.95" r="10.45"/>
@@ -584,6 +589,7 @@ body{
     <button class="tb-back tb-back-light" onclick="go('sc-login-select')">
       <svg width="20" height="20" style="color:white"><use href="#ic-back"/></svg>
     </button>
+    </div>
   </div>
   <div class="scroll-body p20">
     <div class="t-lg w700 mb8 lh">تسجيل الدخول</div>
@@ -624,7 +630,8 @@ body{
      SCREEN 5: LOGIN ADMIN
 ═══════════════════════════ -->
 <div class="screen" id="sc-login-admin">
-  <div style="background:var(--grad-h);flex-shrink:0;padding:env(safe-area-inset-top,44px) 20px 14px;display:flex;align-items:center;justify-content:space-between;">
+  <div style="background:var(--grad-h);flex-shrink:0;padding-top:env(safe-area-inset-top,44px);">
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 20px 12px;">
     <div style="width:36px;"></div>
     <svg viewBox="0 0 120 38" xmlns="http://www.w3.org/2000/svg" style="height:32px;width:auto;">
       <circle fill="white" cx="17.24" cy="16.95" r="10.45"/>
@@ -643,6 +650,7 @@ body{
     <button class="tb-back tb-back-light" onclick="go('sc-login-select')">
       <svg width="20" height="20" style="color:white"><use href="#ic-back"/></svg>
     </button>
+    </div>
   </div>
   <div class="scroll-body p20">
     <div class="t-lg w700 mb8">لوحة الإدارة</div>
@@ -656,6 +664,28 @@ body{
       <input class="form-input" type="password" placeholder="••••••••" dir="ltr">
     </div>
     <button class="btn btn-dark mt8" onclick="go('sc-admin')">دخول</button>
+    <!-- فاصل -->
+    <div style="display:flex;align-items:center;gap:12px;margin:20px 0;">
+      <div style="flex:1;height:1px;background:var(--bd);"></div>
+      <span style="font-size:12px;color:var(--n4);">أو</span>
+      <div style="flex:1;height:1px;background:var(--bd);"></div>
+    </div>
+    <!-- دخول بالبصمة -->
+    <button onclick="showToast('جارٍ التحقق بالبصمة...');setTimeout(()=>{go('sc-admin')},800)"
+      style="width:100%;padding:14px;border-radius:var(--r);border:1.5px solid var(--bd);background:var(--wh);font-family:inherit;font-size:14px;font-weight:600;color:var(--n1);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--n2)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M2 12C2 6.5 6.5 2 12 2a10 10 0 0 1 8 4"/>
+        <path d="M5 19.5C5.5 18 6 15 6 12c0-.7.12-1.37.34-2"/>
+        <path d="M17.29 21.02c.12-.6.43-2.3.5-3.02"/>
+        <path d="M12 10a2 2 0 0 0-2 2c0 1.02-.1 2.51-.26 4"/>
+        <path d="M8.65 22c.21-.66.45-1.32.57-2"/>
+        <path d="M14 13.12c0 2.38 0 6.38-1 8.88"/>
+        <path d="M2 16h.01"/>
+        <path d="M21.8 16c.2-2 .131-5.354 0-6"/>
+        <path d="M9 6.8a6 6 0 0 1 9 5.2c0 .47 0 1.17-.02 2"/>
+      </svg>
+      الدخول بالبصمة
+    </button>
   </div>
 </div>
 
@@ -1288,7 +1318,7 @@ body{
       <input class="edit-field" type="tel" value="+965 9XXX XXXX" placeholder="+965 XXXX XXXX" dir="ltr">
       <span class="pf-label">رقم الهوية / البطاقة المدنية</span>
       <input class="edit-field" type="text" value="2XXXXXXXXX" placeholder="رقم البطاقة المدنية" dir="ltr">
-      <button style="width:100%;padding:14px;border-radius:var(--r);border:none;background:var(--g);color:#fff;font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;margin-top:20px;" onclick="showToast('تم حفظ البيانات ✓');closeSheet('sheet-personal')">حفظ التغييرات</button>
+      <button style="width:100%;padding:14px;border-radius:var(--r);border:none;background:var(--grad-h);color:#fff;font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;margin-top:20px;" onclick="showToast('تم حفظ البيانات ✓');closeSheet('sheet-personal')">حفظ التغييرات</button>
     </div>
   </div>
 </div>
@@ -1384,7 +1414,7 @@ body{
       <!-- Input -->
       <div style="padding:12px 20px;display:flex;gap:10px;align-items:center;border-top:1px solid var(--bd);">
         <input class="edit-field" style="margin-top:0;flex:1;" type="text" placeholder="اكتب رسالتك...">
-        <button style="width:40px;height:40px;border-radius:50%;border:none;background:var(--g);display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;" onclick="showToast('تم إرسال رسالتك ✓')">
+        <button style="width:40px;height:40px;border-radius:50%;border:none;background:var(--grad-h);display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;" onclick="showToast('تم إرسال رسالتك ✓')">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
         </button>
       </div>
@@ -1670,14 +1700,14 @@ body{
      INSTALL BANNER
 ═══════════════════════════ -->
 <div class="install-banner" id="install-banner">
-  <div style="width:52px;height:52px;border-radius:14px;background:var(--g);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+  <div style="width:52px;height:52px;border-radius:14px;background:var(--grad-h);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
     <svg width="26" height="26" viewBox="0 0 72 48" fill="none"><circle cx="16" cy="16" r="13" fill="white"/><circle cx="56" cy="16" r="13" fill="rgba(255,255,255,0.3)"/><path d="M16 29 Q36 44 56 29" stroke="white" stroke-width="3.5" stroke-linecap="round" fill="none"/></svg>
   </div>
   <div style="flex:1;">
     <div style="font-size:15px;font-weight:700;color:var(--n1);">تثبيت سند</div>
     <div style="font-size:12px;color:var(--n3);margin-top:2px;">أضف التطبيق لشاشتك الرئيسية</div>
     <div style="display:flex;gap:8px;margin-top:10px;">
-      <button id="install-btn" style="padding:9px 20px;border-radius:99px;border:none;background:var(--g);color:var(--wh);font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;">تثبيت</button>
+      <button id="install-btn" style="padding:9px 20px;border-radius:99px;border:none;background:var(--grad-h);color:var(--wh);font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;">تثبيت</button>
       <button onclick="document.getElementById('install-banner').classList.remove('show')" style="padding:9px 16px;border-radius:99px;border:none;background:var(--bg2);color:var(--n3);font-family:inherit;font-size:13px;cursor:pointer;">لاحقاً</button>
     </div>
   </div>
@@ -2164,27 +2194,55 @@ function adminTab(tab) {
       <div class="ps-title">وسائل الدفع</div>
       <button class="ps-close" onclick="closeSheet('sheet-payment')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
     </div>
-    <div style="padding:12px 20px 24px;">
-      <!-- الوسيلة الافتراضية -->
-      <div style="font-size:11px;font-weight:700;color:var(--n3);margin-bottom:8px;letter-spacing:.04em;">الوسيلة المسجلة</div>
-      <div style="background:var(--bg);border-radius:var(--rb);padding:14px;margin-bottom:16px;">
-        <div class="f ia jb">
+    <div style="padding:12px 20px 28px;">
+      <!-- Section title -->
+      <div style="font-size:11px;font-weight:700;color:var(--n3);margin-bottom:10px;letter-spacing:.04em;">وسائل الاستلام المسجلة</div>
+
+      <!-- 1. Bank account IBAN -->
+      <div style="background:var(--bg);border-radius:var(--rb);padding:14px 16px;margin-bottom:10px;">
+        <div class="f ia jb mb8">
           <div class="f ia g10">
             <div style="width:38px;height:38px;border-radius:10px;background:#E8F0FE;display:flex;align-items:center;justify-content:center;">
-              <svg width="18" height="18" style="color:#1565C0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+              <svg width="18" height="18" style="color:#1565C0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg>
             </div>
             <div>
-              <div style="font-size:14px;font-weight:700;color:var(--n1);">KNET</div>
-              <div style="font-size:11px;color:var(--n3);margin-top:2px;">•••• •••• •••• 4521</div>
+              <div style="font-size:13px;font-weight:700;color:var(--n1);">الحساب البنكي</div>
+              <div style="font-size:11px;color:var(--n3);margin-top:1px;">بنك الكويت الوطني</div>
             </div>
           </div>
           <span class="chip chip-green" style="font-size:10px;">افتراضي</span>
         </div>
+        <div style="background:var(--wh);border-radius:10px;padding:10px 12px;">
+          <div style="font-size:11px;color:var(--n3);margin-bottom:3px;">رقم الآيبان</div>
+          <div style="font-size:13px;font-weight:700;color:var(--n1);direction:ltr;text-align:right;">KW91 KWNB 0000 0000 0000 1234 5678 90</div>
+          <div style="font-size:11px;color:var(--n3);margin-top:6px;margin-bottom:3px;">رقم الحساب</div>
+          <div style="font-size:13px;font-weight:700;color:var(--n1);direction:ltr;text-align:right;">1234567890</div>
+        </div>
       </div>
-      <!-- إضافة وسيلة -->
-      <button onclick="openSheet('sheet-add-payment')" style="width:100%;padding:14px;border-radius:var(--r);border:1.5px dashed var(--bd);background:var(--bg);font-family:inherit;font-size:13px;color:var(--g);font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;">
+
+      <!-- 2. Phone / Wumadh -->
+      <div style="background:var(--bg);border-radius:var(--rb);padding:14px 16px;margin-bottom:10px;">
+        <div class="f ia jb mb8">
+          <div class="f ia g10">
+            <div style="width:38px;height:38px;border-radius:10px;background:rgba(0,150,64,.1);display:flex;align-items:center;justify-content:center;">
+              <svg width="18" height="18" style="color:var(--g)" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2A19.79 19.79 0 0 1 11.82 19 19.5 19.5 0 0 1 5 13.18 19.79 19.79 0 0 1 2.12 4.41 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 5.99 6l.82-.82a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            </div>
+            <div>
+              <div style="font-size:13px;font-weight:700;color:var(--n1);">رقم الجوال (وضمض)</div>
+              <div style="font-size:11px;color:var(--n3);margin-top:1px;">إرسال مباشر من الممول</div>
+            </div>
+          </div>
+        </div>
+        <div style="background:var(--wh);border-radius:10px;padding:10px 12px;">
+          <div style="font-size:11px;color:var(--n3);margin-bottom:3px;">رقم الجوال</div>
+          <div style="font-size:14px;font-weight:700;color:var(--n1);direction:ltr;text-align:right;">+965 9XXX XXXX</div>
+        </div>
+      </div>
+
+      <!-- Add another method -->
+      <button onclick="openSheet('sheet-add-payment')" style="width:100%;padding:13px;border-radius:var(--r);border:1.5px dashed var(--bd);background:var(--bg);font-family:inherit;font-size:13px;color:var(--g);font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;">
         <svg width="16" height="16" style="color:var(--g)" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-        إضافة وسيلة دفع
+        إضافة وسيلة استلام أخرى
       </button>
     </div>
   </div>
@@ -2209,7 +2267,7 @@ function adminTab(tab) {
       <input class="edit-field" type="text" placeholder="مثال: بنك الكويت الوطني">
       <span class="pf-label">رقم الحساب أو الرابط</span>
       <input class="edit-field" type="text" placeholder="IBAN أو رابط الدفع" dir="ltr">
-      <button style="width:100%;padding:13px;border-radius:var(--r);border:none;background:var(--g);color:#fff;font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;margin-top:18px;" onclick="showToast('تم إضافة وسيلة الدفع ✓');closeSheet('sheet-add-payment')">حفظ</button>
+      <button style="width:100%;padding:13px;border-radius:var(--r);border:none;background:var(--grad-h);color:#fff;font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;margin-top:18px;" onclick="showToast('تم إضافة وسيلة الدفع ✓');closeSheet('sheet-add-payment')">حفظ</button>
     </div>
   </div>
 </div>
