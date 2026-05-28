@@ -711,7 +711,7 @@ body{
 <div class="screen" id="sc-ben">
 
   <!-- ── هيدر أخضر ثابت ── -->
-  <div id="ben-topbar" style="background:var(--grad-h);flex-shrink:0;padding:env(safe-area-inset-top,44px) 20px 0;display:flex;align-items:flex-end;justify-content:space-between;padding-bottom:12px;">
+  <div id="ben-topbar" style="background:var(--grad-h);flex-shrink:0;padding:env(safe-area-inset-top,44px) 20px 0;display:flex;align-items:flex-end;justify-content:space-between;padding-bottom:12px;position:relative;">
     <!-- شعار سند — SVG الرسمي الجديد -->
     <div style="display:flex;align-items:center;flex:1;">
       <svg viewBox="0 0 120 38" xmlns="http://www.w3.org/2000/svg" style="height:36px;width:auto;display:block;">
@@ -1025,8 +1025,8 @@ body{
      SCREEN 7: DONOR APP — Green Impact + Tabs
 ═══════════════════════════ -->
 <div class="screen" id="sc-donor">
-  <!-- Topbar — matches ben-topbar style -->
-  <div style="background:var(--grad-h);flex-shrink:0;padding:env(safe-area-inset-top,44px) 20px 0;display:flex;align-items:flex-end;justify-content:space-between;padding-bottom:12px;">
+  <!-- Topbar -->
+  <div style="background:var(--grad-h);flex-shrink:0;padding:env(safe-area-inset-top,44px) 20px 0;display:flex;align-items:flex-end;justify-content:space-between;padding-bottom:12px;position:relative;">
     <div style="display:flex;align-items:center;flex:1;">
       <svg viewBox="0 0 120 38" xmlns="http://www.w3.org/2000/svg" style="height:36px;width:auto;display:block;">
   <circle fill="white" cx="17.24" cy="16.95" r="10.45"/>
@@ -1492,8 +1492,8 @@ body{
 ═══════════════════════════ -->
 <div class="screen" id="sc-admin">
 
-  <!-- Black header — admin style -->
-  <div style="background:var(--n1);flex-shrink:0;padding:env(safe-area-inset-top,44px) 20px 0;display:flex;align-items:flex-end;justify-content:space-between;padding-bottom:12px;position:relative;">
+  <!-- Topbar -->
+  <div style="background:var(--grad-h);flex-shrink:0;padding:env(safe-area-inset-top,44px) 20px 0;display:flex;align-items:flex-end;justify-content:space-between;padding-bottom:12px;position:relative;">
     <div style="display:flex;align-items:center;flex:1;">
       <svg viewBox="0 0 120 38" xmlns="http://www.w3.org/2000/svg" style="height:36px;width:auto;display:block;">
   <circle fill="white" cx="17.24" cy="16.95" r="10.45"/>
@@ -1519,7 +1519,7 @@ body{
     <div style="flex:1;display:flex;justify-content:flex-end;">
       <button style="width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,.15);border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;position:relative;" onclick="showToast('٥ إشعارات جديدة')">
         <svg width="20" height="20" style="color:white"><use href="#ic-bell"/></svg>
-        <div class="notif-badge notif-badge-dark"></div>
+        <div style="position:absolute;top:6px;right:6px;width:8px;height:8px;border-radius:50%;background:#e74c3c;border:1.5px solid var(--g);"></div>
       </button>
     </div>
   </div>
