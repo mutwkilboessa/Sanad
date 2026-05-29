@@ -845,7 +845,18 @@ body{
 
     <!-- إضافة طلب -->
     <div id="req-new" style="display:none;">
-      <!-- اختيار النوع -->
+    <!-- شريط التقدم -->
+    <div style="display:flex;align-items:center;gap:0;margin-bottom:24px;">
+      <div id="sdot1" style="width:32px;height:32px;border-radius:50%;background:var(--g);color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex-shrink:0;">١</div>
+      <div id="sline1" style="flex:1;height:2px;background:var(--g);"></div>
+      <div id="sdot2" style="width:32px;height:32px;border-radius:50%;background:var(--bd);color:var(--n3);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex-shrink:0;">٢</div>
+      <div id="sline2" style="flex:1;height:2px;background:var(--bd);"></div>
+      <div id="sdot3" style="width:32px;height:32px;border-radius:50%;background:var(--bd);color:var(--n3);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex-shrink:0;">٣</div>
+    </div>
+
+    <!-- الخطوة ١: نوع الطلب -->
+    <div id="req-step-1">
+      <div style="font-size:15px;font-weight:700;color:var(--n1);margin-bottom:14px;">نوع الطلب</div>
       <div class="f fc g10 mb14">
         <div id="type-q" style="border:2px solid var(--g);border-radius:var(--rb);padding:14px;background:rgba(0,147,105,.1);cursor:pointer;" onclick="selectType('q')">
           <div class="t-sm w700 c-green mb3">القرض الحسن المالي</div>
@@ -856,9 +867,7 @@ body{
           <div class="t-xs c-n3">غذاء · أسرية · مستلزمات أطفال</div>
         </div>
       </div>
-
-      <!-- عدد الأقساط -->
-      <div class="mb14">
+      <div class="mb16">
         <div class="form-label">عدد الأقساط</div>
         <div class="f g8">
           <div onclick="selectInst(this)" style="flex:1;text-align:center;padding:10px;border-radius:var(--r);background:var(--bg);font-size:14px;font-weight:600;color:var(--n3);cursor:pointer;">2</div>
@@ -867,27 +876,46 @@ body{
           <div onclick="selectInst(this)" style="flex:1;text-align:center;padding:10px;border-radius:var(--r);background:var(--bg);font-size:14px;font-weight:600;color:var(--n3);cursor:pointer;">6</div>
         </div>
       </div>
+      <button class="btn btn-green" onclick="reqStep(2)">التالي ←</button>
+    </div>
 
-      <!-- شرح الحالة -->
+    <!-- الخطوة ٢: التفاصيل -->
+    <div id="req-step-2" style="display:none;">
+      <div style="font-size:15px;font-weight:700;color:var(--n1);margin-bottom:14px;">التفاصيل</div>
       <div class="mb14">
-        <div class="form-label">شرح الحالة</div>
-        <textarea class="form-input" style="height:80px;resize:none;" placeholder="اشرح وضعك بصدق..."></textarea>
+        <div class="form-label">المبلغ المطلوب (د.ك)</div>
+        <input class="form-input" type="number" placeholder="مثال: 150" inputmode="numeric">
       </div>
-
-      <!-- مستند داعم — إجباري -->
       <div class="mb16">
+        <div class="form-label">شرح الحالة</div>
+        <textarea class="form-input" style="height:90px;resize:none;" placeholder="اشرح وضعك بصدق..."></textarea>
+      </div>
+      <div class="f g10">
+        <button class="btn btn-gray f1" onclick="reqStep(1)">→ رجوع</button>
+        <button class="btn btn-green f1" onclick="reqStep(3)">التالي ←</button>
+      </div>
+    </div>
+
+    <!-- الخطوة ٣: المستندات -->
+    <div id="req-step-3" style="display:none;">
+      <div style="font-size:15px;font-weight:700;color:var(--n1);margin-bottom:14px;">المستندات</div>
+      <div class="mb14">
         <div class="f ia jb mb6">
           <div class="form-label" style="margin:0;">مستند داعم</div>
           <span style="font-size:10px;font-weight:700;color:var(--ro);background:var(--ro-l);padding:2px 8px;border-radius:99px;">مطلوب *</span>
         </div>
-        <div id="doc-upload-area" style="border:1.5px dashed var(--ro);border-radius:var(--r);padding:16px;text-align:center;cursor:pointer;background:rgba(192,57,43,.03);" onclick="showToast('رفع ملف — قريباً')">
+        <div id="doc-upload-area" style="border:1.5px dashed var(--ro);border-radius:var(--r);padding:18px;text-align:center;cursor:pointer;background:rgba(192,57,43,.03);" onclick="showToast('رفع ملف — قريباً')">
           <svg width="22" height="22" style="color:var(--ro);display:block;margin:0 auto 6px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
           <div style="font-size:12px;color:var(--n2);font-weight:600;">اضغط لرفع الملف</div>
           <div style="font-size:11px;color:var(--n4);margin-top:3px;">صورة أو PDF · فاتورة · إيجار · دين</div>
         </div>
       </div>
-
-      <button class="btn btn-green" onclick="showToast('تم إرسال طلبك ✓ خلال 24 ساعة');reqTab('cur')">إرسال الطلب</button>
+      <div style="font-size:11px;color:var(--n3);text-align:center;margin-bottom:16px;">المستندات تُراجع بسرية تامة من فريق سند</div>
+      <div class="f g10">
+        <button class="btn btn-gray f1" onclick="reqStep(2)">→ رجوع</button>
+        <button class="btn btn-green f1" onclick="showToast('تم إرسال طلبك ✓ خلال 24 ساعة');reqTab('cur');reqStep(1)">إرسال الطلب</button>
+      </div>
+    </div>
     </div>
   </div>
 
@@ -2092,6 +2120,19 @@ function toggleSection(contentId, arrowId) {
   const isHidden = el.style.display === 'none' || el.style.display === '';
   el.style.display = isHidden ? 'block' : 'none';
   if(arrow) arrow.style.transform = isHidden ? 'rotate(0deg)' : 'rotate(180deg)';
+}
+
+/* ── Request step wizard ── */
+function reqStep(n){
+  [1,2,3].forEach(function(i){
+    var s=document.getElementById('req-step-'+i);
+    if(s)s.style.display=i===n?'block':'none';
+    var d=document.getElementById('sdot'+i);
+    if(d){d.style.background=i<=n?'var(--g)':'var(--bd)';d.style.color=i<=n?'#fff':'var(--n3)';}
+  });
+  var l1=document.getElementById('sline1');var l2=document.getElementById('sline2');
+  if(l1)l1.style.background=n>1?'var(--g)':'var(--bd)';
+  if(l2)l2.style.background=n>2?'var(--g)':'var(--bd)';
 }
 
 /* ── Type selector (new request) ── */
