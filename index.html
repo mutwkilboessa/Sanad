@@ -371,6 +371,17 @@ body{
 .toggle-wrap input:checked + .toggle-sl{background:var(--g);}
 .toggle-wrap input:checked + .toggle-sl::after{right:auto;left:3px;}
 
+.funder-hero-card{background:#F0FAF4;border-radius:var(--rb);padding:20px;margin-bottom:16px;}
+[data-theme="dark"] .funder-hero-card{background:#0F2A1A;}
+.funder-hero-card .fhr-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
+.funder-hero-card .fhr-name{font-size:17px;font-weight:700;color:var(--n1);}
+.funder-hero-card .fhr-code{font-size:12px;color:var(--g);font-weight:600;}
+.funder-hero-card .fhr-badge{font-size:11px;color:#4a7a5a;margin-top:2px;}
+.funder-hero-card .fhr-stats{display:flex;gap:0;margin:0;padding:14px 0;border-top:1px solid rgba(0,150,64,.15);border-bottom:1px solid rgba(0,150,64,.15);}
+.funder-hero-card .fhr-stat{flex:1;text-align:center;}
+.funder-hero-card .fhr-stat-val{font-size:20px;font-weight:800;color:var(--g);display:block;}
+.funder-hero-card .fhr-stat-lbl{font-size:11px;color:#4a7a5a;margin-top:2px;}
+.funder-hero-card .fhr-hadith{font-size:12px;color:var(--n3);font-style:italic;text-align:center;line-height:1.75;margin-top:12px;}
 .snackbar{position:fixed;bottom:90px;left:50%;transform:translateX(-50%) translateY(10px);background:#1a1a1a;color:#fff;padding:11px 20px;border-radius:10px;font-size:13px;font-weight:600;z-index:9999;opacity:0;animation:snkIn 2.2s ease forwards;white-space:nowrap;pointer-events:none;}
 @keyframes snkIn{0%{opacity:0;transform:translateX(-50%) translateY(10px)}15%{opacity:1;transform:translateX(-50%) translateY(0)}80%{opacity:1}100%{opacity:0;transform:translateX(-50%) translateY(0)}}
 
@@ -1088,14 +1099,28 @@ body{
 
     <!-- Tab: الرئيسية / Available cases -->
     <div class="scroll-body" id="donor-avail" style="padding:14px 16px;">
-      <!-- بطاقة إجمالي التأثير -->
-      <!-- بطاقة تأثير شخصية -->
-      <div style="background:#F0FAF4;border-radius:var(--rb);padding:16px 18px;margin-bottom:12px;">
-        <div style="font-size:16px;font-weight:700;color:#007a35;margin-bottom:5px;">خالد العمر، جزاك الله خيراً 🌿</div>
-        <div style="font-size:13px;color:#4a7a5a;">موّلت 12 شخصاً · 1,850 د.ك</div>
+      <!-- بطاقة الممول الموحدة -->
+      <div class="funder-hero-card">
+        <div class="fhr-top">
+          <div>
+            <div class="fhr-name">خالد العمر</div>
+            <div class="fhr-badge">ممول موثق ✓ 🌿</div>
+          </div>
+          <div class="fhr-code">SF-204</div>
+        </div>
+        <div class="fhr-stats">
+          <div class="fhr-stat">
+            <span class="fhr-stat-val">1,850</span>
+            <div class="fhr-stat-lbl">د.ك · إجمالي التمويل</div>
+          </div>
+          <div style="width:1px;background:rgba(0,150,64,.15);margin:0 8px;"></div>
+          <div class="fhr-stat">
+            <span class="fhr-stat-val">12</span>
+            <div class="fhr-stat-lbl">شخص · استفادوا</div>
+          </div>
+        </div>
+        <div class="fhr-hadith">«من نفَّسَ عن مسلمٍ كُربةً نفَّسَ اللَّهُ عنهُ كُربةً من كُرَب يوم القيامة»</div>
       </div>
-      <!-- حديث نبوي -->
-      <div style="font-size:12px;color:var(--n3);font-style:italic;text-align:center;margin-bottom:18px;line-height:1.75;padding:0 4px;">«من نفَّسَ عن مسلمٍ كُربةً نفَّسَ اللَّهُ عنهُ كُربةً من كُرَب يوم القيامة»</div>
 
       <div style="font-size:13px;font-weight:700;color:var(--n1);margin-bottom:10px;">حالات تنتظر تمويلك</div>
       <div class="f fc g10">
