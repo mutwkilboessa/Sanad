@@ -1462,28 +1462,18 @@ body{
 <div class="profile-sheet-ov" id="sheet-chat" onclick="if(event.target===this)closeSheet('sheet-chat')">
   <div class="profile-sheet">
     <div class="ps-handle"></div>
-    <div class="ps-hdr">
-      <div class="ps-title">تواصل مع فريق سند</div>
-      <button class="ps-close" onclick="closeSheet('sheet-chat')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
-    </div>
-    <div style="padding:0 0 24px;">
-      <!-- Chat messages -->
-      <div style="padding:16px 20px;background:var(--bg);min-height:200px;max-height:300px;overflow-y:auto;">
-        <div style="display:flex;gap:10px;margin-bottom:14px;">
-          <div style="width:30px;height:30px;border-radius:50%;background:var(--g);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;flex-shrink:0;">س</div>
-          <div style="background:var(--wh);border-radius:12px 12px 12px 0;padding:10px 12px;max-width:75%;box-shadow:var(--sh1);">
-            <div style="font-size:12px;color:var(--n1);line-height:1.5;">أهلاً بك في سند! كيف يمكننا مساعدتك؟</div>
-            <div style="font-size:10px;color:var(--n4);margin-top:4px;">فريق سند · اليوم</div>
-          </div>
-        </div>
+    <div class="ps-hdr"><div class="ps-title">تواصل مع سند 🌿</div><button class="ps-close" onclick="closeSheet('sheet-chat')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div>
+    <div style="display:flex;flex-direction:column;height:320px;">
+      <div id="chat-msgs" style="flex:1;overflow-y:auto;padding:12px 16px;display:flex;flex-direction:column;gap:10px;">
+        <div style="align-self:flex-start;background:#F5F5F5;border-radius:12px 12px 12px 4px;padding:10px 14px;max-width:80%;font-size:13px;color:var(--n1);">أهلاً 🌿 كيف نقدر نساعدك اليوم؟</div>
       </div>
-      <!-- Input -->
-      <div style="padding:12px 20px;display:flex;gap:10px;align-items:center;border-top:1px solid var(--bd);">
-        <input class="edit-field" style="margin-top:0;flex:1;" type="text" placeholder="اكتب رسالتك...">
-        <button style="width:40px;height:40px;border-radius:50%;border:none;background:var(--grad-h);display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;" onclick="showToast('تم إرسال رسالتك ✓')">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+      <div style="padding:10px 16px;border-top:1px solid var(--bd);display:flex;gap:8px;align-items:center;">
+        <input id="chat-input" class="form-input" placeholder="اكتب رسالتك..." style="flex:1;margin:0;" oninput="document.getElementById('chat-send').style.opacity=this.value.trim()?'1':'.4'" onkeydown="if(event.key==='Enter')sendChat()">
+        <button id="chat-send" style="width:38px;height:38px;border-radius:50%;background:var(--g);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;opacity:.4;flex-shrink:0;" onclick="sendChat()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
         </button>
       </div>
+      <div style="text-align:center;padding:6px 0 10px;"><span style="font-size:11px;color:var(--n3);cursor:pointer;" onclick="showToast('سيتواصل معك فريق سند قريباً ✓')">تحدث مع فريق سند مباشرة ←</span></div>
     </div>
   </div>
 </div>
@@ -2410,12 +2400,48 @@ function admUsersTab(tab, btn) {
   document.querySelectorAll('#adm-tab-users .sw-tab').forEach(b=>b.classList.remove('on'));
   if(btn) btn.classList.add('on');
 }
+function toggleVerif(type){var msg=type==='user'?'تم تغيير حالة توثيق المستفيد ✓':'تم تغيير حالة توثيق الممول ✓';snack(msg);}
 
 function updatePayFields() {
   const val = document.getElementById('pay-type-sel').value;
   document.getElementById('pay-fields-bank').style.display = val==='bank' ? 'block' : 'none';
   document.getElementById('pay-fields-wumadh').style.display = val==='wumadh' ? 'block' : 'none';
   document.getElementById('pay-fields-myfatoorah').style.display = val==='myfatoorah' ? 'block' : 'none';
+}
+
+var _chatHistory=[];
+function sendChat(){
+  var inp=document.getElementById('chat-input');
+  var msg=inp.value.trim();
+  if(!msg)return;
+  var msgs=document.getElementById('chat-msgs');
+  // Add user bubble
+  var ub=document.createElement('div');
+  ub.style.cssText='align-self:flex-end;background:#F0FAF4;border-radius:12px 12px 4px 12px;padding:10px 14px;max-width:80%;font-size:13px;color:var(--n1);';
+  ub.textContent=msg;
+  msgs.appendChild(ub);
+  inp.value='';
+  document.getElementById('chat-send').style.opacity='.4';
+  // Add typing indicator
+  var ti=document.createElement('div');
+  ti.id='chat-typing';
+  ti.style.cssText='align-self:flex-start;background:#F5F5F5;border-radius:12px 12px 12px 4px;padding:10px 14px;font-size:13px;color:var(--n3);';
+  ti.textContent='...';
+  msgs.appendChild(ti);
+  msgs.scrollTop=msgs.scrollHeight;
+  // Fallback responses
+  var lower=msg;
+  var reply='';
+  if(/طلب|قبول|رفض/.test(lower)) reply='طلبك قيد المراجعة من فريق سند. ستصلك إشعار فور البت فيه.';
+  else if(/قسط|سداد|دفع/.test(lower)) reply='يمكنك الدفع مباشرة عبر تبويب الأقساط. إذا واجهت مشكلة تواصل معنا.';
+  else if(/ممول|تحويل/.test(lower)) reply='التحويل يتم مباشرة بين الممول والمستفيد. المنصة لا تحتفظ بالأموال.';
+  else if(/توثيق|مستند/.test(lower)) reply='تأكد من رفع مستنداتك كاملة. فريق سند سيراجعها خلال 24 ساعة.';
+  else reply='شكراً على تواصلك 🌿 سيرد عليك فريق سند قريباً.';
+  setTimeout(function(){
+    var t=document.getElementById('chat-typing');
+    if(t){t.style.color='var(--n1)';t.textContent=reply;t.id='';}
+    msgs.scrollTop=msgs.scrollHeight;
+  },900);
 }
 
 </script>
@@ -2881,8 +2907,11 @@ function updatePayFields() {
           </div>
         </div>
       </div>
-      <div style="padding:12px 16px 4px;">
-        <button class="btn btn-gray" onclick="showToast('تم تعديل الحالة');closeSheet('sheet-adm-user')">تعديل حالة التوثيق</button>
+      <div style="padding:12px 16px 16px;">
+        <div style="display:flex;gap:8px;margin-top:16px;">
+          <button class="btn btn-green f1" onclick="adminTab('requests');closeSheet('sheet-adm-user')">عرض حالاته</button>
+          <button class="btn btn-gray f1" id="user-verif-btn" onclick="toggleVerif('user')">تغيير التوثيق</button>
+        </div>
       </div>
     </div>
   </div>
@@ -2928,8 +2957,11 @@ function updatePayFields() {
           </div>
         </div>
       </div>
-      <div style="padding:12px 16px 4px;">
-        <button class="btn btn-gray" onclick="showToast('تم تعديل الحالة');closeSheet('sheet-adm-donor')">تعديل حالة التوثيق</button>
+      <div style="padding:12px 16px 16px;">
+        <div style="display:flex;gap:8px;margin-top:16px;">
+          <button class="btn btn-green f1" onclick="adminTab('install');closeSheet('sheet-adm-donor')">عرض حالاته</button>
+          <button class="btn btn-gray f1" onclick="toggleVerif('donor')">تغيير التوثيق</button>
+        </div>
       </div>
     </div>
   </div>
@@ -3065,6 +3097,37 @@ function updatePayFields() {
         <label class="toggle-wrap"><input type="checkbox" checked onchange="showToast(this.checked?'الأكواد تلقائية':'الأكواد يدوية')"><span class="toggle-sl"></span></label>
       </div>
       <button style="width:100%;padding:13px;border-radius:var(--r);border:none;background:var(--grad-h);color:#fff;font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;" onclick="showToast('تم حفظ إعدادات الأكواد ✓');closeSheet('sheet-adm-codes')">حفظ</button>
+    </div>
+  </div>
+</div>
+
+<div class="profile-sheet-ov" id="sheet-adm-inst" onclick="if(event.target===this)closeSheet('sheet-adm-inst')">
+  <div class="profile-sheet">
+    <div class="ps-hdr"><div class="ps-title">تفاصيل القسط</div><button class="ps-close" onclick="closeSheet('sheet-adm-inst')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div>
+    <div style="padding:0 20px 24px;">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;">
+        <div class="avatar av-md av-green" style="font-size:13px;font-weight:700;">م</div>
+        <div><div style="font-size:16px;font-weight:700;color:var(--n1);">محمد إبراهيم</div><div style="font-size:12px;color:var(--n3);margin-top:2px;">SN-041 · SF-204</div></div>
+      </div>
+      <div style="background:var(--bg);border-radius:var(--r);padding:14px;margin-bottom:14px;">
+        <div class="f ia jb mb8"><span class="t-xs c-n3">النوع</span><span class="t-sm w600 c-n1">قرض حسن</span></div>
+        <div class="f ia jb mb8"><span class="t-xs c-n3">إجمالي القرض</span><span class="t-sm w600 c-n1">150 د.ك</span></div>
+        <div class="f ia jb mb8"><span class="t-xs c-n3">القسط الحالي</span><span class="t-sm w600 c-green">50 د.ك</span></div>
+        <div class="f ia jb mb8"><span class="t-xs c-n3">تاريخ الاستحقاق</span><span class="t-sm w600 c-n1">1 يونيو 2025</span></div>
+        <div class="f ia jb"><span class="t-xs c-n3">نسبة الإنجاز</span><span class="t-sm w600 c-green">67%</span></div>
+      </div>
+      <div class="prog-track mb16"><div class="prog-fill" style="width:67%"></div></div>
+      <!-- Register payment mini form -->
+      <div id="pay-reg-wrap" style="display:none;margin-bottom:12px;background:var(--bg);border-radius:var(--r);padding:12px;">
+        <div style="font-size:13px;font-weight:600;color:var(--n2);margin-bottom:8px;">تسجيل دفعة</div>
+        <input class="form-input mb8" type="number" placeholder="المبلغ (د.ك)" inputmode="numeric" style="margin-bottom:8px;">
+        <input class="form-input mb8" type="date" style="margin-bottom:8px;">
+        <button class="btn btn-green" style="width:100%;" onclick="snack('تم تسجيل الدفعة ✓');closeSheet('sheet-adm-inst');document.getElementById('pay-reg-wrap').style.display='none'">تأكيد الدفعة</button>
+      </div>
+      <div style="display:flex;gap:8px;">
+        <button class="btn btn-green f1" onclick="document.getElementById('pay-reg-wrap').style.display=document.getElementById('pay-reg-wrap').style.display==='none'?'block':'none'">تسجيل دفعة</button>
+        <button class="btn btn-gray f1" onclick="snack('تم إرسال التذكير للمستفيد ✓');closeSheet('sheet-adm-inst')">تذكير</button>
+      </div>
     </div>
   </div>
 </div>
