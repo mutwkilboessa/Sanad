@@ -30,6 +30,21 @@
   --sh-g:0 4px 14px rgba(0,147,105,.35);
   --r:14px;--rb:20px;--rx:28px;
 }
+@media(prefers-color-scheme:dark){
+  :root{
+    --bg:#0F0F0F;
+    --bg2:#1A1A1A;
+    --wh:#1A1A1A;
+    --n1:#F5F5F5;
+    --n2:#D0D0D0;
+    --n3:#A0A0A0;
+    --n4:#707070;
+    --bd:#2A2A2A;
+    --sh1:0 2px 12px rgba(0,0,0,.4);
+  }
+  body{background:#0F0F0F;}
+  .screen{background:#0F0F0F;}
+}
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
 html{height:100%;-webkit-text-size-adjust:100%;}
 body{
@@ -368,6 +383,9 @@ body{
 .toggle-wrap input:checked + .toggle-sl{background:var(--g);}
 .toggle-wrap input:checked + .toggle-sl::after{right:auto;left:3px;}
 
+.snackbar{position:fixed;bottom:90px;left:50%;transform:translateX(-50%) translateY(10px);background:#1a1a1a;color:#fff;padding:11px 20px;border-radius:10px;font-size:13px;font-weight:600;z-index:9999;opacity:0;animation:snkIn 2.2s ease forwards;white-space:nowrap;pointer-events:none;}
+@keyframes snkIn{0%{opacity:0;transform:translateX(-50%) translateY(10px)}15%{opacity:1;transform:translateX(-50%) translateY(0)}80%{opacity:1}100%{opacity:0;transform:translateX(-50%) translateY(0)}}
+
 </style>
 
 <!-- SVG ICONS library -->
@@ -423,6 +441,7 @@ body{
     <div style="margin-top:20px;">
       <span onclick="go('sc-login-select')" style="font-size:13px;font-weight:700;color:var(--g);cursor:pointer;">إنشاء حساب جديد</span>
     </div>
+    <div style="text-align:center;font-size:12px;color:var(--n3);padding-bottom:env(safe-area-inset-bottom,20px);">سند في مرحلة الإطلاق · <span style="color:var(--g);cursor:pointer;font-weight:700;" onclick="go('sc-invite')">انضم بدعوة</span></div>
   </div>
 </div>
 
@@ -486,6 +505,26 @@ body{
         <div class="t-sm w600 c-n3 f1">دخول الإدارة</div>
         <svg width="14" height="14" style="color:var(--n4);transform:scaleX(-1)"><use href="#ic-back"/></svg>
       </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ SCREEN: INVITE ═══ -->
+<div class="screen" id="sc-invite">
+  <div style="background:#fff;flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:env(safe-area-inset-top,44px) 32px 32px;">
+    <div style="width:72px;height:72px;border-radius:50%;background:#F0FAF4;display:flex;align-items:center;justify-content:center;margin-bottom:20px;">
+      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#009640" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+    </div>
+    <div style="font-size:20px;font-weight:700;color:var(--n1);margin-bottom:8px;text-align:center;">سند في مرحلة الإطلاق</div>
+    <div style="font-size:14px;color:var(--n3);text-align:center;line-height:1.7;margin-bottom:32px;">التسجيل متاح بالدعوة حالياً.<br>إذا وصلتك دعوة أدخل رمزها أدناه،<br>أو تواصل معنا للانضمام.</div>
+    <div style="width:100%;margin-bottom:12px;">
+      <input class="form-input" placeholder="أدخل رمز الدعوة" style="text-align:center;font-size:16px;letter-spacing:.1em;">
+    </div>
+    <button class="btn btn-green" style="width:100%;margin-bottom:16px;" onclick="showToast('رمز الدعوة غير صحيح — تحقق وأعد المحاولة')">تحقق والمتابعة</button>
+    <div style="height:1px;background:var(--bd);width:100%;margin-bottom:16px;"></div>
+    <span style="font-size:13px;color:var(--g);cursor:pointer;font-weight:700;" onclick="go('sc-contact')">تواصل معنا للانضمام ←</span>
+    <div style="margin-top:20px;">
+      <span style="font-size:13px;color:var(--n3);cursor:pointer;" onclick="go('sc-home')">← رجوع</span>
     </div>
   </div>
 </div>
@@ -913,7 +952,7 @@ body{
       <div style="font-size:11px;color:var(--n3);text-align:center;margin-bottom:16px;">المستندات تُراجع بسرية تامة من فريق سند</div>
       <div class="f g10">
         <button class="btn btn-gray f1" onclick="reqStep(2)">→ رجوع</button>
-        <button class="btn btn-green f1" onclick="showToast('تم إرسال طلبك ✓ خلال 24 ساعة');reqTab('cur');reqStep(1)">إرسال الطلب</button>
+        <button class="btn btn-green f1" onclick="showToast('تمت الموافقة على طلبك 🌿 — سيتواصل معك الممول قريباً');reqTab('cur');reqStep(1)">إرسال الطلب</button>
       </div>
     </div>
     </div>
@@ -1533,15 +1572,15 @@ body{
 
     <!-- Stats grid -->
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px;">
-      <div style="background:var(--wh);border-radius:var(--rb);padding:16px;box-shadow:var(--sh1);cursor:pointer;" onclick="adminTab('requests')">
+      <div style="background:var(--wh);border-radius:var(--rb);padding:16px;box-shadow:var(--sh1);cursor:pointer;" onclick="adminTab('requests');admReqTab('new',document.querySelector('#req-adm-sw .sw-tab'))">
         <div style="font-size:28px;font-weight:700;color:var(--ro);letter-spacing:-1px;">8</div>
         <div style="font-size:11px;color:var(--n3);margin-top:4px;">طلبات جديدة</div>
       </div>
-      <div style="background:var(--wh);border-radius:var(--rb);padding:16px;box-shadow:var(--sh1);">
+      <div style="background:var(--wh);border-radius:var(--rb);padding:16px;box-shadow:var(--sh1);cursor:pointer;" onclick="adminTab('install');admInstTab('active',document.querySelector('#inst-adm-sw .sw-tab'))">
         <div style="font-size:28px;font-weight:700;color:var(--g);letter-spacing:-1px;">24</div>
         <div style="font-size:11px;color:var(--n3);margin-top:4px;">حالات نشطة</div>
       </div>
-      <div style="background:var(--wh);border-radius:var(--rb);padding:16px;box-shadow:var(--sh1);cursor:pointer;" onclick="adminTab('install')">
+      <div style="background:var(--wh);border-radius:var(--rb);padding:16px;box-shadow:var(--sh1);cursor:pointer;" onclick="adminTab('install');admInstTab('late',document.querySelectorAll('#inst-adm-sw .sw-tab')[1])">
         <div style="font-size:28px;font-weight:700;color:var(--go);letter-spacing:-1px;">4</div>
         <div style="font-size:11px;color:var(--n3);margin-top:4px;">أقساط متأخرة</div>
       </div>
@@ -1554,19 +1593,19 @@ body{
     <!-- آخر النشاطات -->
     <div style="font-size:12px;font-weight:700;color:var(--n3);margin-bottom:10px;letter-spacing:.04em;">آخر النشاطات</div>
     <div style="background:var(--wh);border-radius:var(--rb);overflow:hidden;box-shadow:var(--sh1);">
-      <div class="list-row" style="cursor:pointer;" onclick="openSheet('sheet-adm-req')">
+      <div class="list-row" style="cursor:pointer;" onclick="adminTab('requests');admReqTab('new',document.querySelector('#req-adm-sw .sw-tab'))">
         <div style="width:34px;height:34px;border-radius:10px;background:var(--ro-l);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="15" height="15" style="color:var(--ro)"><use href="#ic-doc"/></svg></div>
         <div class="lr-body"><div class="lr-title">تم رفع طلب جديد</div><div class="lr-sub">فاطمة أحمد · 200 د.ك · الآن</div></div>
       </div>
-      <div class="list-row" style="cursor:pointer;" onclick="openSheet('sheet-adm-req')">
+      <div class="list-row" style="cursor:pointer;" onclick="adminTab('install');admInstTab('active',document.querySelector('#inst-adm-sw .sw-tab'))">
         <div style="width:34px;height:34px;border-radius:10px;background:rgba(0,147,105,.1);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="15" height="15" style="color:var(--g)"><use href="#ic-check"/></svg></div>
         <div class="lr-body"><div class="lr-title">تم تسجيل دفعة</div><div class="lr-sub">محمد إبراهيم · 50 د.ك · منذ ساعة</div></div>
       </div>
-      <div class="list-row" style="cursor:pointer;" onclick="openSheet('sheet-adm-req')">
+      <div class="list-row" style="cursor:pointer;" onclick="adminTab('requests');admReqTab('approved',document.querySelectorAll('#req-adm-sw .sw-tab')[2])">
         <div style="width:34px;height:34px;border-radius:10px;background:rgba(0,147,105,.1);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="15" height="15" style="color:var(--g)"><use href="#ic-check"/></svg></div>
         <div class="lr-body"><div class="lr-title">تم قبول حالة</div><div class="lr-sub">كريم محمد · قرض حسن · أمس</div></div>
       </div>
-      <div class="list-row" style="cursor:pointer;" onclick="openSheet('sheet-adm-req')">
+      <div class="list-row" style="cursor:pointer;" onclick="adminTab('install');admInstTab('late',document.querySelectorAll('#inst-adm-sw .sw-tab')[1])">
         <div style="width:34px;height:34px;border-radius:10px;background:var(--go-l);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="15" height="15" style="color:var(--go)"><use href="#ic-alert"/></svg></div>
         <div class="lr-body"><div class="lr-title">تنبيه تأخر سداد</div><div class="lr-sub">SF-078 · 7 أيام تأخر · أمس</div></div>
       </div>
@@ -1650,7 +1689,7 @@ body{
     </div>
     <!-- نشطة -->
     <div id="adm-inst-active" class="f fc g10">
-      <div class="card">
+      <div class="card" onclick="openSheet('sheet-adm-inst')">
         <div class="f ia jb mb8"><div class="t-sm w700 c-n1">محمد إبراهيم — SF-204</div><span class="chip chip-green" style="font-size:10px;">نشط</span></div>
         <div class="t-xs c-n3 mb8">قرض حسن · إيجار · 150 د.ك</div>
         <div class="f ia g8 mb4"><div class="prog-track f1"><div class="prog-fill" style="width:67%"></div></div><span class="t-xs c-n3">67%</span></div>
@@ -1660,7 +1699,7 @@ body{
           <button class="btn btn-gray btn-xs" onclick="showToast('تم إرسال تذكير')">تذكير</button>
         </div>
       </div>
-      <div class="card">
+      <div class="card" onclick="openSheet('sheet-adm-inst')">
         <div class="f ia jb mb8"><div class="t-sm w700 c-n1">ريم سامي — SF-317</div><span class="chip chip-green" style="font-size:10px;">نشط</span></div>
         <div class="t-xs c-n3 mb8">احتياجات أسرية · 120 د.ك</div>
         <div class="f ia g8 mb4"><div class="prog-track f1"><div class="prog-fill" style="width:50%"></div></div><span class="t-xs c-n3">50%</span></div>
@@ -1673,7 +1712,7 @@ body{
     </div>
     <!-- متأخرة -->
     <div id="adm-inst-late" class="f fc g10" style="display:none;">
-      <div class="card" style="border:1.5px solid var(--ro-l);">
+      <div class="card" style="border:1.5px solid var(--ro-l);" onclick="openSheet('sheet-adm-inst')">
         <div class="f ia jb mb8"><div class="t-sm w700 c-n1">SF-078</div><span class="chip chip-red" style="font-size:10px;">متأخر 7 أيام</span></div>
         <div class="t-xs c-n3 mb8">قرض حسن · دين · 90 د.ك</div>
         <div class="f ia g8 mb4"><div class="prog-track f1"><div class="prog-fill prog-fill-red" style="width:33%"></div></div><span class="t-xs c-n3">33%</span></div>
@@ -2252,6 +2291,7 @@ function showToast(msg) {
   clearTimeout(toastTimer);
   toastTimer = setTimeout(() => t.classList.remove('show'), 2800);
 }
+function snack(msg){var e=document.createElement('div');e.className='snackbar';e.textContent=msg;document.body.appendChild(e);setTimeout(function(){e.remove();},2200);}
 
 /* ═══════════════════════════
    PWA
@@ -2776,9 +2816,24 @@ function updatePayFields() {
         <div style="font-size:12px;font-weight:700;color:var(--n3);margin-bottom:6px;">ملاحظات</div>
         <textarea style="width:100%;padding:10px;border-radius:var(--r);border:1.5px solid var(--bd);background:var(--wh);font-family:inherit;font-size:13px;height:70px;resize:none;" placeholder="أضف ملاحظة..."></textarea>
       </div>
-      <div style="padding:0 20px;display:flex;gap:8px;">
-        <button class="btn btn-green f1" onclick="showToast('✓ تم القبول وإرساله للممولين');closeSheet('sheet-adm-req')"><svg width="14" height="14"><use href="#ic-check"/></svg> قبول</button>
-        <button class="btn btn-red-sm btn-sm" style="flex:1;" onclick="showToast('تم الرفض وإشعار المستفيد');closeSheet('sheet-adm-req')"><svg width="14" height="14"><use href="#ic-x"/></svg> رفض</button>
+      <div style="padding:0 20px 24px;">
+        <div style="display:flex;gap:8px;margin-top:16px;">
+          <button class="btn btn-green f1" onclick="snack('تمت الموافقة على الطلب ✓');adminTab('requests');admReqTab('approved',document.querySelectorAll('#req-adm-sw .sw-tab')[2]);closeSheet('sheet-adm-req')">✓ قبول</button>
+          <button class="btn btn-red-sm f1" style="flex:1;" onclick="document.getElementById('reject-reason-wrap').style.display='block'">✗ رفض</button>
+          <button class="btn btn-gray f1" style="flex:1;font-size:13px;" onclick="document.getElementById('edit-req-wrap').style.display='block'">✎ تعديل</button>
+        </div>
+        <!-- Reject reason mini form -->
+        <div id="reject-reason-wrap" style="display:none;margin-top:12px;background:var(--bg);border-radius:var(--r);padding:12px;">
+          <div style="font-size:13px;font-weight:600;color:var(--n2);margin-bottom:8px;">سبب الرفض (اختياري)</div>
+          <textarea class="form-input" style="height:64px;resize:none;margin-bottom:8px;" placeholder="اكتب سبب الرفض..."></textarea>
+          <button class="btn btn-red-sm" style="width:100%;" onclick="snack('تم رفض الطلب');adminTab('requests');admReqTab('done',document.querySelectorAll('#req-adm-sw .sw-tab')[3]);closeSheet('sheet-adm-req');document.getElementById('reject-reason-wrap').style.display='none'">تأكيد الرفض</button>
+        </div>
+        <!-- Edit request mini form -->
+        <div id="edit-req-wrap" style="display:none;margin-top:12px;background:var(--bg);border-radius:var(--r);padding:12px;">
+          <div style="font-size:13px;font-weight:600;color:var(--n2);margin-bottom:8px;">اكتب ما يحتاج المستفيد تعديله</div>
+          <textarea class="form-input" style="height:64px;resize:none;margin-bottom:8px;" placeholder="مثال: يرجى رفع صورة واضحة للإيجار..."></textarea>
+          <button class="btn btn-green" style="width:100%;" onclick="snack('تم إرسال طلب التعديل للمستفيد ✓');adminTab('requests');admReqTab('review',document.querySelectorAll('#req-adm-sw .sw-tab')[1]);closeSheet('sheet-adm-req');document.getElementById('edit-req-wrap').style.display='none'">إرسال للمستفيد</button>
+        </div>
       </div>
     </div>
   </div>
