@@ -1175,13 +1175,13 @@ body{
       <!-- قيد التمويل -->
       <div id="mine-active" class="f fc g10">
         <div class="card" onclick="openDonorCaseSheet(this)" data-type="قرض حسن · إيجار" data-status="active" data-code="SN-045" data-total="150" data-inst="3" data-progress="67" data-next-amt="50" data-next-date="1 يونيو 2025">
-          <div class="f ia jb mb8"><div class="lr-title">سارة الرشيد · SF-156</div><span class="chip chip-green">نشط</span></div>
+          <div class="f ia jb mb8"><div class="lr-title">SN-045</div><span class="chip chip-green">نشط</span></div>
           <div class="t-xs c-n3 mb10">قرض حسن · سداد إيجار · 150 د.ك</div>
           <div class="f ia g8 mb4"><div class="prog-track f1"><div class="prog-fill" style="width:67%"></div></div><span class="t-xs c-n3">67%</span></div>
           <div class="t-xs c-n3">القسط القادم: 50 د.ك · بعد 7 أيام</div>
         </div>
         <div class="card" onclick="openDonorCaseSheet(this)" data-type="احتياجات أسرية" data-status="active" data-code="SN-046" data-total="120" data-inst="4" data-progress="50" data-next-amt="30" data-next-date="15 يونيو 2025">
-          <div class="f ia jb mb8"><div class="lr-title">عبدالله الكندري · SF-317</div><span class="chip chip-green">نشط</span></div>
+          <div class="f ia jb mb8"><div class="lr-title">SN-046</div><span class="chip chip-green">نشط</span></div>
           <div class="t-xs c-n3 mb10">احتياجات أسرية · 120 د.ك</div>
           <div class="f ia g8 mb4"><div class="prog-track f1"><div class="prog-fill" style="width:50%"></div></div><span class="t-xs c-n3">50%</span></div>
           <div class="t-xs c-n3">القسط القادم: 30 د.ك · بعد 14 يوم</div>
@@ -1190,12 +1190,12 @@ body{
 
       <!-- تم الدفع -->
       <div id="mine-paid" class="f fc g10" style="display:none;">
-        <div class="card">
-          <div class="f ia jb mb8"><div class="lr-title">SF-201</div><span class="chip chip-gray">مسدد</span></div>
+        <div class="card" onclick="openDonorCaseSheet(this)" data-status="paid" data-code="SN-201" data-type="احتياجات" data-total="100" data-paid-date="أبريل 2025">
+          <div class="f ia jb mb8"><div class="lr-title">SN-201</div><span class="chip chip-gray">مسدد</span></div>
           <div class="t-xs c-n3">احتياجات · 100 د.ك · مسدد بالكامل ✓</div>
         </div>
-        <div class="card">
-          <div class="f ia jb mb8"><div class="lr-title">SF-112</div><span class="chip chip-gray">مسدد</span></div>
+        <div class="card" onclick="openDonorCaseSheet(this)" data-status="paid" data-code="SN-112" data-type="قرض حسن" data-total="80" data-paid-date="مارس 2025">
+          <div class="f ia jb mb8"><div class="lr-title">SN-112</div><span class="chip chip-gray">مسدد</span></div>
           <div class="t-xs c-n3">قرض حسن · 80 د.ك · مسدد بالكامل ✓</div>
         </div>
       </div>
@@ -1213,12 +1213,12 @@ body{
 
       <!-- مكتمل -->
       <div id="mine-done" class="f fc g10" style="display:none;">
-        <div class="card" style="background:var(--bg);">
-          <div class="f ia jb mb6"><div class="lr-title c-n2">SF-445</div><span class="chip chip-gray">مكتمل</span></div>
+        <div class="card" style="background:var(--bg);" onclick="openDonorCaseSheet(this)" data-status="done" data-code="SN-445" data-type="قرض حسن" data-total="200" data-inst="5" data-done-date="مارس 2025">
+          <div class="f ia jb mb6"><div class="lr-title c-n2">SN-445</div><span class="chip chip-gray">مكتمل</span></div>
           <div class="t-xs c-n3">قرض حسن · 200 د.ك · 5 أقساط · مارس 2025</div>
         </div>
-        <div class="card" style="background:var(--bg);">
-          <div class="f ia jb mb6"><div class="lr-title c-n2">SF-333</div><span class="chip chip-gray">مكتمل</span></div>
+        <div class="card" style="background:var(--bg);" onclick="openDonorCaseSheet(this)" data-status="done" data-code="SN-333" data-type="احتياجات" data-total="150" data-inst="4" data-done-date="يناير 2025">
+          <div class="f ia jb mb6"><div class="lr-title c-n2">SN-333</div><span class="chip chip-gray">مكتمل</span></div>
           <div class="t-xs c-n3">احتياجات · 150 د.ك · 4 أقساط · يناير 2025</div>
         </div>
       </div>
@@ -2585,6 +2585,25 @@ function openDonorCaseSheet(el) {
       +'<button class="btn btn-green f1" onclick="snack(\'تم إرسال التذكير للمستفيد ✓\');closeSheet(\'sheet-donor-case\')">إرسال تذكير</button>'
       +'<button class="btn btn-gray f1" onclick="closeSheet(\'sheet-donor-case\');openChat(\'donor\')">تواصل مع سند</button>'
       +'</div>';
+  } else if (status === 'paid') {
+    var paidDate = el.getAttribute('data-paid-date') || '';
+    html = '<div style="font-size:17px;font-weight:700;color:var(--n1);margin-bottom:6px;">'+type+'</div>'
+      +'<div style="font-size:13px;color:var(--n3);margin-bottom:18px;">المستفيد: '+code+' <span style="color:var(--g);font-weight:600;">موثق ✓</span></div>'
+      +'<div style="background:#F0FAF4;border-radius:12px;padding:16px;margin-bottom:20px;display:flex;align-items:center;gap:12px;">'
+      +'<div style="width:40px;height:40px;border-radius:50%;background:var(--g);display:flex;align-items:center;justify-content:center;flex-shrink:0;color:#fff;font-size:20px;font-weight:700;">✓</div>'
+      +'<div><div style="font-size:14px;font-weight:700;color:var(--n1);">مسدد بالكامل</div>'
+      +'<div style="font-size:12px;color:var(--n3);">'+total+' د.ك'+(paidDate?' · '+paidDate:'')+'</div></div></div>'
+      +'<button class="btn btn-gray" style="width:100%;" onclick="closeSheet(\'sheet-donor-case\')">إغلاق</button>';
+  } else if (status === 'done') {
+    var doneDate = el.getAttribute('data-done-date') || '';
+    html = '<div style="font-size:17px;font-weight:700;color:var(--n1);margin-bottom:6px;">'+type+'</div>'
+      +'<div style="font-size:13px;color:var(--n3);margin-bottom:18px;">المستفيد: '+code+'</div>'
+      +'<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:18px;">'
+      +'<div style="background:var(--bg);border-radius:10px;padding:14px;"><div style="font-size:11px;color:var(--n3);margin-bottom:4px;">المبلغ الكلي</div><div style="font-size:16px;font-weight:700;color:var(--n1);">'+total+' د.ك</div></div>'
+      +'<div style="background:var(--bg);border-radius:10px;padding:14px;"><div style="font-size:11px;color:var(--n3);margin-bottom:4px;">الأقساط</div><div style="font-size:16px;font-weight:700;color:var(--n1);">'+installments+' أقساط</div></div>'
+      +'</div>'
+      +'<div style="background:#F0FAF4;border-radius:10px;padding:14px;margin-bottom:20px;font-size:13px;color:#4a7a5a;">اكتمل سداد القرض بنجاح'+(doneDate?' · '+doneDate:'')+'</div>'
+      +'<button class="btn btn-gray" style="width:100%;" onclick="closeSheet(\'sheet-donor-case\')">إغلاق</button>';
   }
   bodyEl.innerHTML = html;
   openSheet('sheet-donor-case');
