@@ -30,21 +30,9 @@
   --sh-g:0 4px 14px rgba(0,147,105,.35);
   --r:14px;--rb:20px;--rx:28px;
 }
-@media(prefers-color-scheme:dark){
-  :root{
-    --bg:#0F0F0F;
-    --bg2:#1A1A1A;
-    --wh:#1A1A1A;
-    --n1:#F5F5F5;
-    --n2:#D0D0D0;
-    --n3:#A0A0A0;
-    --n4:#707070;
-    --bd:#2A2A2A;
-    --sh1:0 2px 12px rgba(0,0,0,.4);
-  }
-  body{background:#0F0F0F;}
-  .screen{background:#0F0F0F;}
-}
+[data-theme="dark"]{--bg:#0F0F0F;--bg2:#1A1A1A;--wh:#1A1A1A;--n1:#F5F5F5;--n2:#D0D0D0;--n3:#A0A0A0;--n4:#707070;--bd:#2A2A2A;--sh1:0 2px 12px rgba(0,0,0,.4);}
+[data-theme="dark"] body{background:#0F0F0F;}
+[data-theme="dark"] .screen{background:#0F0F0F;}
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
 html{height:100%;-webkit-text-size-adjust:100%;}
 body{
@@ -348,7 +336,7 @@ body{
 .lh{letter-spacing:-.4px;}
 
 /* ── PROFILE SHEET ── */
-.profile-sheet-ov{position:fixed;inset:0;z-index:150;background:rgba(0,0,0,.45);display:none;align-items:flex-end;}
+.profile-sheet-ov{position:fixed;inset:0;z-index:150;background:rgba(0,0,0,.45);display:none;align-items:flex-end;backdrop-filter:blur(2px);}
 .profile-sheet-ov.open{display:flex;}
 .profile-sheet{background:var(--wh);border-radius:24px 24px 0 0;width:100%;max-height:92vh;overflow-y:auto;padding:0 0 env(safe-area-inset-bottom,20px);}
 .ps-handle{width:36px;height:4px;background:var(--bd);border-radius:99px;margin:14px auto 0;}
@@ -416,7 +404,7 @@ body{
 ═══════════════════════════ -->
 <div class="screen active" id="sc-home" style="background:#fff;display:flex;flex-direction:column;overflow:hidden;">
   <!-- Green hero with logo -->
-  <div style="background:var(--grad-h);flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:env(safe-area-inset-top,44px) 40px 60px;">
+  <div style="background:var(--grad-h);flex:0 0 35vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:env(safe-area-inset-top,44px) 40px 60px;">
     <svg viewBox="0 0 120 38" xmlns="http://www.w3.org/2000/svg" width="200" height="63">
   <circle fill="white" cx="17.24" cy="16.95" r="10.45"/>
   <circle fill="white" fill-opacity="0.5" cx="46.41" cy="16.27" r="10.45"/>
@@ -433,13 +421,13 @@ body{
 </svg>
   </div>
   <!-- White card -->
-  <div style="background:#fff;border-radius:28px 28px 0 0;margin-top:-28px;padding:32px 28px env(safe-area-inset-bottom,32px);display:flex;flex-direction:column;align-items:center;">
-    <div style="font-size:17px;color:var(--n3);margin-bottom:40px;letter-spacing:.01em;">منصة القرض الحسن</div>
+  <div style="background:#fff;border-radius:28px 28px 0 0;margin-top:-28px;padding:32px 28px env(safe-area-inset-bottom,32px);display:flex;flex-direction:column;align-items:center;flex:1;">
+    <div style="font-size:17px;color:var(--n3);margin-bottom:40px;letter-spacing:.01em;" data-i18n="tagline">منصة القرض الحسن</div>
     <div style="width:100%;display:flex;flex-direction:column;gap:12px;">
-      <button class="btn btn-green" onclick="go('sc-login-select')">دخول</button>
+      <button class="btn btn-green" onclick="go('sc-login-select')" data-i18n="signIn">دخول</button>
     </div>
     <div style="margin-top:20px;">
-      <span onclick="go('sc-login-select')" style="font-size:13px;font-weight:700;color:var(--g);cursor:pointer;">إنشاء حساب جديد</span>
+      <span onclick="go('sc-login-select')" style="font-size:13px;font-weight:700;color:var(--g);cursor:pointer;" data-i18n="createAccount">إنشاء حساب جديد</span>
     </div>
     <div style="text-align:center;font-size:12px;color:var(--n3);padding-bottom:env(safe-area-inset-bottom,20px);">سند في مرحلة الإطلاق · <span style="color:var(--g);cursor:pointer;font-weight:700;" onclick="go('sc-invite')">انضم بدعوة</span></div>
   </div>
@@ -1047,17 +1035,17 @@ body{
     <button class="bn-item on" id="bni-home" onclick="benTab('home')">
       <div class="bn-line"></div>
       <svg width="22" height="22"><use href="#ic-home"/></svg>
-      <span class="bn-label">الرئيسية</span>
+      <span class="bn-label" data-i18n="home">الرئيسية</span>
     </button>
     <button class="bn-item" id="bni-reqs" onclick="benTab('reqs')">
       <div class="bn-line"></div>
       <svg width="22" height="22"><use href="#ic-doc"/></svg>
-      <span class="bn-label">الطلبات</span>
+      <span class="bn-label" data-i18n="requests">الطلبات</span>
     </button>
     <button class="bn-item" id="bni-profile" onclick="benTab('profile')">
       <div class="bn-line"></div>
       <svg width="22" height="22"><use href="#ic-user"/></svg>
-      <span class="bn-label">حسابي</span>
+      <span class="bn-label" data-i18n="myAccount">حسابي</span>
     </button>
   </nav>
 </div>
@@ -1162,13 +1150,13 @@ body{
       <!-- قيد التمويل -->
       <div id="mine-active" class="f fc g10">
         <div class="card" onclick="openDonorCaseSheet(this)" data-type="قرض حسن · إيجار" data-status="active" data-code="SN-045" data-total="150" data-inst="3" data-progress="67" data-next-amt="50" data-next-date="1 يونيو 2025">
-          <div class="f ia jb mb8"><div class="lr-title">SF-156</div><span class="chip chip-green">نشط</span></div>
+          <div class="f ia jb mb8"><div class="lr-title">سارة الرشيد · SF-156</div><span class="chip chip-green">نشط</span></div>
           <div class="t-xs c-n3 mb10">قرض حسن · سداد إيجار · 150 د.ك</div>
           <div class="f ia g8 mb4"><div class="prog-track f1"><div class="prog-fill" style="width:67%"></div></div><span class="t-xs c-n3">67%</span></div>
           <div class="t-xs c-n3">القسط القادم: 50 د.ك · بعد 7 أيام</div>
         </div>
         <div class="card" onclick="openDonorCaseSheet(this)" data-type="احتياجات أسرية" data-status="active" data-code="SN-046" data-total="120" data-inst="4" data-progress="50" data-next-amt="30" data-next-date="15 يونيو 2025">
-          <div class="f ia jb mb8"><div class="lr-title">SF-317</div><span class="chip chip-green">نشط</span></div>
+          <div class="f ia jb mb8"><div class="lr-title">عبدالله الكندري · SF-317</div><span class="chip chip-green">نشط</span></div>
           <div class="t-xs c-n3 mb10">احتياجات أسرية · 120 د.ك</div>
           <div class="f ia g8 mb4"><div class="prog-track f1"><div class="prog-fill" style="width:50%"></div></div><span class="t-xs c-n3">50%</span></div>
           <div class="t-xs c-n3">القسط القادم: 30 د.ك · بعد 14 يوم</div>
@@ -1341,7 +1329,7 @@ body{
     <button class="bn-item on" id="dni-home" onclick="donorTab('home')">
       <div class="bn-line"></div>
       <svg width="22" height="22"><use href="#ic-home"/></svg>
-      <span class="bn-label">الرئيسية</span>
+      <span class="bn-label" data-i18n="home">الرئيسية</span>
     </button>
     <button class="bn-item" id="dni-mine" onclick="donorTab('mine')">
       <div class="bn-line"></div>
@@ -1356,7 +1344,7 @@ body{
     <button class="bn-item" id="dni-profile" onclick="donorTab('profile')">
       <div class="bn-line"></div>
       <svg width="22" height="22"><use href="#ic-user"/></svg>
-      <span class="bn-label">حسابي</span>
+      <span class="bn-label" data-i18n="myAccount">حسابي</span>
     </button>
   </nav>
 </div>
@@ -1658,7 +1646,7 @@ body{
     <!-- مقبولة -->
     <div id="adm-req-approved" class="f fc g10" style="display:none;">
       <div class="card" style="background:var(--bg);">
-        <div class="f ia jb mb6"><div class="t-sm w700 c-n2">محمد إبراهيم حسن</div><span class="chip chip-green" style="font-size:10px;">مقبول</span></div>
+        <div class="f ia jb mb6"><div class="t-sm w700 c-n2">محمد إبراهيم حسن · SN-041</div><span class="chip chip-green" style="font-size:10px;">مقبول</span></div>
         <div class="t-xs c-n3">#REQ-0041 · قرض حسن · 150 د.ك · SF-204</div>
       </div>
     </div>
@@ -1738,8 +1726,8 @@ body{
       <div class="card" style="cursor:pointer;" onclick="openSheet('sheet-adm-user')">
         <div class="f ia jb">
           <div class="f ia g10">
-            <div class="avatar av-md av-green" style="font-size:11px;font-weight:700;">SN</div>
-            <div><div class="t-sm w700 c-n1">SN-045</div><div class="t-xs c-n3 mt4">مستفيد · حالة واحدة نشطة</div></div>
+            <div class="avatar av-md av-green" style="font-size:14px;font-weight:700;">م</div>
+            <div><div class="t-sm w700 c-n1">محمد إبراهيم حسن · SN-045</div><div class="t-xs c-n3 mt4">حالة نشطة واحدة · آخر نشاط: 15 مايو</div></div>
           </div>
           <span class="chip chip-green" style="font-size:10px;">موثق ✓</span>
         </div>
@@ -1747,8 +1735,8 @@ body{
       <div class="card" style="cursor:pointer;" onclick="openSheet('sheet-adm-user')">
         <div class="f ia jb">
           <div class="f ia g10">
-            <div class="avatar av-md av-gray" style="font-size:11px;font-weight:700;">SN</div>
-            <div><div class="t-sm w700 c-n1">SN-046</div><div class="t-xs c-n3 mt4">مستفيد · طلب قيد المراجعة</div></div>
+            <div class="avatar av-md av-gray" style="font-size:14px;font-weight:700;">ف</div>
+            <div><div class="t-sm w700 c-n1">فاطمة أحمد المطيري · SN-046</div><div class="t-xs c-n3 mt4">مستفيد · طلب قيد المراجعة</div></div>
           </div>
           <span class="chip chip-gold" style="font-size:10px;">مراجعة</span>
         </div>
@@ -1756,8 +1744,8 @@ body{
       <div class="card" style="cursor:pointer;" onclick="openSheet('sheet-adm-user')">
         <div class="f ia jb">
           <div class="f ia g10">
-            <div class="avatar av-md av-dark" style="font-size:11px;font-weight:700;">SN</div>
-            <div><div class="t-sm w700 c-n1">SN-049</div><div class="t-xs c-n3 mt4">مستفيد · حالة واحدة نشطة</div></div>
+            <div class="avatar av-md av-dark" style="font-size:14px;font-weight:700;">ك</div>
+            <div><div class="t-sm w700 c-n1">كريم محمود · SN-049</div><div class="t-xs c-n3 mt4">حالة نشطة واحدة · آخر نشاط: 12 مايو</div></div>
           </div>
           <span class="chip chip-green" style="font-size:10px;">موثق ✓</span>
         </div>
@@ -1768,8 +1756,8 @@ body{
       <div class="card" style="cursor:pointer;" onclick="openSheet('sheet-adm-donor')">
         <div class="f ia jb">
           <div class="f ia g10">
-            <div class="avatar av-md av-green" style="font-size:11px;font-weight:700;">SF</div>
-            <div><div class="t-sm w700 c-n1">SF-204</div><div class="t-xs c-n3 mt4">ممول · 12 حالة · 1,850 د.ك</div></div>
+            <div class="avatar av-md av-green" style="font-size:14px;font-weight:700;">خ</div>
+            <div><div class="t-sm w700 c-n1">خالد العمر · SF-204</div><div class="t-xs c-n3 mt4">ممول · 12 حالة · 1,850 د.ك</div></div>
           </div>
           <span class="chip chip-green" style="font-size:10px;">موثق ✓</span>
         </div>
@@ -1777,8 +1765,8 @@ body{
       <div class="card" style="cursor:pointer;" onclick="openSheet('sheet-adm-donor')">
         <div class="f ia jb">
           <div class="f ia g10">
-            <div class="avatar av-md av-dark" style="font-size:11px;font-weight:700;">SF</div>
-            <div><div class="t-sm w700 c-n1">SF-089</div><div class="t-xs c-n3 mt4">ممول · 7 حالات · 950 د.ك</div></div>
+            <div class="avatar av-md av-dark" style="font-size:14px;font-weight:700;">ع</div>
+            <div><div class="t-sm w700 c-n1">عبدالرحمن الفارسي · SF-089</div><div class="t-xs c-n3 mt4">ممول · 7 حالات · 950 د.ك</div></div>
           </div>
           <span class="chip chip-green" style="font-size:10px;">موثق ✓</span>
         </div>
@@ -2051,6 +2039,22 @@ body{
 </div>
 
 <script>
+/* ═══════════════════════════
+   THEME
+═══════════════════════════ */
+function initTheme(){
+  var saved=localStorage.getItem('sanad-theme');
+  if(saved){document.documentElement.setAttribute('data-theme',saved);}
+  else if(window.matchMedia('(prefers-color-scheme:dark)').matches){document.documentElement.setAttribute('data-theme','dark');}
+}
+function toggleTheme(){
+  var cur=document.documentElement.getAttribute('data-theme');
+  var next=cur==='dark'?'light':'dark';
+  document.documentElement.setAttribute('data-theme',next);
+  localStorage.setItem('sanad-theme',next);
+}
+initTheme();
+
 /* ═══════════════════════════
    SCREEN NAVIGATION
 ═══════════════════════════ */
@@ -2359,9 +2363,44 @@ function closeSheet(id) {
 function selectLang(row, lang) {
   document.querySelectorAll('.lang-radio').forEach(r => r.classList.remove('on'));
   row.querySelector('.lang-radio').classList.add('on');
+  setLanguage(lang);
   showToast(lang === 'ar' ? 'تم اختيار العربية ✓' : 'English selected ✓');
   setTimeout(() => closeSheet('sheet-lang'), 800);
 }
+
+/* ═══════════════════════════
+   LANGUAGE / i18n
+═══════════════════════════ */
+var _translations={
+  ar:{appName:'سند',tagline:'منصة القرض الحسن',signIn:'دخول',createAccount:'إنشاء حساب جديد',
+      home:'الرئيسية',requests:'الطلبات',installments:'الأقساط',myAccount:'حسابي',
+      contactUs:'تواصل معنا',settings:'الإعدادات',
+      approve:'قبول',reject:'رفض',cancel:'إلغاء',
+      benevolentLoan:'قرض حسن',directNeeds:'احتياجات مباشرة',
+      paid:'مسدد',upcoming:'قادم',overdue:'متأخر',verified:'موثق',active:'نشط'},
+  en:{appName:'Sanad',tagline:'Interest-Free Loan Platform',signIn:'Sign In',createAccount:'Create Account',
+      home:'Home',requests:'Requests',installments:'Installments',myAccount:'My Account',
+      contactUs:'Contact Us',settings:'Settings',
+      approve:'Approve',reject:'Reject',cancel:'Cancel',
+      benevolentLoan:'Benevolent Loan',directNeeds:'Direct Needs',
+      paid:'Paid',upcoming:'Upcoming',overdue:'Overdue',verified:'Verified',active:'Active'}
+};
+var _currentLang=localStorage.getItem('sanad-lang')||'ar';
+
+function setLanguage(lang){
+  _currentLang=lang;
+  localStorage.setItem('sanad-lang',lang);
+  document.documentElement.setAttribute('dir',lang==='ar'?'rtl':'ltr');
+  document.documentElement.setAttribute('lang',lang);
+  applyTranslations();
+}
+function applyTranslations(){
+  document.querySelectorAll('[data-i18n]').forEach(function(el){
+    var key=el.getAttribute('data-i18n');
+    if(_translations[_currentLang]&&_translations[_currentLang][key]){el.textContent=_translations[_currentLang][key];}
+  });
+}
+applyTranslations();
 
 
 /* ═══ ADMIN TABS ═══ */
@@ -2554,7 +2593,11 @@ function openFundSheet(btn) {
 
 function confirmFund() {
   closeSheet('sheet-fund-confirm');
-  snack('تم تسجيل التمويل ✓ انتقل لإتمام التحويل البنكي');
+  var check = document.getElementById('fund-agree-check');
+  if (check) check.checked = false;
+  var btn = document.getElementById('fund-confirm-btn');
+  if (btn) { btn.disabled = true; btn.style.opacity = '.4'; }
+  snack('تم التسجيل ✓ حوّل المبلغ لـ IBAN: KW91NBOK0000000000001000372519');
 }
 
 </script>
@@ -3151,9 +3194,9 @@ function confirmFund() {
           <input type="color" value="#49C300" style="width:100%;height:44px;border-radius:var(--r);border:1.5px solid var(--bd);cursor:pointer;padding:4px;" onchange="showToast('تم تغيير اللون الثانوي')">
         </div>
       </div>
-      <div class="pf-row" style="cursor:default;padding:0;margin-bottom:20px;opacity:.5;">
-        <div class="pf-body"><div class="pf-title">الوضع الليلي Dark Mode</div><div class="pf-sub">قريباً</div></div>
-        <label class="toggle-wrap"><input type="checkbox" disabled><span class="toggle-sl"></span></label>
+      <div class="pf-row" style="cursor:default;padding:0;margin-bottom:20px;">
+        <div class="pf-body"><div class="pf-title">الوضع الليلي Dark Mode</div></div>
+        <label class="toggle-wrap"><input type="checkbox" onchange="toggleTheme()"><span class="toggle-sl"></span></label>
       </div>
       <button style="width:100%;padding:13px;border-radius:var(--r);border:none;background:var(--grad-h);color:#fff;font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;" onclick="showToast('تم حفظ الهوية البصرية ✓');closeSheet('sheet-adm-identity')">حفظ</button>
     </div>
@@ -3270,9 +3313,13 @@ function confirmFund() {
       القسط الشهري: <strong><span id="fund-sheet-inst-amt">50</span> د.ك</strong><br>
       <span style="font-size:11px;color:var(--n3);">التحويل مباشرة للمستفيد عبر وسيلة الدفع المسجلة</span>
     </div>
+    <label style="display:flex;align-items:center;gap:10px;margin-bottom:14px;cursor:pointer;font-size:13px;color:var(--n2);">
+      <input type="checkbox" id="fund-agree-check" onchange="document.getElementById('fund-confirm-btn').style.opacity=this.checked?'1':'.4';document.getElementById('fund-confirm-btn').disabled=!this.checked;" style="width:18px;height:18px;accent-color:var(--g);">
+      أوافق على التمويل وأتحمل المسؤولية
+    </label>
     <div style="display:flex;gap:10px;">
       <button class="btn btn-gray f1" onclick="closeSheet('sheet-fund-confirm')">إلغاء</button>
-      <button class="btn btn-green f1" onclick="confirmFund()">تأكيد التمويل</button>
+      <button class="btn btn-green f1" id="fund-confirm-btn" style="opacity:.4" disabled onclick="confirmFund()">تأكيد التمويل</button>
     </div>
   </div>
 </div>
