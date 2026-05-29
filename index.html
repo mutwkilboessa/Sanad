@@ -396,12 +396,10 @@ body{
 <!-- ═══════════════════════════
      SCREEN 1: HOME — Dark Hero
 ═══════════════════════════ -->
-<div class="screen active" id="sc-home">
-  <!-- Green hero -->
-  <div style="background:var(--grad-h);flex-shrink:0;padding:env(safe-area-inset-top,44px) 0 0;">
-    <div style="padding:36px 28px 48px;text-align:center;">
-      <div style="display:inline-flex;align-items:center;justify-content:center;margin-bottom:20px;">
-<svg viewBox="0 0 120 38" xmlns="http://www.w3.org/2000/svg" width="200" height="63">
+<div class="screen active" id="sc-home" style="background:#fff;display:flex;flex-direction:column;overflow:hidden;">
+  <!-- Green hero with logo -->
+  <div style="background:var(--grad-h);flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:env(safe-area-inset-top,44px) 40px 60px;">
+    <svg viewBox="0 0 120 38" xmlns="http://www.w3.org/2000/svg" width="200" height="63">
   <circle fill="white" cx="17.24" cy="16.95" r="10.45"/>
   <circle fill="white" fill-opacity="0.5" cx="46.41" cy="16.27" r="10.45"/>
   <path fill="white" d="M31.37,32.15c-7.46,0-14.54-2.38-20.47-6.89c-1.44-1.09-1.72-3.15-0.63-4.59c1.09-1.44,3.15-1.72,4.59-0.63c4.78,3.63,10.49,5.55,16.51,5.55c6.58,0,12.94-2.37,17.9-6.68c1.37-1.19,3.43-1.04,4.62,0.33c1.19,1.36,1.04,3.43-0.33,4.62C47.41,29.2,39.53,32.15,31.37,32.15z"/>
@@ -415,32 +413,16 @@ body{
   <path fill="white" d="M102.38,28.97h-2.96l-0.58,1.5h-1.66l2.79-7h1.91l2.8,7h-1.74L102.38,28.97z M99.91,27.68h1.99l-0.97-2.59h-0.03L99.91,27.68z"/>
   <path fill="white" d="M112.88,26.96c0,2.11-1.39,3.51-3.58,3.51h-2.87v-7h2.87C111.49,23.47,112.88,24.86,112.88,26.96z M108.08,24.77v4.39h1.22c1.2,0,1.85-0.76,1.85-2.2c0-1.43-0.66-2.19-1.85-2.19H108.08z"/>
 </svg>
-      </div>
-    </div>
   </div>
-
   <!-- White card -->
-  <div style="background:var(--wh);border-radius:28px 28px 0 0;margin-top:-22px;flex:1;padding:28px 24px 0;display:flex;flex-direction:column;">
-    <div style="font-size:20px;font-weight:700;color:var(--n1);margin-bottom:28px;">حياك الله</div>
-
-    <!-- Stats — فقط ٠ فوائد و 100% شرعي -->
-    <div style="display:flex;justify-content:space-around;padding:16px;background:var(--bg);border-radius:16px;margin-bottom:24px;">
-      <div style="text-align:center;">
-        <div style="font-size:20px;font-weight:700;color:var(--n1);">٠ د.ك</div>
-        <div style="font-size:11px;color:var(--n3);margin-top:2px;">فوائد</div>
-      </div>
-      <div style="width:1px;background:var(--bd);"></div>
-      <div style="text-align:center;">
-        <div style="font-size:20px;font-weight:700;color:var(--g);">100%</div>
-        <div style="font-size:11px;color:var(--n3);margin-top:2px;">شرعي</div>
-      </div>
-    </div>
-
-    <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:20px;">
+  <div style="background:#fff;border-radius:28px 28px 0 0;margin-top:-28px;padding:32px 28px env(safe-area-inset-bottom,32px);display:flex;flex-direction:column;align-items:center;">
+    <div style="font-size:17px;color:var(--n3);margin-bottom:40px;letter-spacing:.01em;">منصة القرض الحسن</div>
+    <div style="width:100%;display:flex;flex-direction:column;gap:12px;">
       <button class="btn btn-green" onclick="go('sc-login-select')">دخول</button>
-      <button class="btn btn-gray" onclick="go('sc-login-select')">إنشاء حساب</button>
     </div>
-    <div style="text-align:center;font-size:11px;color:var(--n4);padding-bottom:env(safe-area-inset-bottom,20px);">المنصة مغلقة — بدعوة فقط</div>
+    <div style="margin-top:20px;">
+      <span onclick="go('sc-login-select')" style="font-size:13px;font-weight:700;color:var(--g);cursor:pointer;">إنشاء حساب جديد</span>
+    </div>
   </div>
 </div>
 
@@ -1052,18 +1034,15 @@ body{
     <!-- Tab: الرئيسية / Available cases -->
     <div class="scroll-body" id="donor-avail" style="padding:14px 16px;">
       <!-- بطاقة إجمالي التأثير -->
-      <div style="background:var(--n1);border-radius:var(--rb);padding:18px 20px;margin-bottom:14px;color:#fff;">
-        <div style="font-size:12px;color:rgba(255,255,255,.5);margin-bottom:4px;">إجمالي تأثيرك</div>
-        <div style="font-size:42px;font-weight:700;color:var(--wh);letter-spacing:-2px;line-height:1;">1,850</div>
-        <div style="font-size:13px;color:rgba(255,255,255,.45);margin-top:4px;">دينار موّلت · 12 شخص استفاد</div>
+      <!-- بطاقة تأثير شخصية -->
+      <div style="background:#F0FAF4;border-radius:var(--rb);padding:16px 18px;margin-bottom:12px;">
+        <div style="font-size:16px;font-weight:700;color:#007a35;margin-bottom:5px;">خالد العمر، جزاك الله خيراً 🌿</div>
+        <div style="font-size:13px;color:#4a7a5a;">موّلت 12 شخصاً · 1,850 د.ك</div>
       </div>
-      <!-- بطاقة تعريفية خضراء -->
-      <div style="background:var(--grad-h);border-radius:var(--rb);padding:18px 20px;margin-bottom:14px;color:#fff;">
-        <div style="font-size:13px;font-weight:700;margin-bottom:6px;opacity:.9;">«من نفَّسَ عن مسلمٍ كُربةً مِن كُربِ الدُّنيا نفَّسَ اللَّهُ عنهُ كربةً مِن كُرَبِ يومِ القيامةِ»</div>
-        <div style="font-size:12px;opacity:.7;line-height:1.65;">كل دينار تموّله هنا هو صدقة جارية وسند حقيقي لأسرة محتاجة. جزاك الله خيراً.</div>
-      </div>
+      <!-- حديث نبوي -->
+      <div style="font-size:12px;color:var(--n3);font-style:italic;text-align:center;margin-bottom:18px;line-height:1.75;padding:0 4px;">«من نفَّسَ عن مسلمٍ كُربةً نفَّسَ اللَّهُ عنهُ كُربةً من كُرَب يوم القيامة»</div>
 
-      <div style="font-size:13px;font-weight:700;color:var(--n1);margin-bottom:10px;">الحالات المتاحة للتمويل</div>
+      <div style="font-size:13px;font-weight:700;color:var(--n1);margin-bottom:10px;">حالات تنتظر تمويلك</div>
       <div class="f fc g10">
         <div class="card" onclick="showDonorSheet('SN-045','سداد إيجار','150','3')">
           <div class="f ia jb mb10">
