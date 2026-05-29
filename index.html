@@ -1067,7 +1067,7 @@ body{
 ═══════════════════════════ -->
 <div class="screen" id="sc-donor">
   <!-- Topbar -->
-  <div style="background:var(--grad-h);flex-shrink:0;padding-top:max(env(safe-area-inset-top),0px);">
+  <div id="donor-topbar" style="background:var(--grad-h);flex-shrink:0;padding-top:max(env(safe-area-inset-top),0px);">
     <div style="height:56px;display:flex;align-items:center;justify-content:space-between;padding:0 20px;">
     <div style="display:flex;align-items:center;flex:1;">
       <svg viewBox="0 0 120 38" xmlns="http://www.w3.org/2000/svg" style="height:28px;width:auto;display:block;">
@@ -1095,7 +1095,7 @@ body{
   </div>
 
   <!-- White card lifts -->
-  <div style="background:var(--wh);border-radius:24px 24px 0 0;margin-top:-18px;flex:1;display:flex;flex-direction:column;overflow:hidden;">
+  <div id="donor-white-card" style="background:var(--wh);border-radius:24px 24px 0 0;margin-top:-18px;flex:1;display:flex;flex-direction:column;overflow:hidden;">
 
     <!-- Tab: الرئيسية / Available cases -->
     <div class="scroll-body" id="donor-avail" style="padding:24px 16px 16px;">
@@ -2235,16 +2235,16 @@ function donorTab(tab) {
     if(el) el.style.display = t === activeTab ? 'block' : 'none';
   });
 
-  // Hero visibility
-  const greenHero = document.querySelector('#sc-donor > div[style*="background:var(--grad-h)"]');
-  const whiteCard = document.querySelector('#sc-donor > div[style*="border-radius:24px 24px 0 0"]');
-
-  if(activeTab === 'profile') {
-    if(greenHero) greenHero.style.display = 'none';
-    if(whiteCard) { whiteCard.style.marginTop = '0'; whiteCard.style.borderRadius = '0'; }
-  } else {
-    if(greenHero) greenHero.style.display = '';
-    if(whiteCard) { whiteCard.style.marginTop = '-18px'; whiteCard.style.borderRadius = '24px 24px 0 0'; }
+  // Topbar always stays visible — only adjust white card overlap
+  const whiteCard = document.getElementById('donor-white-card');
+  if(whiteCard) {
+    if(activeTab === 'profile') {
+      whiteCard.style.marginTop = '0';
+      whiteCard.style.borderRadius = '0';
+    } else {
+      whiteCard.style.marginTop = '-18px';
+      whiteCard.style.borderRadius = '24px 24px 0 0';
+    }
   }
 
   // Bottom nav
