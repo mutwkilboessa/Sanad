@@ -2445,6 +2445,118 @@ function sendChat(){
   },900);
 }
 
+function openChat(userType) {
+  openSheet('sheet-chat');
+  var msgs = document.getElementById('chat-msgs');
+  if (!msgs) return;
+  if (msgs.children.length === 0) {
+    var welcomeText = userType === 'donor'
+      ? 'أهلاً 🌿 هل لديك سؤال عن حالة أو تمويل؟'
+      : 'أهلاً 🌿 كيف نقدر نساعدك اليوم؟';
+    var bubble = document.createElement('div');
+    bubble.style.cssText = 'display:flex;align-items:flex-end;gap:8px;margin-bottom:12px;';
+    bubble.innerHTML = '<div style="width:28px;height:28px;border-radius:50%;background:var(--g);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="14" height="14" fill="white" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/></svg></div>'
+      + '<div style="background:#F5F5F5;border-radius:12px 12px 12px 0;padding:10px 14px;max-width:75%;font-size:13px;color:var(--n1);">'+welcomeText+'</div>';
+    msgs.appendChild(bubble);
+  }
+}
+
+function sendDirectToTeam() {
+  var msgs = document.getElementById('chat-msgs');
+  if (msgs) {
+    var bubble = document.createElement('div');
+    bubble.style.cssText = 'display:flex;justify-content:flex-end;margin-bottom:12px;';
+    bubble.innerHTML = '<div style="background:#F0FAF4;border-radius:12px 12px 0 12px;padding:10px 14px;max-width:75%;font-size:13px;color:var(--n1);">أريد التحدث مع فريق سند مباشرة</div>';
+    msgs.appendChild(bubble);
+    msgs.scrollTop = msgs.scrollHeight;
+    setTimeout(function() {
+      var resp = document.createElement('div');
+      resp.style.cssText = 'display:flex;align-items:flex-end;gap:8px;margin-bottom:12px;';
+      resp.innerHTML = '<div style="width:28px;height:28px;border-radius:50%;background:var(--g);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="14" height="14" fill="white" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/></svg></div>'
+        + '<div style="background:#F5F5F5;border-radius:12px 12px 12px 0;padding:10px 14px;max-width:75%;font-size:13px;color:var(--n1);">سيتواصل معك فريق سند قريباً 🌿</div>';
+      msgs.appendChild(resp);
+      msgs.scrollTop = msgs.scrollHeight;
+    }, 800);
+  }
+}
+
+function openDonorCaseSheet(el) {
+  var type = el.getAttribute('data-type') || 'قرض حسن · إيجار';
+  var status = el.getAttribute('data-status') || 'active';
+  var code = el.getAttribute('data-code') || 'SN-045';
+  var total = el.getAttribute('data-total') || '150';
+  var installments = el.getAttribute('data-inst') || '3';
+  var progress = el.getAttribute('data-progress') || '67';
+  var nextAmt = el.getAttribute('data-next-amt') || '50';
+  var nextDate = el.getAttribute('data-next-date') || '1 يونيو 2025';
+  var lateAmt = el.getAttribute('data-late-amt') || '30';
+  var lateDays = el.getAttribute('data-late-days') || '7';
+
+  var bodyEl = document.getElementById('donor-case-sheet-body');
+  if (!bodyEl) return;
+
+  var html = '';
+  if (status === 'active') {
+    html = '<div style="font-size:15px;font-weight:700;color:var(--n1);margin-bottom:4px;">'+type+'</div>'
+      +'<div style="font-size:12px;color:var(--n3);margin-bottom:14px;">المستفيد: '+code+' <span style="color:var(--g);font-weight:600;">موثق ✓</span></div>'
+      +'<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px;">'
+      +'<div style="background:var(--bg);border-radius:8px;padding:10px;"><div style="font-size:11px;color:var(--n3);">المبلغ الكلي</div><div style="font-size:14px;font-weight:700;color:var(--n1);">'+total+' د.ك</div></div>'
+      +'<div style="background:var(--bg);border-radius:8px;padding:10px;"><div style="font-size:11px;color:var(--n3);">الأقساط</div><div style="font-size:14px;font-weight:700;color:var(--n1);">'+installments+' شهرية</div></div>'
+      +'</div>'
+      +'<div style="margin-bottom:6px;display:flex;align-items:center;justify-content:space-between;">'
+      +'<span style="font-size:12px;color:var(--n3);">نسبة الإنجاز</span><span style="font-size:12px;font-weight:700;color:var(--g);">'+progress+'%</span></div>'
+      +'<div style="height:8px;background:var(--bd);border-radius:99px;margin-bottom:14px;overflow:hidden;"><div style="height:100%;background:var(--g);border-radius:99px;width:'+progress+'%;"></div></div>'
+      +'<div style="background:var(--bg);border-radius:8px;padding:10px;margin-bottom:16px;">'
+      +'<div style="font-size:11px;color:var(--n3);margin-bottom:2px;">القسط القادم</div>'
+      +'<div style="font-size:14px;font-weight:700;color:var(--n1);">'+nextAmt+' د.ك · '+nextDate+'</div></div>'
+      +'<div style="display:flex;gap:8px;">'
+      +'<button class="btn btn-gray f1" onclick="closeSheet(\'sheet-donor-case\')">إغلاق</button>'
+      +'<button class="btn btn-green f1" onclick="closeSheet(\'sheet-donor-case\');openChat(\'donor\')">تواصل مع سند</button>'
+      +'</div>';
+  } else if (status === 'pending') {
+    html = '<div style="font-size:15px;font-weight:700;color:var(--n1);margin-bottom:4px;">'+type+'</div>'
+      +'<div style="font-size:12px;color:var(--n3);margin-bottom:14px;">المبلغ: '+total+' د.ك · '+installments+' أقساط</div>'
+      +'<div style="background:#FFF8E1;border-radius:8px;padding:12px;margin-bottom:16px;font-size:13px;color:#8a6d00;">الحالة: تنتظر تحويلك</div>'
+      +'<div style="display:flex;gap:8px;">'
+      +'<button class="btn btn-gray f1" onclick="closeSheet(\'sheet-donor-case\')">إغلاق</button>'
+      +'<button class="btn btn-green f1" onclick="closeSheet(\'sheet-donor-case\');snack(\'تم تسجيل التمويل ✓ انتقل لإتمام التحويل البنكي\')">تمويل الآن</button>'
+      +'</div>';
+  } else if (status === 'late') {
+    html = '<div style="font-size:15px;font-weight:700;color:var(--ro);margin-bottom:4px;">⚠ '+type+'</div>'
+      +'<div style="font-size:12px;color:var(--n3);margin-bottom:14px;">المستفيد: '+code+'</div>'
+      +'<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px;">'
+      +'<div style="background:var(--ro-l);border-radius:8px;padding:10px;"><div style="font-size:11px;color:var(--n3);">المبلغ المتأخر</div><div style="font-size:14px;font-weight:700;color:var(--ro);">'+lateAmt+' د.ك</div></div>'
+      +'<div style="background:var(--ro-l);border-radius:8px;padding:10px;"><div style="font-size:11px;color:var(--n3);">التأخر</div><div style="font-size:14px;font-weight:700;color:var(--ro);">'+lateDays+' أيام</div></div>'
+      +'</div>'
+      +'<div style="display:flex;gap:8px;">'
+      +'<button class="btn btn-green f1" onclick="snack(\'تم إرسال التذكير للمستفيد ✓\');closeSheet(\'sheet-donor-case\')">إرسال تذكير</button>'
+      +'<button class="btn btn-gray f1" onclick="closeSheet(\'sheet-donor-case\');openChat(\'donor\')">تواصل مع سند</button>'
+      +'</div>';
+  }
+  bodyEl.innerHTML = html;
+  openSheet('sheet-donor-case');
+}
+
+function openFundSheet(btn) {
+  var card = btn.closest('.card') || btn.parentElement;
+  var type = card.getAttribute('data-type') || 'قرض حسن · إيجار';
+  var amount = card.getAttribute('data-amount') || '150';
+  var inst = card.getAttribute('data-inst') || '3';
+  var code = card.getAttribute('data-code') || 'SN-045';
+  var instAmt = card.getAttribute('data-inst-amt') || '50';
+  document.getElementById('fund-sheet-type').textContent = type;
+  document.getElementById('fund-sheet-code').textContent = code;
+  document.getElementById('fund-sheet-amount').textContent = amount;
+  document.getElementById('fund-sheet-inst').textContent = inst;
+  document.getElementById('fund-sheet-inst-amt').textContent = instAmt;
+  openSheet('sheet-fund-confirm');
+}
+
+function confirmFund() {
+  closeSheet('sheet-fund-confirm');
+  snack('تم تسجيل التمويل ✓ انتقل لإتمام التحويل البنكي');
+}
+
 </script>
 
 
@@ -3129,6 +3241,38 @@ function sendChat(){
         <button class="btn btn-green f1" onclick="document.getElementById('pay-reg-wrap').style.display=document.getElementById('pay-reg-wrap').style.display==='none'?'block':'none'">تسجيل دفعة</button>
         <button class="btn btn-gray f1" onclick="snack('تم إرسال التذكير للمستفيد ✓');closeSheet('sheet-adm-inst')">تذكير</button>
       </div>
+    </div>
+  </div>
+</div>
+
+<!-- Donor case detail sheet -->
+<div class="profile-sheet-ov" id="sheet-donor-case" onclick="if(event.target===this)closeSheet('sheet-donor-case')">
+  <div class="profile-sheet">
+    <div style="width:36px;height:4px;background:var(--bd);border-radius:99px;margin:0 auto 20px;"></div>
+    <div id="donor-case-sheet-body"></div>
+  </div>
+</div>
+
+<!-- Fund confirmation sheet -->
+<div class="profile-sheet-ov" id="sheet-fund-confirm" onclick="if(event.target===this)closeSheet('sheet-fund-confirm')">
+  <div class="profile-sheet">
+    <div style="width:36px;height:4px;background:var(--bd);border-radius:99px;margin:0 auto 20px;"></div>
+    <div style="font-size:17px;font-weight:700;color:var(--n1);margin-bottom:18px;text-align:center;">تأكيد التمويل</div>
+    <div style="background:var(--bg);border-radius:var(--rb);padding:16px;margin-bottom:16px;">
+      <div style="font-size:14px;font-weight:600;color:var(--n1);margin-bottom:8px;" id="fund-sheet-type">قرض حسن · إيجار</div>
+      <div style="font-size:12px;color:var(--n3);margin-bottom:12px;">المستفيد: <span id="fund-sheet-code">SN-045</span> <span style="color:var(--g);">موثق ✓</span></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+        <div><div style="font-size:11px;color:var(--n3);">المبلغ الكلي</div><div style="font-size:16px;font-weight:700;color:var(--n1);"><span id="fund-sheet-amount">150</span> د.ك</div></div>
+        <div><div style="font-size:11px;color:var(--n3);">الأقساط</div><div style="font-size:16px;font-weight:700;color:var(--n1);"><span id="fund-sheet-inst">3</span> شهرية</div></div>
+      </div>
+    </div>
+    <div style="background:#F0FAF4;border-radius:8px;padding:12px;margin-bottom:16px;font-size:13px;color:#007a35;">
+      القسط الشهري: <strong><span id="fund-sheet-inst-amt">50</span> د.ك</strong><br>
+      <span style="font-size:11px;color:var(--n3);">التحويل مباشرة للمستفيد عبر وسيلة الدفع المسجلة</span>
+    </div>
+    <div style="display:flex;gap:10px;">
+      <button class="btn btn-gray f1" onclick="closeSheet('sheet-fund-confirm')">إلغاء</button>
+      <button class="btn btn-green f1" onclick="confirmFund()">تأكيد التمويل</button>
     </div>
   </div>
 </div>
