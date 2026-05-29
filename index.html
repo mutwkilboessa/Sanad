@@ -1095,7 +1095,7 @@ body{
   </div>
 
   <!-- White card lifts -->
-  <div id="donor-white-card" style="background:var(--wh);border-radius:24px 24px 0 0;margin-top:-18px;flex:1;display:flex;flex-direction:column;overflow:hidden;">
+  <div id="donor-white-card" style="background:var(--bg);border-radius:0;margin-top:0;flex:1;display:flex;flex-direction:column;overflow:hidden;">
 
     <!-- Tab: الرئيسية / Available cases -->
     <div class="scroll-body" id="donor-avail" style="padding:24px 16px 16px;">
@@ -2235,17 +2235,6 @@ function donorTab(tab) {
     if(el) el.style.display = t === activeTab ? 'block' : 'none';
   });
 
-  // Topbar always stays visible — only adjust white card overlap
-  const whiteCard = document.getElementById('donor-white-card');
-  if(whiteCard) {
-    if(activeTab === 'profile') {
-      whiteCard.style.marginTop = '0';
-      whiteCard.style.borderRadius = '0';
-    } else {
-      whiteCard.style.marginTop = '-18px';
-      whiteCard.style.borderRadius = '24px 24px 0 0';
-    }
-  }
 
   // Bottom nav
   ['home','mine','stats','profile'].forEach(t => {
